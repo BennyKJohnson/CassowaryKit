@@ -1,18 +1,9 @@
-//
-//  CSWSimplexSolverTests.m
-//  cassowaryTests
-//
-//  Created by Benjamin Johnson on 10/11/22.
-//  Copyright © 2022 Benjamin Johnson. All rights reserved.
-//
-
 #import <XCTest/XCTest.h>
 #import "CSWSimplexSolver.h"
 #import "CSWVariable.h"
 #import "CSWDummyVariable.h"
-#import "CSWInequalityConstraint.h"
-#import "CSWTracableSimplexSolver.h"
 #import "CSWConstraintFactory.h"
+#import "CSWSimplexSolver+PrivateMethods.h"
 
 @interface CSWSimplexSolverTests : XCTestCase
 
@@ -100,7 +91,7 @@
 
 -(void)testSolvesSimple1TestCaseWithXTermAddedFirst
 {
-    CSWSimplexSolver *solver = [[CSWTracableSimplexSolver alloc] init];
+    CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
 
     CSWVariable *x = [[CSWVariable alloc] initWithValue: 167];
     CSWVariable *y = [[CSWVariable alloc] initWithValue:2];
@@ -116,7 +107,7 @@
 
 -(void)testSolvesSimple1TestCaseWithYTermAddedFirst
 {
-    CSWSimplexSolver *solver = [[CSWTracableSimplexSolver alloc] init];
+    CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
 
     CSWVariable *x = [[CSWVariable alloc] initWithValue: 167];
     CSWVariable *y = [[CSWVariable alloc] initWithValue:2];
@@ -160,7 +151,7 @@
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     CSWVariable *x = [[CSWVariable alloc] initWithValue:10];
-    CSWInequalityConstraint *ieq = [[CSWInequalityConstraint alloc] initWithLhsVariable:x operator:CSWConstraintOperatorEqual rhsConstant:200];
+    CSWConstraint *ieq = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:200];
     
     [solver addConstraint:ieq];
     [solver solve];
@@ -171,7 +162,7 @@
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     CSWVariable *x = [[CSWVariable alloc] initWithValue:10];
-    CSWInequalityConstraint *ieq = [[CSWInequalityConstraint alloc] initWithLhsConstant:100 operator:CSWConstraintOperatorLessThanOrEqual rhsVariable:x];
+    CSWConstraint *ieq = [CSWConstraint constraintWithLeftConstant:100 operator:CSWConstraintOperatorLessThanOrEqual rightVariable:x];
     [solver addConstraint:ieq];
     [solver solve];
     
@@ -212,7 +203,7 @@
     CSWLinearExpression *right = [[CSWLinearExpression alloc] initWithVariable:x];
     [right addVariable:width];
     
-    CSWInequalityConstraint *ieq = [[CSWInequalityConstraint alloc] initWithLhsExpression:right operator:CSWConstraintOperationGreaterThanOrEqual rhsVariable:rightMin];
+    CSWConstraint *ieq = [CSWConstraint constraintWithLeftExpression:right operator:CSWConstraintOperationGreaterThanOrEqual rightVariable:rightMin];
     CSWConstraint *stayConstraintWidth = [[CSWConstraint alloc] initStayConstraintWithVariable:width strength:[CSWStrength strengthWeak] weight:1];
      CSWConstraint *stayConstraintRightMin = [[CSWConstraint alloc] initStayConstraintWithVariable:rightMin strength:[CSWStrength strengthWeak] weight:1];
     
@@ -234,7 +225,7 @@
      CSWLinearExpression *right = [[CSWLinearExpression alloc] initWithVariable:x];
      [right addVariable:width];
     
-    CSWInequalityConstraint *ieq = [[CSWInequalityConstraint alloc] initWithLhsVariable:rightMin operator:CSWConstraintOperatorLessThanOrEqual rhsExpression:right];
+    CSWConstraint *ieq = [CSWConstraint constraintWithLeftVariable:rightMin operator:CSWConstraintOperatorLessThanOrEqual rightExpression:right];
     CSWConstraint *stayConstraintWidth = [[CSWConstraint alloc] initStayConstraintWithVariable:width strength:[CSWStrength strengthWeak] weight:1];
      CSWConstraint *stayConstraintRightMin = [[CSWConstraint alloc] initStayConstraintWithVariable:rightMin strength:[CSWStrength strengthWeak] weight:1];
         
@@ -258,8 +249,7 @@
     CSWLinearExpression *right2 = [[CSWLinearExpression alloc] initWithVariable:x2];
     [right2 addVariable:width2];
     
-    CSWInequalityConstraint *eq = [[CSWInequalityConstraint alloc] initWithLhsExpression:right1 operator:CSWConstraintOperatorEqual rhsExpression:right2];
-    
+    CSWConstraint *eq = [CSWConstraint constraintWithLeftExpression:right1 operator:CSWConstraintOperatorEqual rightExpression:right2];
     CSWConstraint *stayConstraintWidth1 = [[CSWConstraint alloc] initStayConstraintWithVariable:width1 strength:[CSWStrength strengthWeak] weight:1];
     CSWConstraint *stayConstraintWidth2 = [[CSWConstraint alloc] initStayConstraintWithVariable:width2 strength:[CSWStrength strengthWeak] weight:1];
     CSWConstraint *stayConstraintX2 = [[CSWConstraint alloc] initStayConstraintWithVariable:x2 strength:[CSWStrength strengthWeak] weight:1];
@@ -284,7 +274,7 @@
     CSWVariable *width2 = [[CSWVariable alloc] initWithValue:10];
     CSWLinearExpression *right2 = [[CSWLinearExpression alloc] initWithVariables:@[x2, width2]];
       
-    CSWInequalityConstraint *ieq = [[CSWInequalityConstraint alloc] initWithLhsExpression:right2 operator:CSWConstraintOperatorLessThanOrEqual rhsExpression:right1];
+    CSWConstraint *ieq = [CSWConstraint constraintWithLeftExpression:right2 operator:CSWConstraintOperatorLessThanOrEqual rightExpression:right1];
     
     [self addStayConstraintsForVariables:@[width1, width2, x2] solver:solver];
     [solver addConstraint:ieq];
@@ -306,7 +296,7 @@
     CSWVariable *width2 = [[CSWVariable alloc] initWithValue:10];
     CSWLinearExpression *right2 = [[CSWLinearExpression alloc] initWithVariables:@[x2, width2]];
       
-    CSWInequalityConstraint *ieq = [[CSWInequalityConstraint alloc] initWithLhsExpression:right1 operator:CSWConstraintOperationGreaterThanOrEqual rhsExpression:right2];
+    CSWConstraint *ieq = [CSWConstraint constraintWithLeftExpression:right1 operator:CSWConstraintOperationGreaterThanOrEqual rightExpression:right2];
     
     [self addStayConstraintsForVariables:@[width1, width2, x2] solver:solver];
     [solver addConstraint:ieq];
@@ -326,10 +316,10 @@
     CSWConstraint *constraint = [[CSWConstraint alloc] initLinearConstraintWithExpression:expression strength:[CSWStrength strengthWeak] variable:nil];
     [solver addConstraint:constraint];
         
-    CSWInequalityConstraint *c10 = [[CSWInequalityConstraint alloc] initWithLhsVariable:x operator:CSWConstraintOperatorLessThanOrEqual rhsConstant:10];
+    CSWConstraint *c10 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:10];
     [solver addConstraint:c10];
-
-    CSWInequalityConstraint *c20 = [[CSWInequalityConstraint alloc] initWithLhsVariable:x operator:CSWConstraintOperatorLessThanOrEqual rhsConstant:20];
+    
+    CSWConstraint *c20 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:20];
     [solver addConstraint:c20];
     
     XCTAssertEqual(x.value, 10);
@@ -348,8 +338,8 @@
     CSWConstraint *constraint = [[CSWConstraint alloc] initLinearConstraintWithExpression:expression strength:[CSWStrength strengthWeak] variable:nil];
     [solver addConstraint:constraint];
         
-    CSWInequalityConstraint *c10 = [[CSWInequalityConstraint alloc] initWithLhsVariable:x operator:CSWConstraintOperatorLessThanOrEqual rhsConstant:10];
-    CSWInequalityConstraint *c20 = [[CSWInequalityConstraint alloc] initWithLhsVariable:x operator:CSWConstraintOperatorLessThanOrEqual rhsConstant:20];
+    CSWConstraint *c10 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:10];
+    CSWConstraint *c20 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:20];
     
     [solver addConstraints:@[c10, c20]];
     XCTAssertEqual(x.value, 10);
@@ -378,8 +368,8 @@
     XCTAssertEqual(x.value, 100);
     XCTAssertEqual(y.value, 120);
     
-    CSWConstraint *c10 = [[CSWInequalityConstraint alloc] initWithLhsVariable:x operator:CSWConstraintOperatorLessThanOrEqual rhsConstant:10];
-    CSWConstraint *c20 = [[CSWInequalityConstraint alloc] initWithLhsVariable:x operator:CSWConstraintOperatorLessThanOrEqual rhsConstant:20];
+    CSWConstraint *c10 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:10];
+    CSWConstraint *c20 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:20];
     [solver addConstraints:@[c10, c20]];
     
     XCTAssertEqual(x.value, 10);
@@ -413,9 +403,9 @@
     [solver addConstraint: cxConstraint];
     XCTAssertEqual(x.value, 100);
     
-    CSWInequalityConstraint *c10 = [[CSWInequalityConstraint alloc] initWithLhsVariable:x operator:CSWConstraintOperatorLessThanOrEqual rhsConstant:10];
-    CSWInequalityConstraint *c10b = [[CSWInequalityConstraint alloc] initWithLhsVariable:x operator:CSWConstraintOperatorLessThanOrEqual rhsConstant:10];
-    
+    CSWConstraint *c10 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:10];
+    CSWConstraint *c10b = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:10];
+
     [solver addConstraints:@[c10, c10b]];
     XCTAssertEqual(x.value, 10);
     [solver removeConstraint:c10];
@@ -577,7 +567,7 @@
     @{ @"x": [CSWVariable variable], @"y": [CSWVariable variable]},
     ];
 
-    CSWSimplexSolver *solver = [[CSWTracableSimplexSolver alloc] init];
+    CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     [solver setAutoSolve:YES];
     
     double factor = 1;
@@ -618,7 +608,7 @@
     for (int i = 0; i < 4; i++) {
         CGPoint pair = xPairs[i];
         CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:corners[(int)pair.x][@"x"] coefficient:1 constant:1];
-        CSWInequalityConstraint *ieq = [[CSWInequalityConstraint alloc] initWithLhsExpression:expression operator:CSWConstraintOperatorLessThanOrEqual rhsVariable:corners[(int)pair.y][@"x"]];
+        CSWConstraint *ieq = [CSWConstraint constraintWithLeftExpression:expression operator:CSWConstraintOperatorLessThanOrEqual rightVariable:corners[(int)pair.y][@"x"]];
 
         [solver addConstraint:ieq];
     }
@@ -633,7 +623,7 @@
     for (int i = 0; i < 4; i++) {
         CGPoint pair = yPairs[i];
         CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:corners[(int)pair.x][@"y"] coefficient:1 constant:1];
-        CSWInequalityConstraint *ieq = [[CSWInequalityConstraint alloc] initWithLhsExpression:expression operator:CSWConstraintOperatorLessThanOrEqual rhsVariable:corners[(int)pair.y][@"y"]];
+        CSWConstraint *ieq = [CSWConstraint constraintWithLeftExpression:expression operator:CSWConstraintOperatorLessThanOrEqual rightVariable:corners[(int)pair.y][@"y"]];
 
         [solver addConstraint:ieq];
     }
@@ -787,7 +777,7 @@
     [self addStayConstraintsForVariables:@[a, c] solver:solver];
     
     CSWConstraint *aEquals = [[CSWConstraint alloc] initLinearConstraintWithExpression:[[CSWLinearExpression alloc] initWithVariable:a coefficient:-1 constant:10]];
-    CSWConstraint *bEqualsC = [[CSWConstraint alloc] initWithLhsVariable:b equalsRhsVariable:c];
+    CSWConstraint *bEqualsC = [CSWConstraint constraintWithLeftVariable:b operator:CSWConstraintOperatorEqual rightVariable:c];
     [solver addConstraints:@[aEquals, bEqualsC]];
     
     [solver suggestVariable:c equals:100];
@@ -809,17 +799,18 @@
 
 -(NSDictionary*)createConstraintsForCasso1X: (CSWVariable*)x y:(CSWVariable*)y
 {
-    CSWConstraint *xLessThanOrEqualToY = [[CSWInequalityConstraint alloc] initWithLhsVariable:x operator:CSWConstraintOperatorLessThanOrEqual rhsVariable:y];
-    
+    CSWConstraint *xLessThanOrEqualToY = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightVariable:y];
+
     CSWLinearExpression *yx = [[CSWLinearExpression alloc] init];
     [yx addVariable:y coefficient:-1];
     [yx addVariable:x coefficient:1];
     [yx setConstant:3];
     CSWConstraint *yxConstraint = [[CSWConstraint alloc] initLinearConstraintWithExpression:yx];
-    CSWConstraint *xConstraint = [[CSWConstraint alloc] initWithLhsVariable:x equalsConstant:10];
+    CSWConstraint *xConstraint = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:10];
+
     [xConstraint setStrength:[CSWStrength strengthWeak]];
 
-    CSWConstraint *yConstraint = [[CSWConstraint alloc] initWithLhsVariable:y equalsConstant:10];
+    CSWConstraint *yConstraint = [CSWConstraint constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightConstant:10];
     [yConstraint setStrength:[CSWStrength strengthWeak]];
 
     return @{
@@ -839,7 +830,7 @@
     CSWVariable *x = [[CSWVariable alloc] initWithValue:0];
     CSWVariable *y = [[CSWVariable alloc] initWithValue:0];
     
-    CSWSimplexSolver *solver = [[CSWTracableSimplexSolver alloc] init];
+    CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     NSDictionary *constraints = [self createConstraintsForCasso1X:x y:y];
     [solver addConstraints:@[constraints[@"x<=y"], constraints[@"yx"], constraints[@"x"], constraints[@"y"]]];
     [solver solve];
@@ -853,7 +844,7 @@
     CSWVariable *x = [[CSWVariable alloc] initWithValue:0];
     CSWVariable *y = [[CSWVariable alloc] initWithValue:0];
     
-    CSWSimplexSolver *solver = [[CSWTracableSimplexSolver alloc] init];
+    CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     NSDictionary *constraints = [self createConstraintsForCasso1X:x y:y];
     [solver addConstraints:@[constraints[@"x<=y"], constraints[@"yx"], constraints[@"y"], constraints[@"x"]]];
     [solver solve];
@@ -867,15 +858,13 @@
     CSWVariable *x = [[CSWVariable alloc] initWithValue:0];
     CSWVariable *y = [[CSWVariable alloc] initWithValue:0];
     y.name = @"y";
-    CSWSimplexSolver *solver = [[CSWTracableSimplexSolver alloc] init];
+    CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
 
     CSWLinearExpression *yx = [[CSWLinearExpression alloc] init];
-    [yx addVariable:y coefficient:-1];
     [yx addVariable:x coefficient:1];
     [yx setConstant:3];
+    CSWConstraint *xLessThanOrEqualToY = [CSWConstraint constraintWithLeftExpression:yx operator:CSWConstraintOperatorLessThanOrEqual rightVariable:y];
     
-    CSWConstraint *xLessThanOrEqualToY = [[CSWInequalityConstraint alloc] initLinearConstraintWithExpression:yx];
-
     CSWConstraint *yEqualsX = [CSWConstraintFactory constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightExpression:[[CSWLinearExpression alloc] initWithVariable:x coefficient:1 constant:3]];
     CSWConstraint *x10 = [CSWConstraintFactory constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:10];
 

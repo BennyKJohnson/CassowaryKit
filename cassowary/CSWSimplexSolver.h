@@ -1,11 +1,3 @@
-//
-//  CSWSimplexSolver.h
-//  cassowary
-//
-//  Created by Benjamin Johnson on 10/11/22.
-//  Copyright © 2022 Benjamin Johnson. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "CSWTableau.h"
 #import "CSWConstraint.h"
@@ -52,10 +44,6 @@ enum CSWErrorCode {
 
 -(void)removeConstraints: (NSArray*)constraints;
 
--(void)beginEdit;
-
--(void)endEdit;
-
 -(void)suggestVariable: (CSWAbstractVariable*)varible equals: (CSWDouble)value;
 
 -(void)suggestEditVariable: (CSWAbstractVariable*)variable equals: (CSWDouble)value;
@@ -66,11 +54,9 @@ enum CSWErrorCode {
 
 - (void)removeEditVariable: (CSWAbstractVariable*)variable;
 
--(CSWAbstractVariable*)choseSubject: (CSWLinearExpression*)expression;
+-(void)beginEdit;
 
--(void)pivotWithEntryVariable: (CSWAbstractVariable*)entryVariable exitVariable: (CSWAbstractVariable*)exitVariable;
-
--(void)optimize: (CSWAbstractVariable*)zVariable;
+-(void)endEdit;
 
 -(void)solve;
 
@@ -82,17 +68,13 @@ enum CSWErrorCode {
 
 -(void)updateConstraint: (CSWConstraint*)constraint strength: (CSWStrength*)strength;
 
--(BOOL)containsConstraint: (CSWConstraint*)constraint;
-
 -(void)updateConstraint: (CSWConstraint*)constraint weight: (CSWDouble)weight;
 
--(void)deltaEditConstant: (CSWDouble)delta plusErrorVariable: (CSWAbstractVariable*)plusErrorVariable minusErrorVariable: (CSWAbstractVariable*)minusErrorVariable;
+-(BOOL)containsConstraint: (CSWConstraint*)constraint;
 
 @property BOOL autoSolve;
 
 @property (nonatomic, strong) CSWEditVariableManager *editVariableManager;
-
--(void)dualOptimize;
 
 @end
 

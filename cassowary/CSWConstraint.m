@@ -80,6 +80,21 @@
     return [CSWConstraintFactory constraintWithLeftVariable:lhs operator:CSWConstraintOperatorEqual rightExpression:rhs];
 }
 
++(CSWConstraint*)constraintWithLeftConstant: (CSWDouble)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWAbstractVariable*)rhs
+{
+    return [CSWConstraintFactory constraintWithLeftConstant:lhs operator:operator rightVariable:rhs];
+}
+
++(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWAbstractVariable*)rhs
+{
+    return [CSWConstraintFactory constraintWithLeftExpression:lhs operator:operator rightVariable:rhs];
+}
+
++(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightExpression: (CSWLinearExpression*)rhs
+{
+    return [CSWConstraintFactory constraintWithLeftExpression:lhs operator:operator rightExpression:rhs];
+}
+
 +(instancetype)editConstraintWithVariable: (CSWVariable*)variable
 {
     return [[self alloc] initEditConstraintWithVariable:variable stength:[CSWStrength strengthStrong]];

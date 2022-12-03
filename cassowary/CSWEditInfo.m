@@ -1,11 +1,3 @@
-//
-//  CSWEditInfo.m
-//  cassowary
-//
-//  Created by Benjamin Johnson on 22/11/22.
-//  Copyright © 2022 Benjamin Johnson. All rights reserved.
-//
-
 #import "CSWEditInfo.h"
 
 @implementation CSWEditInfo

@@ -39,6 +39,16 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     return self;
 }
 
+-(void)addConstraints: (NSArray*)constraints
+{
+    for (CSWConstraint *constraint in constraints) {
+        [self _addConstraint:constraint];
+    }
+    if (self.autoSolve) {
+        [self solve];
+    }
+}
+
 -(void)addConstraint:(CSWConstraint *)constraint
 {
     [self _addConstraint:constraint];
@@ -76,16 +86,6 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     }
     
     _needsSolving = YES;
-}
-
--(void)addConstraints: (NSArray*)constraints
-{
-    for (CSWConstraint *constraint in constraints) {
-        [self _addConstraint:constraint];
-    }
-    if (self.autoSolve) {
-        [self solve];
-    }
 }
 
 -(BOOL)tryAddingExpressionDirectly: (CSWLinearExpression*)expression {
@@ -283,7 +283,6 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 
 -(CSWAbstractVariable*)choseSubject: (CSWLinearExpression*)expression
 {
-
     CSWAbstractVariable *subject = [self chooseSubjectFromExpression:expression];
     if (subject != nil) {
         return subject;
@@ -581,7 +580,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 }
 
 /*
- // Add a slack variable. The original constraint
+  Add a slack variable. The original constraint
  // is expr>=0, so that the resulting equality is expr-slackVar=0. If cn is
  // also non-required Add a negative error variable, giving:
  //

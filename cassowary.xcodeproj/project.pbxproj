@@ -32,13 +32,12 @@
 		6F25C82E291A3CD9000388A9 /* CSWSymbolicWeight.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F25C82C291A3CD9000388A9 /* CSWSymbolicWeight.h */; };
 		6F25C82F291A3CD9000388A9 /* CSWSymbolicWeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F25C82D291A3CD9000388A9 /* CSWSymbolicWeight.m */; };
 		6F25C831291A3D22000388A9 /* CSWSymbolicWeightTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F25C830291A3D22000388A9 /* CSWSymbolicWeightTests.m */; };
+		6F2639FE293BE5360021F07D /* CSWSimplexSolver+PrivateMethods.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F2639FD293BE5360021F07D /* CSWSimplexSolver+PrivateMethods.h */; };
 		6F26BDD9293191B9000E7D0A /* CSWTracableSimplexSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F26BDD7293191B9000E7D0A /* CSWTracableSimplexSolver.h */; };
 		6F26BDDA293191B9000E7D0A /* CSWTracableSimplexSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F26BDD8293191B9000E7D0A /* CSWTracableSimplexSolver.m */; };
 		6F26BDDD2931D39B000E7D0A /* CSWConstraintFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F26BDDB2931D39B000E7D0A /* CSWConstraintFactory.h */; };
 		6F26BDDE2931D39B000E7D0A /* CSWConstraintFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F26BDDC2931D39B000E7D0A /* CSWConstraintFactory.m */; };
 		6F26BDE02931DBB6000E7D0A /* CSWConstraintOperator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F26BDDF2931DBB6000E7D0A /* CSWConstraintOperator.h */; };
-		6F71CA2D291F63AF00E7CE32 /* CSWTracableTableau.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F71CA2B291F63AF00E7CE32 /* CSWTracableTableau.h */; };
-		6F71CA2E291F63AF00E7CE32 /* CSWTracableTableau.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F71CA2C291F63AF00E7CE32 /* CSWTracableTableau.m */; };
 		6FCBB8B3291CE808008692B2 /* CSWTableauTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBB8B2291CE808008692B2 /* CSWTableauTests.m */; };
 		6FCBB8B6291CE850008692B2 /* CSWTableau.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCBB8B4291CE850008692B2 /* CSWTableau.h */; };
 		6FCBB8B7291CE850008692B2 /* CSWTableau.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBB8B5291CE850008692B2 /* CSWTableau.m */; };
@@ -97,13 +96,12 @@
 		6F25C82C291A3CD9000388A9 /* CSWSymbolicWeight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWSymbolicWeight.h; sourceTree = "<group>"; };
 		6F25C82D291A3CD9000388A9 /* CSWSymbolicWeight.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWSymbolicWeight.m; sourceTree = "<group>"; };
 		6F25C830291A3D22000388A9 /* CSWSymbolicWeightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWSymbolicWeightTests.m; sourceTree = "<group>"; };
+		6F2639FD293BE5360021F07D /* CSWSimplexSolver+PrivateMethods.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CSWSimplexSolver+PrivateMethods.h"; sourceTree = "<group>"; };
 		6F26BDD7293191B9000E7D0A /* CSWTracableSimplexSolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWTracableSimplexSolver.h; sourceTree = "<group>"; };
 		6F26BDD8293191B9000E7D0A /* CSWTracableSimplexSolver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWTracableSimplexSolver.m; sourceTree = "<group>"; };
 		6F26BDDB2931D39B000E7D0A /* CSWConstraintFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWConstraintFactory.h; sourceTree = "<group>"; };
 		6F26BDDC2931D39B000E7D0A /* CSWConstraintFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWConstraintFactory.m; sourceTree = "<group>"; };
 		6F26BDDF2931DBB6000E7D0A /* CSWConstraintOperator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWConstraintOperator.h; sourceTree = "<group>"; };
-		6F71CA2B291F63AF00E7CE32 /* CSWTracableTableau.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWTracableTableau.h; sourceTree = "<group>"; };
-		6F71CA2C291F63AF00E7CE32 /* CSWTracableTableau.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWTracableTableau.m; sourceTree = "<group>"; };
 		6FCBB8B2291CE808008692B2 /* CSWTableauTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWTableauTests.m; sourceTree = "<group>"; };
 		6FCBB8B4291CE850008692B2 /* CSWTableau.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWTableau.h; sourceTree = "<group>"; };
 		6FCBB8B5291CE850008692B2 /* CSWTableau.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWTableau.m; sourceTree = "<group>"; };
@@ -183,8 +181,6 @@
 				6FCBB8BB291CE91A008692B2 /* CSWSimplexSolver.m */,
 				6FCBB8C8291CF272008692B2 /* CSWStrength.h */,
 				6FCBB8C9291CF272008692B2 /* CSWStrength.m */,
-				6F71CA2B291F63AF00E7CE32 /* CSWTracableTableau.h */,
-				6F71CA2C291F63AF00E7CE32 /* CSWTracableTableau.m */,
 				6F0DD7C729204B3A00617FAE /* CSWConstraint.h */,
 				6F0DD7C829204B3A00617FAE /* CSWConstraint.m */,
 				6FD66DE92920BA7B00468ACA /* CSWObjectiveVariable.h */,
@@ -204,6 +200,7 @@
 				6F07E210293478F200B9039E /* CSWEditVariableManager.m */,
 				6FF8789C293A9ABA0080779B /* CSWSuggestion.h */,
 				6FF8789D293A9ABA0080779B /* CSWSuggestion.m */,
+				6F2639FD293BE5360021F07D /* CSWSimplexSolver+PrivateMethods.h */,
 			);
 			path = cassowary;
 			sourceTree = "<group>";
@@ -244,9 +241,9 @@
 				6F1D846E29197C44006B012A /* cassowary.h in Headers */,
 				6F07E211293478F200B9039E /* CSWEditVariableManager.h in Headers */,
 				6FCBB8BC291CE91A008692B2 /* CSWSimplexSolver.h in Headers */,
-				6F71CA2D291F63AF00E7CE32 /* CSWTracableTableau.h in Headers */,
 				6F25C822291A2431000388A9 /* CSWAbstractVariable.h in Headers */,
 				6FCBB8B6291CE850008692B2 /* CSWTableau.h in Headers */,
+				6F2639FE293BE5360021F07D /* CSWSimplexSolver+PrivateMethods.h in Headers */,
 				6F0DD7C929204B3A00617FAE /* CSWConstraint.h in Headers */,
 				6F1D847929197DBE006B012A /* CSWVariable.h in Headers */,
 				6FDB64A5292CA653005B4AA5 /* CSWEditInfo.h in Headers */,
@@ -363,7 +360,6 @@
 				6F25C82B291A2ECD000388A9 /* CSWSlackVariable.m in Sources */,
 				6F25C823291A2431000388A9 /* CSWAbstractVariable.m in Sources */,
 				6F1D847A29197DBE006B012A /* CSWVariable.m in Sources */,
-				6F71CA2E291F63AF00E7CE32 /* CSWTracableTableau.m in Sources */,
 				6F20FC372928A5E100B41837 /* CSWInequalityConstraint.m in Sources */,
 				6FDB64A6292CA653005B4AA5 /* CSWEditInfo.m in Sources */,
 				6F1D84802919845D006B012A /* CSWLinearExpression.m in Sources */,

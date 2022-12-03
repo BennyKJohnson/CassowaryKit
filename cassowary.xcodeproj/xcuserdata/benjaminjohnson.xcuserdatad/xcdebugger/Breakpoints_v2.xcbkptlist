@@ -62,8 +62,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "-testChooseSubjectReturnsFirstExternalUnrestrictedVariable"
             landmarkType = "7">
             <Locations>
@@ -155,8 +155,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "-testChooseSubjectReturnsFirstExternalUnrestrictedVariable"
             landmarkType = "7">
          </BreakpointContent>
@@ -171,8 +171,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "-testChooseSubjectReturnsFirstExternalUnrestrictedVariable"
             landmarkType = "7">
             <Locations>
@@ -237,70 +237,6 @@
                   offsetFromSymbolStart = "1670">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8C57FEFE-9CF6-4879-A6E5-6517B7113FE7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "cassowary/CSWSimplexSolver.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
-            landmarkName = "-choseSubject:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "8C57FEFE-9CF6-4879-A6E5-6517B7113FE7 - c10d8e1f110abe56"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[CSWSimplexSolver choseSubject:]"
-                  moduleName = "cassowary"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/benjaminjohnson/Development/cassowary/cassowary/CSWSimplexSolver.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "70">
-               </Location>
-               <Location
-                  uuid = "8C57FEFE-9CF6-4879-A6E5-6517B7113FE7 - c10d8e1f110abe56"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[CSWSimplexSolver choseSubject:]"
-                  moduleName = "cassowary"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/benjaminjohnson/Development/cassowary/cassowary/CSWSimplexSolver.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "90">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8DEBEB89-05CA-4E36-9C24-419776886310"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "cassowary/CSWSimplexSolver.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
-            landmarkName = "-choseSubject:"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -455,8 +391,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "679"
-            endingLineNumber = "679"
+            startingLineNumber = "678"
+            endingLineNumber = "678"
             landmarkName = "-optimize:"
             landmarkType = "7">
          </BreakpointContent>
@@ -471,8 +407,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "499"
-            endingLineNumber = "499"
+            startingLineNumber = "498"
+            endingLineNumber = "498"
             landmarkName = "-createExpression:expressionResult:"
             landmarkType = "7">
          </BreakpointContent>
@@ -512,38 +448,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9B6F31AD-C0EE-4361-9AE0-36AD0A018C80"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "cassowaryTests/CSWInequalityConstraintTests.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
-            landmarkName = "-testCanInitGreaterThanOrEqualToConstraint"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7A0C2AD6-D720-48B3-86C0-F16F15CD9795"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "cassowaryTests/CSWInequalityConstraintTests.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
-            landmarkName = "-testCanInitGreaterThanOrEqualToConstraint"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "5B68F53D-ADA7-40B4-9779-BA7B4738F85C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -551,8 +455,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "-testSolvesExpressionIsEqualToVariable"
             landmarkType = "7">
          </BreakpointContent>
@@ -567,41 +471,9 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "-testSolvesExpressionIsGreaterThanOrEqualToVariable"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0B0F66F1-C1E5-47CC-8AD9-1C3765A0064E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "cassowary/CSWInequalityConstraint.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
-            landmarkName = "-initWithLhsExpression:operator:rhsExpression:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D835004F-536B-41F1-9EB6-511D52E432E7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "cassowaryTests/CSWSimplexSolverTests.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "261"
-            endingLineNumber = "261"
-            landmarkName = "-testSolvesExpressionIsEqualToExpression"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -615,8 +487,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
             landmarkName = "-testSolvesAfterRemovingConstraint"
             landmarkType = "7">
          </BreakpointContent>
@@ -643,8 +515,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
+            startingLineNumber = "317"
+            endingLineNumber = "317"
             landmarkName = "-testSolvesAfterRemovingConstraint"
             landmarkType = "7">
          </BreakpointContent>
@@ -659,8 +531,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "330"
-            endingLineNumber = "330"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
             landmarkName = "-testSolvesAfterRemovingConstraint"
             landmarkType = "7">
          </BreakpointContent>
@@ -675,8 +547,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "519"
-            endingLineNumber = "519"
+            startingLineNumber = "518"
+            endingLineNumber = "518"
             landmarkName = "-createExpression:expressionResult:"
             landmarkType = "7">
          </BreakpointContent>
@@ -691,8 +563,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "504"
-            endingLineNumber = "504"
+            startingLineNumber = "503"
+            endingLineNumber = "503"
             landmarkName = "-createExpression:expressionResult:"
             landmarkType = "7">
             <Locations>
@@ -739,8 +611,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "337"
-            endingLineNumber = "337"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
             landmarkName = "-testSolvesAfterRemovingConstraint"
             landmarkType = "7">
          </BreakpointContent>
@@ -771,8 +643,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "328"
+            endingLineNumber = "328"
             landmarkName = "-testSolvesAfterRemovingConstraint"
             landmarkType = "7">
          </BreakpointContent>
@@ -787,8 +659,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "-testSolvesSimple1TestCaseWithXTermAddedFirst"
             landmarkType = "7">
          </BreakpointContent>
@@ -803,8 +675,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "803"
-            endingLineNumber = "803"
+            startingLineNumber = "793"
+            endingLineNumber = "793"
             landmarkName = "-testSolvesCorrectlyAfterSuggestingValues"
             landmarkType = "7">
          </BreakpointContent>
@@ -819,8 +691,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "389"
-            endingLineNumber = "389"
+            startingLineNumber = "388"
+            endingLineNumber = "388"
             landmarkName = "-removeEditVariableForEditInfo:"
             landmarkType = "7">
          </BreakpointContent>
@@ -835,8 +707,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "385"
-            endingLineNumber = "385"
+            startingLineNumber = "384"
+            endingLineNumber = "384"
             landmarkName = "-removeEditVariableForEditInfo:"
             landmarkType = "7">
          </BreakpointContent>
@@ -851,8 +723,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "806"
-            endingLineNumber = "806"
+            startingLineNumber = "796"
+            endingLineNumber = "796"
             landmarkName = "-testSolvesCorrectlyAfterSuggestingValues"
             landmarkType = "7">
          </BreakpointContent>
@@ -867,8 +739,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "393"
-            endingLineNumber = "393"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
             landmarkName = "-testSolvesAfterRemovingConstraint2"
             landmarkType = "7">
          </BreakpointContent>
@@ -883,8 +755,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
+            startingLineNumber = "385"
+            endingLineNumber = "385"
             landmarkName = "-testSolvesAfterRemovingConstraint2"
             landmarkType = "7">
          </BreakpointContent>
@@ -899,8 +771,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "392"
-            endingLineNumber = "392"
+            startingLineNumber = "382"
+            endingLineNumber = "382"
             landmarkName = "-testSolvesAfterRemovingConstraint2"
             landmarkType = "7">
          </BreakpointContent>
@@ -915,8 +787,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390"
+            startingLineNumber = "380"
+            endingLineNumber = "380"
             landmarkName = "-testSolvesAfterRemovingConstraint2"
             landmarkType = "7">
          </BreakpointContent>
@@ -931,8 +803,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "782"
-            endingLineNumber = "782"
+            startingLineNumber = "772"
+            endingLineNumber = "772"
             landmarkName = "-testBug16B"
             landmarkType = "7">
          </BreakpointContent>
@@ -947,8 +819,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "-testSolvesSimple1TestCaseWithXTermAddedFirst"
             landmarkType = "7">
          </BreakpointContent>
@@ -995,8 +867,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "882"
-            endingLineNumber = "882"
+            startingLineNumber = "871"
+            endingLineNumber = "871"
             landmarkName = "-testCassowary2"
             landmarkType = "7">
          </BreakpointContent>
@@ -1011,8 +883,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "935"
-            endingLineNumber = "935"
+            startingLineNumber = "924"
+            endingLineNumber = "924"
             landmarkName = "-testThrowsErrorWhenAddingTwoConflictingConstraints"
             landmarkType = "7">
             <Locations>
@@ -1074,8 +946,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "-_addConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1106,8 +978,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "950"
-            endingLineNumber = "950"
+            startingLineNumber = "939"
+            endingLineNumber = "939"
             landmarkName = "-testModifyingConstraintStrengthUpdatesSolver"
             landmarkType = "7">
          </BreakpointContent>
@@ -1122,8 +994,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "888"
-            endingLineNumber = "888"
+            startingLineNumber = "887"
+            endingLineNumber = "887"
             landmarkName = "-updateConstraint:strength:weight:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1138,8 +1010,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "871"
-            endingLineNumber = "871"
+            startingLineNumber = "870"
+            endingLineNumber = "870"
             landmarkName = "-updateConstraint:strength:weight:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1154,8 +1026,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "948"
-            endingLineNumber = "948"
+            startingLineNumber = "937"
+            endingLineNumber = "937"
             landmarkName = "-testModifyingConstraintStrengthUpdatesSolver"
             landmarkType = "7">
          </BreakpointContent>
@@ -1170,8 +1042,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1022"
-            endingLineNumber = "1022"
+            startingLineNumber = "1011"
+            endingLineNumber = "1011"
             landmarkName = "-testIndependentValuesCanBeSuggestedForConcurrentEdits"
             landmarkType = "7">
          </BreakpointContent>
@@ -1186,8 +1058,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "429"
-            endingLineNumber = "429"
+            startingLineNumber = "428"
+            endingLineNumber = "428"
             landmarkName = "-suggestEditConstraint:equals:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1202,8 +1074,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "804"
-            endingLineNumber = "804"
+            startingLineNumber = "794"
+            endingLineNumber = "794"
             landmarkName = "-testSolvesCorrectlyAfterSuggestingValues"
             landmarkType = "7">
          </BreakpointContent>
@@ -1218,8 +1090,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
             landmarkName = "-_addConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1234,8 +1106,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "413"
-            endingLineNumber = "413"
+            startingLineNumber = "412"
+            endingLineNumber = "412"
             landmarkName = "-suggestVariable:equals:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1250,8 +1122,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "-_addConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1314,8 +1186,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "526"
-            endingLineNumber = "526"
+            startingLineNumber = "516"
+            endingLineNumber = "516"
             landmarkName = "-testCanAddMultipleEditConstraintsForTheSameVariable"
             landmarkType = "7">
          </BreakpointContent>
@@ -1330,8 +1202,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "934"
-            endingLineNumber = "934"
+            startingLineNumber = "923"
+            endingLineNumber = "923"
             landmarkName = "-testThrowsErrorWhenAddingTwoConflictingConstraints"
             landmarkType = "7">
             <Locations>
@@ -1393,8 +1265,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "926"
-            endingLineNumber = "926"
+            startingLineNumber = "915"
+            endingLineNumber = "915"
             landmarkName = "-testThrowsErrorWhenAddingTwoConflictingConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -1409,8 +1281,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "929"
-            endingLineNumber = "929"
+            startingLineNumber = "918"
+            endingLineNumber = "918"
             landmarkName = "-testThrowsErrorWhenAddingTwoConflictingConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -1425,8 +1297,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "924"
-            endingLineNumber = "924"
+            startingLineNumber = "913"
+            endingLineNumber = "913"
             landmarkName = "-testThrowsErrorWhenAddingTwoConflictingConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -1441,8 +1313,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "925"
-            endingLineNumber = "925"
+            startingLineNumber = "914"
+            endingLineNumber = "914"
             landmarkName = "-testThrowsErrorWhenAddingTwoConflictingConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -1457,8 +1329,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "-_addConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1473,8 +1345,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "936"
-            endingLineNumber = "936"
+            startingLineNumber = "925"
+            endingLineNumber = "925"
             landmarkName = "-testThrowsErrorWhenAddingTwoConflictingConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -1521,8 +1393,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "612"
-            endingLineNumber = "612"
+            startingLineNumber = "602"
+            endingLineNumber = "602"
             landmarkName = "-testQuad"
             landmarkType = "7">
          </BreakpointContent>
@@ -1537,8 +1409,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "593"
-            endingLineNumber = "593"
+            startingLineNumber = "583"
+            endingLineNumber = "583"
             landmarkName = "-testQuad"
             landmarkType = "7">
          </BreakpointContent>
@@ -1553,8 +1425,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "585"
-            endingLineNumber = "585"
+            startingLineNumber = "575"
+            endingLineNumber = "575"
             landmarkName = "-testQuad"
             landmarkType = "7">
          </BreakpointContent>
@@ -1569,8 +1441,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "586"
-            endingLineNumber = "586"
+            startingLineNumber = "576"
+            endingLineNumber = "576"
             landmarkName = "-testQuad"
             landmarkType = "7">
          </BreakpointContent>
@@ -1585,8 +1457,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "600"
-            endingLineNumber = "600"
+            startingLineNumber = "590"
+            endingLineNumber = "590"
             landmarkName = "-testQuad"
             landmarkType = "7">
          </BreakpointContent>
@@ -1601,8 +1473,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "690"
-            endingLineNumber = "690"
+            startingLineNumber = "680"
+            endingLineNumber = "680"
             landmarkName = "-testQuad"
             landmarkType = "7">
          </BreakpointContent>
@@ -1617,8 +1489,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "696"
-            endingLineNumber = "696"
+            startingLineNumber = "695"
+            endingLineNumber = "695"
             landmarkName = "-optimize:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1633,8 +1505,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "703"
-            endingLineNumber = "703"
+            startingLineNumber = "693"
+            endingLineNumber = "693"
             landmarkName = "-testQuad"
             landmarkType = "7">
          </BreakpointContent>
@@ -1649,8 +1521,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "396"
-            endingLineNumber = "396"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
             landmarkName = "-suggestEditVariables:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1665,8 +1537,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "676"
-            endingLineNumber = "676"
+            startingLineNumber = "666"
+            endingLineNumber = "666"
             landmarkName = "-testQuad"
             landmarkType = "7">
          </BreakpointContent>
@@ -1681,8 +1553,8 @@
             filePath = "cassowaryTests/CSWSimplexSolverTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "677"
-            endingLineNumber = "677"
+            startingLineNumber = "667"
+            endingLineNumber = "667"
             landmarkName = "-testQuad"
             landmarkType = "7">
          </BreakpointContent>
@@ -1713,8 +1585,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "371"
-            endingLineNumber = "371"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
             landmarkName = "-endEdit"
             landmarkType = "7">
          </BreakpointContent>
