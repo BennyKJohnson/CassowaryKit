@@ -1,0 +1,627 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6F07E211293478F200B9039E /* CSWEditVariableManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F07E20F293478F200B9039E /* CSWEditVariableManager.h */; };
+		6F07E212293478F200B9039E /* CSWEditVariableManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F07E210293478F200B9039E /* CSWEditVariableManager.m */; };
+		6F0DD7C929204B3A00617FAE /* CSWConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F0DD7C729204B3A00617FAE /* CSWConstraint.h */; };
+		6F0DD7CA29204B3A00617FAE /* CSWConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F0DD7C829204B3A00617FAE /* CSWConstraint.m */; };
+		6F0DD7CC29204B5700617FAE /* CSWConstraintTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F0DD7CB29204B5700617FAE /* CSWConstraintTests.m */; };
+		6F1D846729197C44006B012A /* cassowary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F1D845D29197C44006B012A /* cassowary.framework */; };
+		6F1D846E29197C44006B012A /* cassowary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1D846029197C44006B012A /* cassowary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F1D847929197DBE006B012A /* CSWVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1D847729197DBE006B012A /* CSWVariable.h */; };
+		6F1D847A29197DBE006B012A /* CSWVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1D847829197DBE006B012A /* CSWVariable.m */; };
+		6F1D847C29197DDB006B012A /* CSWVariableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1D847B29197DDB006B012A /* CSWVariableTests.m */; };
+		6F1D847F2919845D006B012A /* CSWLinearExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1D847D2919845D006B012A /* CSWLinearExpression.h */; };
+		6F1D84802919845D006B012A /* CSWLinearExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1D847E2919845D006B012A /* CSWLinearExpression.m */; };
+		6F1D8485291984B1006B012A /* CSWLinearExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1D8484291984B1006B012A /* CSWLinearExpressionTests.m */; };
+		6F20FC362928A5E100B41837 /* CSWInequalityConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F20FC342928A5E100B41837 /* CSWInequalityConstraint.h */; };
+		6F20FC372928A5E100B41837 /* CSWInequalityConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F20FC352928A5E100B41837 /* CSWInequalityConstraint.m */; };
+		6F20FC392928A6D800B41837 /* CSWInequalityConstraintTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F20FC382928A6D800B41837 /* CSWInequalityConstraintTests.m */; };
+		6F25C822291A2431000388A9 /* CSWAbstractVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F25C820291A2431000388A9 /* CSWAbstractVariable.h */; };
+		6F25C823291A2431000388A9 /* CSWAbstractVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F25C821291A2431000388A9 /* CSWAbstractVariable.m */; };
+		6F25C826291A2BF8000388A9 /* CSWDummyVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F25C824291A2BF8000388A9 /* CSWDummyVariable.h */; };
+		6F25C827291A2BF8000388A9 /* CSWDummyVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F25C825291A2BF8000388A9 /* CSWDummyVariable.m */; };
+		6F25C82A291A2ECD000388A9 /* CSWSlackVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F25C828291A2ECD000388A9 /* CSWSlackVariable.h */; };
+		6F25C82B291A2ECD000388A9 /* CSWSlackVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F25C829291A2ECD000388A9 /* CSWSlackVariable.m */; };
+		6F25C82E291A3CD9000388A9 /* CSWSymbolicWeight.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F25C82C291A3CD9000388A9 /* CSWSymbolicWeight.h */; };
+		6F25C82F291A3CD9000388A9 /* CSWSymbolicWeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F25C82D291A3CD9000388A9 /* CSWSymbolicWeight.m */; };
+		6F25C831291A3D22000388A9 /* CSWSymbolicWeightTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F25C830291A3D22000388A9 /* CSWSymbolicWeightTests.m */; };
+		6F26BDD9293191B9000E7D0A /* CSWTracableSimplexSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F26BDD7293191B9000E7D0A /* CSWTracableSimplexSolver.h */; };
+		6F26BDDA293191B9000E7D0A /* CSWTracableSimplexSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F26BDD8293191B9000E7D0A /* CSWTracableSimplexSolver.m */; };
+		6F26BDDD2931D39B000E7D0A /* CSWConstraintFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F26BDDB2931D39B000E7D0A /* CSWConstraintFactory.h */; };
+		6F26BDDE2931D39B000E7D0A /* CSWConstraintFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F26BDDC2931D39B000E7D0A /* CSWConstraintFactory.m */; };
+		6F26BDE02931DBB6000E7D0A /* CSWConstraintOperator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F26BDDF2931DBB6000E7D0A /* CSWConstraintOperator.h */; };
+		6F71CA2D291F63AF00E7CE32 /* CSWTracableTableau.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F71CA2B291F63AF00E7CE32 /* CSWTracableTableau.h */; };
+		6F71CA2E291F63AF00E7CE32 /* CSWTracableTableau.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F71CA2C291F63AF00E7CE32 /* CSWTracableTableau.m */; };
+		6FCBB8B3291CE808008692B2 /* CSWTableauTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBB8B2291CE808008692B2 /* CSWTableauTests.m */; };
+		6FCBB8B6291CE850008692B2 /* CSWTableau.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCBB8B4291CE850008692B2 /* CSWTableau.h */; };
+		6FCBB8B7291CE850008692B2 /* CSWTableau.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBB8B5291CE850008692B2 /* CSWTableau.m */; };
+		6FCBB8B9291CE8EA008692B2 /* CSWSimplexSolverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBB8B8291CE8EA008692B2 /* CSWSimplexSolverTests.m */; };
+		6FCBB8BC291CE91A008692B2 /* CSWSimplexSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCBB8BA291CE91A008692B2 /* CSWSimplexSolver.h */; };
+		6FCBB8BD291CE91A008692B2 /* CSWSimplexSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBB8BB291CE91A008692B2 /* CSWSimplexSolver.m */; };
+		6FCBB8C7291CF256008692B2 /* CSWStrengthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBB8C6291CF256008692B2 /* CSWStrengthTests.m */; };
+		6FCBB8CA291CF272008692B2 /* CSWStrength.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCBB8C8291CF272008692B2 /* CSWStrength.h */; };
+		6FCBB8CB291CF272008692B2 /* CSWStrength.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBB8C9291CF272008692B2 /* CSWStrength.m */; };
+		6FD66DEB2920BA7B00468ACA /* CSWObjectiveVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD66DE92920BA7B00468ACA /* CSWObjectiveVariable.h */; };
+		6FD66DEC2920BA7B00468ACA /* CSWObjectiveVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD66DEA2920BA7B00468ACA /* CSWObjectiveVariable.m */; };
+		6FD66DEF2920C58F00468ACA /* CSWFloatComparator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD66DED2920C58F00468ACA /* CSWFloatComparator.h */; };
+		6FD66DF02920C58F00468ACA /* CSWFloatComparator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD66DEE2920C58F00468ACA /* CSWFloatComparator.m */; };
+		6FDB64A5292CA653005B4AA5 /* CSWEditInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FDB64A3292CA653005B4AA5 /* CSWEditInfo.h */; };
+		6FDB64A6292CA653005B4AA5 /* CSWEditInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDB64A4292CA653005B4AA5 /* CSWEditInfo.m */; };
+		6FF8789E293A9ABA0080779B /* CSWSuggestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FF8789C293A9ABA0080779B /* CSWSuggestion.h */; };
+		6FF8789F293A9ABA0080779B /* CSWSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF8789D293A9ABA0080779B /* CSWSuggestion.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6F1D846829197C44006B012A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F1D845429197C44006B012A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F1D845C29197C44006B012A;
+			remoteInfo = cassowary;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6F07E20F293478F200B9039E /* CSWEditVariableManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWEditVariableManager.h; sourceTree = "<group>"; };
+		6F07E210293478F200B9039E /* CSWEditVariableManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWEditVariableManager.m; sourceTree = "<group>"; };
+		6F0DD7C729204B3A00617FAE /* CSWConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWConstraint.h; sourceTree = "<group>"; };
+		6F0DD7C829204B3A00617FAE /* CSWConstraint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWConstraint.m; sourceTree = "<group>"; };
+		6F0DD7CB29204B5700617FAE /* CSWConstraintTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWConstraintTests.m; sourceTree = "<group>"; };
+		6F1D845D29197C44006B012A /* cassowary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = cassowary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F1D846029197C44006B012A /* cassowary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cassowary.h; sourceTree = "<group>"; };
+		6F1D846129197C44006B012A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6F1D846629197C44006B012A /* cassowaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cassowaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F1D846D29197C44006B012A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6F1D847729197DBE006B012A /* CSWVariable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWVariable.h; sourceTree = "<group>"; };
+		6F1D847829197DBE006B012A /* CSWVariable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWVariable.m; sourceTree = "<group>"; };
+		6F1D847B29197DDB006B012A /* CSWVariableTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWVariableTests.m; sourceTree = "<group>"; };
+		6F1D847D2919845D006B012A /* CSWLinearExpression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWLinearExpression.h; sourceTree = "<group>"; };
+		6F1D847E2919845D006B012A /* CSWLinearExpression.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWLinearExpression.m; sourceTree = "<group>"; };
+		6F1D8484291984B1006B012A /* CSWLinearExpressionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWLinearExpressionTests.m; sourceTree = "<group>"; };
+		6F20FC342928A5E100B41837 /* CSWInequalityConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWInequalityConstraint.h; sourceTree = "<group>"; };
+		6F20FC352928A5E100B41837 /* CSWInequalityConstraint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWInequalityConstraint.m; sourceTree = "<group>"; };
+		6F20FC382928A6D800B41837 /* CSWInequalityConstraintTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWInequalityConstraintTests.m; sourceTree = "<group>"; };
+		6F25C820291A2431000388A9 /* CSWAbstractVariable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWAbstractVariable.h; sourceTree = "<group>"; };
+		6F25C821291A2431000388A9 /* CSWAbstractVariable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWAbstractVariable.m; sourceTree = "<group>"; };
+		6F25C824291A2BF8000388A9 /* CSWDummyVariable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWDummyVariable.h; sourceTree = "<group>"; };
+		6F25C825291A2BF8000388A9 /* CSWDummyVariable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWDummyVariable.m; sourceTree = "<group>"; };
+		6F25C828291A2ECD000388A9 /* CSWSlackVariable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWSlackVariable.h; sourceTree = "<group>"; };
+		6F25C829291A2ECD000388A9 /* CSWSlackVariable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWSlackVariable.m; sourceTree = "<group>"; };
+		6F25C82C291A3CD9000388A9 /* CSWSymbolicWeight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWSymbolicWeight.h; sourceTree = "<group>"; };
+		6F25C82D291A3CD9000388A9 /* CSWSymbolicWeight.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWSymbolicWeight.m; sourceTree = "<group>"; };
+		6F25C830291A3D22000388A9 /* CSWSymbolicWeightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWSymbolicWeightTests.m; sourceTree = "<group>"; };
+		6F26BDD7293191B9000E7D0A /* CSWTracableSimplexSolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWTracableSimplexSolver.h; sourceTree = "<group>"; };
+		6F26BDD8293191B9000E7D0A /* CSWTracableSimplexSolver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWTracableSimplexSolver.m; sourceTree = "<group>"; };
+		6F26BDDB2931D39B000E7D0A /* CSWConstraintFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWConstraintFactory.h; sourceTree = "<group>"; };
+		6F26BDDC2931D39B000E7D0A /* CSWConstraintFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWConstraintFactory.m; sourceTree = "<group>"; };
+		6F26BDDF2931DBB6000E7D0A /* CSWConstraintOperator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWConstraintOperator.h; sourceTree = "<group>"; };
+		6F71CA2B291F63AF00E7CE32 /* CSWTracableTableau.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWTracableTableau.h; sourceTree = "<group>"; };
+		6F71CA2C291F63AF00E7CE32 /* CSWTracableTableau.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWTracableTableau.m; sourceTree = "<group>"; };
+		6FCBB8B2291CE808008692B2 /* CSWTableauTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWTableauTests.m; sourceTree = "<group>"; };
+		6FCBB8B4291CE850008692B2 /* CSWTableau.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWTableau.h; sourceTree = "<group>"; };
+		6FCBB8B5291CE850008692B2 /* CSWTableau.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWTableau.m; sourceTree = "<group>"; };
+		6FCBB8B8291CE8EA008692B2 /* CSWSimplexSolverTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWSimplexSolverTests.m; sourceTree = "<group>"; };
+		6FCBB8BA291CE91A008692B2 /* CSWSimplexSolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWSimplexSolver.h; sourceTree = "<group>"; };
+		6FCBB8BB291CE91A008692B2 /* CSWSimplexSolver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWSimplexSolver.m; sourceTree = "<group>"; };
+		6FCBB8C6291CF256008692B2 /* CSWStrengthTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWStrengthTests.m; sourceTree = "<group>"; };
+		6FCBB8C8291CF272008692B2 /* CSWStrength.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWStrength.h; sourceTree = "<group>"; };
+		6FCBB8C9291CF272008692B2 /* CSWStrength.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWStrength.m; sourceTree = "<group>"; };
+		6FD66DE92920BA7B00468ACA /* CSWObjectiveVariable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWObjectiveVariable.h; sourceTree = "<group>"; };
+		6FD66DEA2920BA7B00468ACA /* CSWObjectiveVariable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWObjectiveVariable.m; sourceTree = "<group>"; };
+		6FD66DED2920C58F00468ACA /* CSWFloatComparator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWFloatComparator.h; sourceTree = "<group>"; };
+		6FD66DEE2920C58F00468ACA /* CSWFloatComparator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWFloatComparator.m; sourceTree = "<group>"; };
+		6FDB64A3292CA653005B4AA5 /* CSWEditInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWEditInfo.h; sourceTree = "<group>"; };
+		6FDB64A4292CA653005B4AA5 /* CSWEditInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWEditInfo.m; sourceTree = "<group>"; };
+		6FF8789C293A9ABA0080779B /* CSWSuggestion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWSuggestion.h; sourceTree = "<group>"; };
+		6FF8789D293A9ABA0080779B /* CSWSuggestion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWSuggestion.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6F1D845A29197C44006B012A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F1D846329197C44006B012A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F1D846729197C44006B012A /* cassowary.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6F1D845329197C44006B012A = {
+			isa = PBXGroup;
+			children = (
+				6F1D845F29197C44006B012A /* cassowary */,
+				6F1D846A29197C44006B012A /* cassowaryTests */,
+				6F1D845E29197C44006B012A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6F1D845E29197C44006B012A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6F1D845D29197C44006B012A /* cassowary.framework */,
+				6F1D846629197C44006B012A /* cassowaryTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6F1D845F29197C44006B012A /* cassowary */ = {
+			isa = PBXGroup;
+			children = (
+				6F1D846029197C44006B012A /* cassowary.h */,
+				6F1D846129197C44006B012A /* Info.plist */,
+				6F1D847729197DBE006B012A /* CSWVariable.h */,
+				6F1D847829197DBE006B012A /* CSWVariable.m */,
+				6F1D847D2919845D006B012A /* CSWLinearExpression.h */,
+				6F1D847E2919845D006B012A /* CSWLinearExpression.m */,
+				6F25C820291A2431000388A9 /* CSWAbstractVariable.h */,
+				6F25C821291A2431000388A9 /* CSWAbstractVariable.m */,
+				6F25C824291A2BF8000388A9 /* CSWDummyVariable.h */,
+				6F25C825291A2BF8000388A9 /* CSWDummyVariable.m */,
+				6F25C828291A2ECD000388A9 /* CSWSlackVariable.h */,
+				6F25C829291A2ECD000388A9 /* CSWSlackVariable.m */,
+				6F25C82C291A3CD9000388A9 /* CSWSymbolicWeight.h */,
+				6F25C82D291A3CD9000388A9 /* CSWSymbolicWeight.m */,
+				6FCBB8B4291CE850008692B2 /* CSWTableau.h */,
+				6FCBB8B5291CE850008692B2 /* CSWTableau.m */,
+				6FCBB8BA291CE91A008692B2 /* CSWSimplexSolver.h */,
+				6FCBB8BB291CE91A008692B2 /* CSWSimplexSolver.m */,
+				6FCBB8C8291CF272008692B2 /* CSWStrength.h */,
+				6FCBB8C9291CF272008692B2 /* CSWStrength.m */,
+				6F71CA2B291F63AF00E7CE32 /* CSWTracableTableau.h */,
+				6F71CA2C291F63AF00E7CE32 /* CSWTracableTableau.m */,
+				6F0DD7C729204B3A00617FAE /* CSWConstraint.h */,
+				6F0DD7C829204B3A00617FAE /* CSWConstraint.m */,
+				6FD66DE92920BA7B00468ACA /* CSWObjectiveVariable.h */,
+				6FD66DEA2920BA7B00468ACA /* CSWObjectiveVariable.m */,
+				6FD66DED2920C58F00468ACA /* CSWFloatComparator.h */,
+				6FD66DEE2920C58F00468ACA /* CSWFloatComparator.m */,
+				6F20FC342928A5E100B41837 /* CSWInequalityConstraint.h */,
+				6F20FC352928A5E100B41837 /* CSWInequalityConstraint.m */,
+				6FDB64A3292CA653005B4AA5 /* CSWEditInfo.h */,
+				6FDB64A4292CA653005B4AA5 /* CSWEditInfo.m */,
+				6F26BDD7293191B9000E7D0A /* CSWTracableSimplexSolver.h */,
+				6F26BDD8293191B9000E7D0A /* CSWTracableSimplexSolver.m */,
+				6F26BDDB2931D39B000E7D0A /* CSWConstraintFactory.h */,
+				6F26BDDC2931D39B000E7D0A /* CSWConstraintFactory.m */,
+				6F26BDDF2931DBB6000E7D0A /* CSWConstraintOperator.h */,
+				6F07E20F293478F200B9039E /* CSWEditVariableManager.h */,
+				6F07E210293478F200B9039E /* CSWEditVariableManager.m */,
+				6FF8789C293A9ABA0080779B /* CSWSuggestion.h */,
+				6FF8789D293A9ABA0080779B /* CSWSuggestion.m */,
+			);
+			path = cassowary;
+			sourceTree = "<group>";
+		};
+		6F1D846A29197C44006B012A /* cassowaryTests */ = {
+			isa = PBXGroup;
+			children = (
+				6F1D847B29197DDB006B012A /* CSWVariableTests.m */,
+				6F1D8484291984B1006B012A /* CSWLinearExpressionTests.m */,
+				6F1D846D29197C44006B012A /* Info.plist */,
+				6F25C830291A3D22000388A9 /* CSWSymbolicWeightTests.m */,
+				6FCBB8B2291CE808008692B2 /* CSWTableauTests.m */,
+				6FCBB8B8291CE8EA008692B2 /* CSWSimplexSolverTests.m */,
+				6FCBB8C6291CF256008692B2 /* CSWStrengthTests.m */,
+				6F0DD7CB29204B5700617FAE /* CSWConstraintTests.m */,
+				6F20FC382928A6D800B41837 /* CSWInequalityConstraintTests.m */,
+			);
+			path = cassowaryTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6F1D845829197C44006B012A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F26BDD9293191B9000E7D0A /* CSWTracableSimplexSolver.h in Headers */,
+				6F20FC362928A5E100B41837 /* CSWInequalityConstraint.h in Headers */,
+				6F25C82E291A3CD9000388A9 /* CSWSymbolicWeight.h in Headers */,
+				6FF8789E293A9ABA0080779B /* CSWSuggestion.h in Headers */,
+				6F26BDDD2931D39B000E7D0A /* CSWConstraintFactory.h in Headers */,
+				6F25C826291A2BF8000388A9 /* CSWDummyVariable.h in Headers */,
+				6F26BDE02931DBB6000E7D0A /* CSWConstraintOperator.h in Headers */,
+				6FCBB8CA291CF272008692B2 /* CSWStrength.h in Headers */,
+				6FD66DEB2920BA7B00468ACA /* CSWObjectiveVariable.h in Headers */,
+				6F1D847F2919845D006B012A /* CSWLinearExpression.h in Headers */,
+				6F1D846E29197C44006B012A /* cassowary.h in Headers */,
+				6F07E211293478F200B9039E /* CSWEditVariableManager.h in Headers */,
+				6FCBB8BC291CE91A008692B2 /* CSWSimplexSolver.h in Headers */,
+				6F71CA2D291F63AF00E7CE32 /* CSWTracableTableau.h in Headers */,
+				6F25C822291A2431000388A9 /* CSWAbstractVariable.h in Headers */,
+				6FCBB8B6291CE850008692B2 /* CSWTableau.h in Headers */,
+				6F0DD7C929204B3A00617FAE /* CSWConstraint.h in Headers */,
+				6F1D847929197DBE006B012A /* CSWVariable.h in Headers */,
+				6FDB64A5292CA653005B4AA5 /* CSWEditInfo.h in Headers */,
+				6F25C82A291A2ECD000388A9 /* CSWSlackVariable.h in Headers */,
+				6FD66DEF2920C58F00468ACA /* CSWFloatComparator.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6F1D845C29197C44006B012A /* cassowary */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F1D847129197C44006B012A /* Build configuration list for PBXNativeTarget "cassowary" */;
+			buildPhases = (
+				6F1D845829197C44006B012A /* Headers */,
+				6F1D845929197C44006B012A /* Sources */,
+				6F1D845A29197C44006B012A /* Frameworks */,
+				6F1D845B29197C44006B012A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cassowary;
+			productName = cassowary;
+			productReference = 6F1D845D29197C44006B012A /* cassowary.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		6F1D846529197C44006B012A /* cassowaryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F1D847429197C44006B012A /* Build configuration list for PBXNativeTarget "cassowaryTests" */;
+			buildPhases = (
+				6F1D846229197C44006B012A /* Sources */,
+				6F1D846329197C44006B012A /* Frameworks */,
+				6F1D846429197C44006B012A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6F1D846929197C44006B012A /* PBXTargetDependency */,
+			);
+			name = cassowaryTests;
+			productName = cassowaryTests;
+			productReference = 6F1D846629197C44006B012A /* cassowaryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6F1D845429197C44006B012A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1170;
+				ORGANIZATIONNAME = "Benjamin Johnson";
+				TargetAttributes = {
+					6F1D845C29197C44006B012A = {
+						CreatedOnToolsVersion = 11.7;
+					};
+					6F1D846529197C44006B012A = {
+						CreatedOnToolsVersion = 11.7;
+					};
+				};
+			};
+			buildConfigurationList = 6F1D845729197C44006B012A /* Build configuration list for PBXProject "cassowary" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6F1D845329197C44006B012A;
+			productRefGroup = 6F1D845E29197C44006B012A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6F1D845C29197C44006B012A /* cassowary */,
+				6F1D846529197C44006B012A /* cassowaryTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6F1D845B29197C44006B012A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F1D846429197C44006B012A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6F1D845929197C44006B012A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FCBB8CB291CF272008692B2 /* CSWStrength.m in Sources */,
+				6F26BDDE2931D39B000E7D0A /* CSWConstraintFactory.m in Sources */,
+				6F25C827291A2BF8000388A9 /* CSWDummyVariable.m in Sources */,
+				6FCBB8B7291CE850008692B2 /* CSWTableau.m in Sources */,
+				6F25C82F291A3CD9000388A9 /* CSWSymbolicWeight.m in Sources */,
+				6F26BDDA293191B9000E7D0A /* CSWTracableSimplexSolver.m in Sources */,
+				6FD66DEC2920BA7B00468ACA /* CSWObjectiveVariable.m in Sources */,
+				6F0DD7CA29204B3A00617FAE /* CSWConstraint.m in Sources */,
+				6F25C82B291A2ECD000388A9 /* CSWSlackVariable.m in Sources */,
+				6F25C823291A2431000388A9 /* CSWAbstractVariable.m in Sources */,
+				6F1D847A29197DBE006B012A /* CSWVariable.m in Sources */,
+				6F71CA2E291F63AF00E7CE32 /* CSWTracableTableau.m in Sources */,
+				6F20FC372928A5E100B41837 /* CSWInequalityConstraint.m in Sources */,
+				6FDB64A6292CA653005B4AA5 /* CSWEditInfo.m in Sources */,
+				6F1D84802919845D006B012A /* CSWLinearExpression.m in Sources */,
+				6FCBB8BD291CE91A008692B2 /* CSWSimplexSolver.m in Sources */,
+				6F07E212293478F200B9039E /* CSWEditVariableManager.m in Sources */,
+				6FD66DF02920C58F00468ACA /* CSWFloatComparator.m in Sources */,
+				6FF8789F293A9ABA0080779B /* CSWSuggestion.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F1D846229197C44006B012A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F1D8485291984B1006B012A /* CSWLinearExpressionTests.m in Sources */,
+				6F25C831291A3D22000388A9 /* CSWSymbolicWeightTests.m in Sources */,
+				6F20FC392928A6D800B41837 /* CSWInequalityConstraintTests.m in Sources */,
+				6FCBB8B3291CE808008692B2 /* CSWTableauTests.m in Sources */,
+				6FCBB8C7291CF256008692B2 /* CSWStrengthTests.m in Sources */,
+				6FCBB8B9291CE8EA008692B2 /* CSWSimplexSolverTests.m in Sources */,
+				6F1D847C29197DDB006B012A /* CSWVariableTests.m in Sources */,
+				6F0DD7CC29204B5700617FAE /* CSWConstraintTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6F1D846929197C44006B012A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F1D845C29197C44006B012A /* cassowary */;
+			targetProxy = 6F1D846829197C44006B012A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		6F1D846F29197C44006B012A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		6F1D847029197C44006B012A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		6F1D847229197C44006B012A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = cassowary/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.benjaminjohnson.cassowary;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6F1D847329197C44006B012A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = cassowary/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.benjaminjohnson.cassowary;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		6F1D847529197C44006B012A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = cassowaryTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.benjaminjohnson.cassowaryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6F1D847629197C44006B012A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = cassowaryTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.benjaminjohnson.cassowaryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6F1D845729197C44006B012A /* Build configuration list for PBXProject "cassowary" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F1D846F29197C44006B012A /* Debug */,
+				6F1D847029197C44006B012A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F1D847129197C44006B012A /* Build configuration list for PBXNativeTarget "cassowary" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F1D847229197C44006B012A /* Debug */,
+				6F1D847329197C44006B012A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F1D847429197C44006B012A /* Build configuration list for PBXNativeTarget "cassowaryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F1D847529197C44006B012A /* Debug */,
+				6F1D847629197C44006B012A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6F1D845429197C44006B012A /* Project object */;
+}
