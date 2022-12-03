@@ -143,7 +143,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     NSArray *constraintErrorVars = [_errorVariables objectForKey:constraint];
     if (constraintErrorVars != nil) {
         for (CSWAbstractVariable *errorVariable in constraintErrorVars) {
-            CSWDouble value = -constraint.weight * constraint.strength.weight.value;
+            CSWDouble value = -[constraint.strength value];
 
             if ([self isBasicVariable:errorVariable]) {
                 CSWLinearExpression *errorVariableRowExpression = [self.rows objectForKey:errorVariable];
@@ -393,7 +393,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 -(void)suggestEditVariables: (NSArray*)suggestions
 {
     for (CSWSuggestion *suggestion in suggestions) {
-        [self addEditVariableForVariable:[suggestion variable] strength:[CSWStrength strengthStrong] weight:1.0];
+        [self addEditVariableForVariable:[suggestion variable] strength:[CSWStrength strengthStrong]];
     }
     
     [self beginEdit];
@@ -406,7 +406,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 
 -(void)suggestVariable: (CSWVariable*)varible equals: (CSWDouble)value
 {
-    [self addEditVariableForVariable:varible strength:[CSWStrength strengthStrong] weight:1.0];
+    [self addEditVariableForVariable:varible strength:[CSWStrength strengthStrong]];
     [self beginEdit];
     [self suggestEditVariable:varible equals:value];
     [self endEdit];
@@ -482,7 +482,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 }
 
 
--(void)addEditVariableForVariable: (CSWVariable*)variable strength: (CSWStrength*)strength weight: (CSWDouble)weight
+-(void)addEditVariableForVariable: (CSWVariable*)variable strength: (CSWStrength*)strength
 {
     CSWConstraint *editVariableConstraint = [[CSWConstraint alloc] initEditConstraintWithVariable:variable stength:strength];
     [self addConstraint: editVariableConstraint];
@@ -557,7 +557,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         [_markerVariables setObject:eplusVariable forKey:constraint];
         
         CSWLinearExpression *zRow = [self.rows objectForKey: _objective];
-        CSWDouble swCoefficient = [constraint.strength.weight value] * constraint.weight;
+        CSWDouble swCoefficient = [constraint.strength value];
         
         [self setVariable:eplusVariable onExpression:zRow withCoefficient:swCoefficient];
         [self addMappingFromExpressionVariable:eplusVariable toRowVariable:_objective];
@@ -604,7 +604,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         CSWSlackVariable *eminusSlackVariable = [self createSlackVariableWithPrefix:@"em"];
         [newExpression addVariable:eminusSlackVariable coefficient:1];
         
-        CSWDouble eminusCoefficient = [constraint.strength.weight value] * [constraint weight];
+        CSWDouble eminusCoefficient = [constraint.strength value];
         CSWLinearExpression *zRow = [self.rows objectForKey: _objective];
         [self setVariable:eminusSlackVariable onExpression:zRow withCoefficient: eminusCoefficient];
         
@@ -801,7 +801,6 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     
     [_updatedExternals removeAllObjects];
     _needsSolving = false;
-    // TODO inform callbacks?
 }
 
 -(void)pivotWithEntryVariable: (CSWAbstractVariable*)entryVariable exitVariable: (CSWAbstractVariable*)exitVariable
@@ -857,26 +856,15 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 
 -(void)updateConstraint: (CSWConstraint*)constraint strength: (CSWStrength*)strength;
 {
-    [self updateConstraint:constraint strength:strength weight:constraint.weight];
-}
-
--(void)updateConstraint: (CSWConstraint*)constraint weight: (CSWDouble)weight;
-{
-    [self updateConstraint:constraint strength:constraint.strength weight:weight];
-}
-
--(void)updateConstraint: (CSWConstraint*)constraint strength: (CSWStrength*)strength weight: (CSWDouble)weight
-{
     NSArray *errorVariablesForConstraint = [_errorVariables objectForKey:constraint];
     if (errorVariablesForConstraint == nil) {
         return;
     }
     
-    CSWDouble existingCoefficient = [constraint adjustedWeightValue];
+    CSWDouble existingCoefficient = [constraint.strength value];
     [constraint setStrength:strength];
-    [constraint setWeight:weight];
     
-    CSWDouble newCoefficient = [constraint adjustedWeightValue];
+    CSWDouble newCoefficient = [constraint.strength value];
     
     if (newCoefficient == existingCoefficient) {
         return;

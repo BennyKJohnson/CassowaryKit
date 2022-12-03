@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightExpression: (CSWLinearExpression*)rhs;
 
-+(CSWConstraint*)stayConstraintWithVariable: (CSWVariable*)variable strength: (CSWStrength*)strength weight: (CSWDouble)weight;
++(CSWConstraint*)stayConstraintWithVariable: (CSWVariable*)variable strength: (CSWStrength*)strength;
 
 @end
 

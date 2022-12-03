@@ -3,13 +3,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CSWStrength : NSObject
+@interface CSWStrength : NSObject <NSCopying>
 
 @property (nonatomic, strong) NSString *name;
 
-@property (nonatomic, strong) CSWSymbolicWeight *weight;
+@property (nonatomic, strong) CSWSymbolicWeight *symbolicWeight;
 
--(instancetype)initWithName: (NSString*)name weight: (CSWSymbolicWeight*)weight;
+@property double weight;
+
+-(instancetype)initWithName: (NSString*)name symbolicWeight: (CSWSymbolicWeight*)symbolicWeight weight: (double)weight;
 
 +(instancetype)strengthRequired;
 
@@ -20,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 +(instancetype)strengthWeak;
 
 -(BOOL)isRequired;
+
+-(double)value;
 
 @end
 

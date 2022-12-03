@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(instancetype)initEditConstraintWithVariable: (CSWVariable*)variable stength: (CSWStrength*)strength;
 
--(instancetype)initStayConstraintWithVariable: (CSWVariable*)variable strength: (CSWStrength*)strength weight: (CSWDouble)weight;
+-(instancetype)initStayConstraintWithVariable: (CSWVariable*)variable strength: (CSWStrength*)strength;
 
 -(instancetype)initWithLhsVariable: (CSWVariable*)lhs equalsConstant: (CSWDouble)rhs;
 
@@ -49,8 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(instancetype)editConstraintWithVariable: (CSWVariable*)variable;
 
-@property CGFloat weight;
-
 @property (readonly) CSWConstraintType type;
 
 @property (nonatomic, strong) CSWStrength* strength;
@@ -69,7 +67,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(BOOL) isInequality;
 
--(CSWDouble)adjustedWeightValue;
 
 @end
 

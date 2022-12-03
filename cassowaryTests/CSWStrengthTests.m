@@ -21,11 +21,12 @@
     CSWSymbolicWeight *weight = [[CSWSymbolicWeight alloc] initWithLevelsCount:3];
     NSString *strengthName = @"strength";
     
-    CSWStrength *strength = [[CSWStrength alloc] initWithName: strengthName weight:weight];
+    CSWStrength *strength = [[CSWStrength alloc] initWithName: strengthName symbolicWeight:weight weight:2.0];
     
     XCTAssertTrue([strength isKindOfClass:[CSWStrength class]]);
     XCTAssertEqual(strength.name, strengthName);
-    XCTAssertEqual(strength.weight, weight);
+    XCTAssertEqual(strength.symbolicWeight, weight);
+    XCTAssertEqual(strength.weight, 2.0);
 }
 
 -(void)testCSWStrengthIsEqualWhenLevelsAreEqual
@@ -47,7 +48,7 @@
 -(void)testInitWithRequiredStrength
 {
     CSWStrength *strength = [CSWStrength strengthRequired];
-    CSWSymbolicWeight *weight = [strength weight];
+    CSWSymbolicWeight *weight = [strength symbolicWeight];
     CSWSymbolicWeight *expectedWeight = [[CSWSymbolicWeight alloc] initWithLevels:@[@(1000), @(1000), @(1000)]];
     XCTAssertTrue([weight isEqualToSymbolicWeight: expectedWeight]);
     XCTAssertTrue([strength.name isEqual:@"<Required>"]);
@@ -56,7 +57,7 @@
 -(void)testInitWithStrongStrength
 {
     CSWStrength *strength = [CSWStrength strengthStrong];
-    CSWSymbolicWeight *weight = [strength weight];
+    CSWSymbolicWeight *weight = [strength symbolicWeight];
     CSWSymbolicWeight *expectedWeight = [[CSWSymbolicWeight alloc] initWithLevels:@[@(1.0), @(0), @(0)]];
     XCTAssertTrue([weight isEqualToSymbolicWeight: expectedWeight]);
     XCTAssertTrue([strength.name isEqual:@"strong"]);
@@ -65,7 +66,7 @@
 -(void)testInitWithMediumStrength
 {
     CSWStrength *strength = [CSWStrength strengthMedium];
-    CSWSymbolicWeight *weight = [strength weight];
+    CSWSymbolicWeight *weight = [strength symbolicWeight];
     CSWSymbolicWeight *expectedWeight = [[CSWSymbolicWeight alloc] initWithLevels:@[@(0), @(1), @(0)]];
     XCTAssertTrue([weight isEqualToSymbolicWeight: expectedWeight]);
     XCTAssertTrue([strength.name isEqual:@"medium"]);

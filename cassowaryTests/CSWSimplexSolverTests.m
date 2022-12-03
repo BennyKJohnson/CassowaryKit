@@ -15,7 +15,7 @@
 {
     NSMutableArray *stayConstraints = [NSMutableArray array];
     for (CSWVariable *variable in variables) {
-        [stayConstraints addObject:[[CSWConstraint alloc] initStayConstraintWithVariable:variable strength:[CSWStrength strengthWeak] weight:1]];
+        [stayConstraints addObject:[[CSWConstraint alloc] initStayConstraintWithVariable:variable strength:[CSWStrength strengthWeak]]];
     }
     
     return stayConstraints;
@@ -127,8 +127,8 @@
     CSWVariable *x = [[CSWVariable alloc] initWithValue:5];
     CSWVariable *y = [[CSWVariable alloc] initWithValue:10];
     
-    CSWConstraint *stayConstraintX = [[CSWConstraint alloc] initStayConstraintWithVariable:x strength:[CSWStrength strengthWeak] weight:1];
-    CSWConstraint *stayConstraintY = [[CSWConstraint alloc] initStayConstraintWithVariable:y strength:[CSWStrength strengthWeak] weight:1];
+    CSWConstraint *stayConstraintX = [[CSWConstraint alloc] initStayConstraintWithVariable:x strength:[CSWStrength strengthWeak]];
+    CSWConstraint *stayConstraintY = [[CSWConstraint alloc] initStayConstraintWithVariable:y strength:[CSWStrength strengthWeak]];
     
     [solver addConstraints:@[stayConstraintX, stayConstraintY]];
     [solver solve];
@@ -182,9 +182,9 @@
     CSWConstraint *equation = [[CSWConstraint alloc] initLinearConstraintWithExpression:right];
     [equation.expression addVariable:rightMin coefficient:-1];
     
-    CSWConstraint *stayConstraintWidth = [[CSWConstraint alloc] initStayConstraintWithVariable:width strength:[CSWStrength strengthWeak] weight:1];
+    CSWConstraint *stayConstraintWidth = [[CSWConstraint alloc] initStayConstraintWithVariable:width strength:[CSWStrength strengthWeak]];
 
-    CSWConstraint *stayConstraintRightMin = [[CSWConstraint alloc] initStayConstraintWithVariable:rightMin strength:[CSWStrength strengthWeak] weight:1];
+    CSWConstraint *stayConstraintRightMin = [[CSWConstraint alloc] initStayConstraintWithVariable:rightMin strength:[CSWStrength strengthWeak]];
     
     [solver addConstraints:@[stayConstraintWidth, stayConstraintRightMin, equation]];
     [solver solve];
@@ -204,8 +204,8 @@
     [right addVariable:width];
     
     CSWConstraint *ieq = [CSWConstraint constraintWithLeftExpression:right operator:CSWConstraintOperationGreaterThanOrEqual rightVariable:rightMin];
-    CSWConstraint *stayConstraintWidth = [[CSWConstraint alloc] initStayConstraintWithVariable:width strength:[CSWStrength strengthWeak] weight:1];
-     CSWConstraint *stayConstraintRightMin = [[CSWConstraint alloc] initStayConstraintWithVariable:rightMin strength:[CSWStrength strengthWeak] weight:1];
+    CSWConstraint *stayConstraintWidth = [[CSWConstraint alloc] initStayConstraintWithVariable:width strength:[CSWStrength strengthWeak]];
+     CSWConstraint *stayConstraintRightMin = [[CSWConstraint alloc] initStayConstraintWithVariable:rightMin strength:[CSWStrength strengthWeak]];
     
     [solver addConstraints:@[stayConstraintWidth, stayConstraintRightMin, ieq]];
     [solver solve];
@@ -226,8 +226,8 @@
      [right addVariable:width];
     
     CSWConstraint *ieq = [CSWConstraint constraintWithLeftVariable:rightMin operator:CSWConstraintOperatorLessThanOrEqual rightExpression:right];
-    CSWConstraint *stayConstraintWidth = [[CSWConstraint alloc] initStayConstraintWithVariable:width strength:[CSWStrength strengthWeak] weight:1];
-     CSWConstraint *stayConstraintRightMin = [[CSWConstraint alloc] initStayConstraintWithVariable:rightMin strength:[CSWStrength strengthWeak] weight:1];
+    CSWConstraint *stayConstraintWidth = [[CSWConstraint alloc] initStayConstraintWithVariable:width strength:[CSWStrength strengthWeak]];
+     CSWConstraint *stayConstraintRightMin = [[CSWConstraint alloc] initStayConstraintWithVariable:rightMin strength:[CSWStrength strengthWeak]];
         
     [solver addConstraints:@[stayConstraintWidth, stayConstraintRightMin, ieq]];
 
@@ -250,9 +250,9 @@
     [right2 addVariable:width2];
     
     CSWConstraint *eq = [CSWConstraint constraintWithLeftExpression:right1 operator:CSWConstraintOperatorEqual rightExpression:right2];
-    CSWConstraint *stayConstraintWidth1 = [[CSWConstraint alloc] initStayConstraintWithVariable:width1 strength:[CSWStrength strengthWeak] weight:1];
-    CSWConstraint *stayConstraintWidth2 = [[CSWConstraint alloc] initStayConstraintWithVariable:width2 strength:[CSWStrength strengthWeak] weight:1];
-    CSWConstraint *stayConstraintX2 = [[CSWConstraint alloc] initStayConstraintWithVariable:x2 strength:[CSWStrength strengthWeak] weight:1];
+    CSWConstraint *stayConstraintWidth1 = [[CSWConstraint alloc] initStayConstraintWithVariable:width1 strength:[CSWStrength strengthWeak]];
+    CSWConstraint *stayConstraintWidth2 = [[CSWConstraint alloc] initStayConstraintWithVariable:width2 strength:[CSWStrength strengthWeak]];
+    CSWConstraint *stayConstraintX2 = [[CSWConstraint alloc] initStayConstraintWithVariable:x2 strength:[CSWStrength strengthWeak]];
 
     [solver addConstraints:@[stayConstraintWidth1, stayConstraintWidth2, stayConstraintX2, eq]];
     
@@ -571,10 +571,15 @@
     [solver setAutoSolve:YES];
     
     double factor = 1;
+    
     for (NSDictionary *corner in corners) {
-        CSWConstraint *x = [[CSWConstraint alloc] initStayConstraintWithVariable:corner[@"x"] strength:[CSWStrength strengthWeak] weight:factor];
+        CSWStrength *stayStrength = [CSWStrength strengthWeak];
+        stayStrength.weight = factor;
+        CSWConstraint *x = [[CSWConstraint alloc] initStayConstraintWithVariable:corner[@"x"] strength:stayStrength];
         [solver addConstraint:x];
-        CSWConstraint *y = [[CSWConstraint alloc] initStayConstraintWithVariable:corner[@"y"] strength:[CSWStrength strengthWeak] weight:factor];
+        CSWStrength *yStrength = [CSWStrength strengthWeak];
+        yStrength.weight = factor;
+        CSWConstraint *y = [[CSWConstraint alloc] initStayConstraintWithVariable:corner[@"y"] strength: stayStrength];
         [solver addConstraint:y];
         factor *= 2;
     }
@@ -716,7 +721,7 @@
     CSWVariable *v = [[CSWVariable alloc] initWithValue:0];
     CSWSimplexSolver *solver = [self autoSolver];
     
-    CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:v strength:[CSWStrength strengthStrong] weight:1];
+    CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:v strength:[CSWStrength strengthStrong]];
     [solver addConstraint:stayConstraint];
     XCTAssertEqual(v.value, 0);
     [solver addConstraint:[[CSWConstraint alloc] initEditConstraintWithVariable:v stength:[CSWStrength strengthRequired]]];
@@ -731,7 +736,7 @@
 {
     CSWVariable *v = [[CSWVariable alloc] initWithValue:0];
     CSWSimplexSolver *solver = [self autoSolver];
-    CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:v strength:[CSWStrength strengthRequired] weight:1];
+    CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:v strength:[CSWStrength strengthRequired]];
     
     CSWConstraint *editVariableConstraint = [[CSWConstraint alloc] initEditConstraintWithVariable:v stength:[CSWStrength strengthStrong]];
     [solver addConstraints: @[stayConstraint, editVariableConstraint]];
@@ -748,7 +753,7 @@
         CSWVariable *b = [[CSWVariable alloc] initWithValue:2];
         CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
         
-        CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:a strength:[CSWStrength strengthWeak] weight:1];
+        CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:a strength:[CSWStrength strengthWeak]];
         [solver addConstraint:stayConstraint];
         
         CSWLinearExpression *aEqualsBExp = [[CSWLinearExpression alloc] initWithVariable:a];
@@ -950,7 +955,11 @@
     c2.strength = [CSWStrength strengthStrong];
     
     [solver addConstraints:@[c1, c2]];
-    [solver updateConstraint:c1 weight:3];
+    
+    CSWStrength *newC1Strength = [CSWStrength strengthStrong];
+    newC1Strength.weight = 3;
+    
+    [solver updateConstraint:c1 strength:newC1Strength];
     XCTAssertEqual(x.value, 1);
 }
 

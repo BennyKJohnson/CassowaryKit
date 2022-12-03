@@ -64,11 +64,7 @@ enum CSWErrorCode {
 
 -(BOOL)isValid;
 
--(void)updateConstraint: (CSWConstraint*)constraint strength: (CSWStrength*)strength weight: (CSWDouble)weight;
-
 -(void)updateConstraint: (CSWConstraint*)constraint strength: (CSWStrength*)strength;
-
--(void)updateConstraint: (CSWConstraint*)constraint weight: (CSWDouble)weight;
 
 -(BOOL)containsConstraint: (CSWConstraint*)constraint;
 

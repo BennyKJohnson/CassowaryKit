@@ -20,7 +20,7 @@
 {
     CSWConstraint *constraint = [[CSWConstraint alloc] init];
     XCTAssertTrue([constraint isKindOfClass:[CSWConstraint class]]);
-    XCTAssertEqual([constraint weight], 1.0);
+//    XCTAssertEqual([constraint weight], 1.0);
     XCTAssertTrue([[constraint strength] isEqual:[CSWStrength strengthRequired]]);
 }
 
@@ -88,11 +88,11 @@
 -(void)testInitStayConstraintWithVariableCoefficientAndConstant
 {
     CSWVariable *variable = [[CSWVariable alloc] initWithValue:10];
-    CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable: variable strength:[CSWStrength strengthStrong] weight:1.0];
+    CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable: variable strength:[CSWStrength strengthStrong]];
     
     XCTAssertTrue([stayConstraint isKindOfClass:[CSWConstraint class]]);
     XCTAssertEqual([stayConstraint type], CSWConstraintTypeStay);
-    XCTAssertEqual([stayConstraint weight], 1.0);
+//    XCTAssertEqual([stayConstraint weight], 1.0);
     XCTAssertTrue([[stayConstraint strength] isEqual:[CSWStrength strengthStrong]]);
     XCTAssertEqual([stayConstraint variable], variable);
     

@@ -16,8 +16,7 @@
 {
     self = [super init];
      if (self) {
-         self.weight = 1.0;
-         self.strength = strength != nil ? strength : [CSWStrength strengthRequired];
+         self.strength = strength != nil ? [strength copy] : [CSWStrength strengthRequired];
          self.expression = expression;
          _type = type;
          self.variable = variable;
@@ -47,9 +46,9 @@
                  variable:variable];
 }
 
--(instancetype)initStayConstraintWithVariable: (CSWVariable*)variable strength: (CSWStrength*)strength weight: (CSWDouble)weight
+-(instancetype)initStayConstraintWithVariable: (CSWVariable*)variable strength: (CSWStrength*)strength
 {
-    return [CSWConstraintFactory stayConstraintWithVariable:variable strength:strength weight:weight];
+    return [CSWConstraintFactory stayConstraintWithVariable:variable strength:strength];
 }
 
 -(instancetype)initWithLhsVariable: (CSWVariable*)lhs equalsRhsVariable: (CSWVariable*)rhs
@@ -118,11 +117,6 @@
 -(BOOL) isInequality
 {
     return NO;
-}
-
--(CSWDouble)adjustedWeightValue
-{
-    return self.weight * [self.strength.weight value];
 }
 
 @end

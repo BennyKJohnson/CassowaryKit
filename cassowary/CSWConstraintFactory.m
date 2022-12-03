@@ -90,7 +90,7 @@
     }
 }
 
-+(CSWConstraint*)stayConstraintWithVariable: (CSWVariable*)variable strength: (CSWStrength*)strength weight: (CSWDouble)weight
++(CSWConstraint*)stayConstraintWithVariable: (CSWVariable*)variable strength: (CSWStrength*)strength
 {
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:variable coefficient:-1 constant:variable.value];
        return [[CSWConstraint alloc] initWithType:CSWConstraintTypeStay strength:strength expression:expression variable:variable];
