@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "CSWConstraint.h"
-#import "CSWAbstractVariable.h"
+#import "CSWVariable.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -8,15 +8,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) CSWConstraint *constraint;
 
-@property (strong, nonatomic) CSWAbstractVariable *variable;
+@property (strong, nonatomic) CSWVariable *variable;
 
-@property (strong, nonatomic) CSWAbstractVariable *plusVariable;
+@property (strong, nonatomic) CSWVariable *plusVariable;
 
-@property (strong, nonatomic) CSWAbstractVariable *minusVariable;
+@property (strong, nonatomic) CSWVariable *minusVariable;
 
 @property NSInteger previousConstant;
 
--(instancetype)initWithVariable: (CSWAbstractVariable*)variable constraint: (CSWConstraint*)constraint plusVariable: (CSWAbstractVariable*)plusVariable minusVariable: (CSWAbstractVariable*)minusVariable previousConstant: (NSInteger)previousConstant;
+-(instancetype)initWithVariable: (CSWVariable*)variable constraint: (CSWConstraint*)constraint plusVariable: (CSWVariable*)plusVariable minusVariable: (CSWVariable*)minusVariable previousConstant: (NSInteger)previousConstant;
 
 
 @end

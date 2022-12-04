@@ -9,7 +9,7 @@
 
 @implementation CSWTableauTests
 
--(void)assertTableMapping:(CSWTableau*)table  fromExpressionVariable: (CSWAbstractVariable*)expressionVariable toRowVariable: (CSWVariable*)rowVariable
+-(void)assertTableMapping:(CSWTableau*)table  fromExpressionVariable: (CSWVariable*)expressionVariable toRowVariable: (CSWVariable*)rowVariable
 {
     NSSet *columns = [table.columns objectForKey:expressionVariable];
     XCTAssertNotNil(columns);
@@ -27,8 +27,8 @@
 -(void)testCanAddRow
 {
     CSWTableau *tableau = [[CSWTableau alloc] init];
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:0 name:@"var"];
-    CSWVariable *anotherVariable = [[CSWVariable alloc] initWithValue:0 name:@"y"];
+    CSWVariable *variable = [CSWVariable variableWithValue:0 name:@"var"];
+    CSWVariable *anotherVariable = [CSWVariable variableWithValue:0 name:@"y"];
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
     [expression addVariable:anotherVariable coefficient:1.0];
     [tableau addRowForVariable: variable equalsExpression: expression];
@@ -42,15 +42,15 @@
 -(void)testRemoveRowThrowsExceptionIfNoExpressionExistsForVariable
 {
     CSWTableau *tableau = [[CSWTableau alloc] init];
-    CSWVariable *missingVariable = [[CSWVariable alloc] initWithValue:0 name:@"missingVar"];
+    CSWVariable *missingVariable = [CSWVariable variableWithValue:0 name:@"missingVar"];
     XCTAssertThrowsSpecificNamed([tableau removeRowForVariable: missingVariable], NSException, NSInvalidArgumentException);
 }
 
 -(void)testCanRemoveRow
 {
     CSWTableau *tableau = [[CSWTableau alloc] init];
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:0 name:@"var"];
-    CSWVariable *anotherVariable = [[CSWVariable alloc] initWithValue:0 name:@"y"];
+    CSWVariable *variable = [CSWVariable variableWithValue:0 name:@"var"];
+    CSWVariable *anotherVariable = [CSWVariable variableWithValue:0 name:@"y"];
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
     [expression addVariable:anotherVariable coefficient:1.0];
     [tableau addRowForVariable: variable equalsExpression: expression];
@@ -68,9 +68,9 @@
 {
     CSWTableau *tableau = [[CSWTableau alloc] init];
     
-    CSWVariable *yVariable = [[CSWVariable alloc] initWithValue:2 name:@"y"];
-    CSWVariable *xVariable = [[CSWVariable alloc] initWithValue:4 name:@"x"];
-    CSWVariable *zVariable = [[CSWVariable alloc] initWithValue:6 name:@"z"];
+    CSWVariable *yVariable = [CSWVariable variableWithValue:2 name:@"y"];
+    CSWVariable *xVariable = [CSWVariable variableWithValue:4 name:@"x"];
+    CSWVariable *zVariable = [CSWVariable variableWithValue:6 name:@"z"];
 
     CSWLinearExpression *yExpression = [[CSWLinearExpression alloc] init];
     [yExpression addVariable:xVariable coefficient:1.0];
@@ -90,9 +90,9 @@
 {
     CSWTableau *tableau = [[CSWTableau alloc] init];
     
-    CSWVariable *yVariable = [[CSWVariable alloc] initWithValue:2 name:@"y"];
-    CSWVariable *xVariable = [[CSWVariable alloc] initWithValue:4 name:@"x"];
-    CSWVariable *zVariable = [[CSWVariable alloc] initWithValue:-2 name:@"z"];
+    CSWVariable *yVariable = [CSWVariable variableWithValue:2 name:@"y"];
+    CSWVariable *xVariable = [CSWVariable variableWithValue:4 name:@"x"];
+    CSWVariable *zVariable = [CSWVariable variableWithValue:-2 name:@"z"];
 
     CSWLinearExpression *yExpression = [[CSWLinearExpression alloc] init];
     [yExpression addVariable:xVariable coefficient:1.0];
@@ -113,9 +113,9 @@
 {
     CSWTableau *tableau = [[CSWTableau alloc] init];
     
-    CSWVariable *yVariable = [[CSWVariable alloc] initWithValue:0 name:@"y"];
-    CSWVariable *xVariable = [[CSWVariable alloc] initWithValue:0 name:@"x"];
-    CSWVariable *zVariable = [[CSWVariable alloc] initWithValue:0 name:@"z"];
+    CSWVariable *yVariable = [CSWVariable variableWithValue:0 name:@"y"];
+    CSWVariable *xVariable = [CSWVariable variableWithValue:0 name:@"x"];
+    CSWVariable *zVariable = [CSWVariable variableWithValue:0 name:@"z"];
 
     CSWLinearExpression *yExpression = [[CSWLinearExpression alloc] init];
     [yExpression addVariable:xVariable coefficient:1.0];
@@ -157,7 +157,7 @@
     CSWVariable *expressionVariable = [[CSWVariable alloc] init];
     [tableau addRowForVariable:expressionVariable equalsExpression:expression];
     
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:20];
+    CSWVariable *variable = [CSWVariable variableWithValue:20];
     [tableau addVariable:variable toExpression:expression];
 
     NSNumber *coefficient = [expression multiplierForTerm:variable];
@@ -171,7 +171,7 @@
     CSWVariable *expressionVariable = [[CSWVariable alloc] init];
     [tableau addRowForVariable:expressionVariable equalsExpression:expression];
     
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:20];
+    CSWVariable *variable = [CSWVariable variableWithValue:20];
     [tableau addVariable:variable toExpression:expression];
     [tableau addVariable:variable toExpression:expression withCoefficient: 2];
     
@@ -186,7 +186,7 @@
     CSWVariable *expressionVariable = [[CSWVariable alloc] init];
     [tableau addRowForVariable:expressionVariable equalsExpression:expression];
     
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:20];
+    CSWVariable *variable = [CSWVariable variableWithValue:20];
     [tableau addVariable:variable toExpression:expression withCoefficient:4];
     [tableau addVariable:variable toExpression:expression withCoefficient: -4];
     
@@ -208,7 +208,7 @@
 -(void)testSetVariableWithNewVariable
 {
     CSWTableau *tableau = [[CSWTableau alloc] init];
-    CSWVariable *b = [[CSWVariable alloc] initWithValue:20];
+    CSWVariable *b = [CSWVariable variableWithValue:20];
     
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
     [expression setConstant:2];
@@ -219,7 +219,7 @@
 -(void)testSetVariableWithExistingVariable
 {
     CSWTableau *tableau = [[CSWTableau alloc] init];
-    CSWVariable *a = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *a = [CSWVariable variableWithValue:10];
     
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:a];
     [tableau setVariable:a onExpression:expression withCoefficient:10];

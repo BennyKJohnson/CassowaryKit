@@ -1,128 +1,144 @@
 #import <XCTest/XCTest.h>
 #import "CSWVariable.h"
-#import "CSWDummyVariable.h"
-#import "CSWSlackVariable.h"
+#import "CSWVariable+PrivateMethods.h"
 
-@interface CIVariableTests : XCTestCase
+@interface CSWVariableTests : XCTestCase
 
 @end
 
-@implementation CIVariableTests
+@implementation CSWVariableTests
 
 - (void)testCanInitVariableWithValue {
-    CSWVariable * variable = [[CSWVariable alloc] initWithValue: 10];
+    CSWVariable * variable = [CSWVariable variableWithValue: 10];
     XCTAssertEqual([variable value], 10);
 }
 
 - (void)testCanInitVariableWithValueAndName
 {
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue: 11 name: @"x"];
+    CSWVariable *variable = [CSWVariable variableWithValue: 11 name: @"x"];
     XCTAssertEqual([variable value], 11);
     XCTAssertEqual([variable name], @"x");
 }
 
 -(void)testVariableIsEqualWithIdenticalProperties
 {
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:11 name:@"x"];
-    CSWVariable *otherVariable = [[CSWVariable alloc] initWithValue:11 name:@"x"];
+    CSWVariable *variable = [CSWVariable variableWithValue:11 name:@"x"];
+    CSWVariable *otherVariable = [CSWVariable variableWithValue:11 name:@"x"];
     XCTAssertTrue([variable isEqual:otherVariable]); 
 }
 
 -(void)testVariableIsNotDummy
 {
-    CSWVariable *variable = [[CSWVariable alloc] init];
+    CSWVariable *variable = [CSWVariable variable];
     XCTAssertFalse([variable isDummy]);
 }
 
 -(void)testVariableIsExternal
 {
-    CSWVariable *variable = [[CSWVariable alloc] init];
+    CSWVariable *variable = [CSWVariable variable];
     XCTAssertTrue([variable isExternal]);
 }
 
 -(void)testVariableIsNotPivotable
 {
-    CSWVariable *variable = [[CSWVariable alloc] init];
+    CSWVariable *variable = [CSWVariable variable];
     XCTAssertFalse([variable isPivotable]);
 }
 
 -(void)testVariableIsRestricted
 {
-    CSWVariable *variable = [[CSWVariable alloc] init];
+    CSWVariable *variable = [CSWVariable variable];
     XCTAssertFalse([variable isRestricted]);
 }
 
 -(void)testVariableDescription
 {
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:100 name:@"y"];
+    CSWVariable *variable = [CSWVariable variableWithValue:100 name:@"y"];
     XCTAssertTrue([[variable description] isEqualToString:@"[y:100.00]"]);
 }
 
 -(void)testCanInitDummyVariableWithName
 {
-    CSWDummyVariable *dummyVariable = [[CSWDummyVariable alloc] initWithName: @"dummy"];
+    CSWVariable *dummyVariable = [CSWVariable  dummyVariableWithName:@"dummy"];
     XCTAssertNotNil(dummyVariable);
 }
 
 -(void)testDummyVariableIsDummy
 {
-    CSWDummyVariable *dummyVariable = [[CSWDummyVariable alloc] initWithName: @"dummy"];
+    CSWVariable *dummyVariable = [CSWVariable  dummyVariableWithName:@"dummy"];
     XCTAssertTrue([dummyVariable isDummy]);
 }
 
 -(void)testDummyVariableIsNotExternal
 {
-    CSWDummyVariable *dummyVariable = [[CSWDummyVariable alloc] init];
+    CSWVariable *dummyVariable = [CSWVariable  dummyVariableWithName:@"dummy"];
     XCTAssertFalse([dummyVariable isExternal]);
 }
 
 -(void)testDummyVariableIsNotPivotable
 {
-    CSWDummyVariable *dummyVariable = [[CSWDummyVariable alloc] init];
+    CSWVariable *dummyVariable = [CSWVariable  dummyVariableWithName:@"dummy"];
     XCTAssertFalse([dummyVariable isPivotable]);
 }
 
 -(void)testIsRestricted
 {
-    CSWDummyVariable *dummyVariable = [[CSWDummyVariable alloc] init];
+    CSWVariable *dummyVariable = [CSWVariable  dummyVariableWithName:@"dummy"];
     XCTAssertTrue([dummyVariable isRestricted]);
 }
 
 -(void)testDummyVariableDescription
 {
-    CSWDummyVariable *dummyVariable = [[CSWDummyVariable alloc] initWithName:@"y"];
+    CSWVariable *dummyVariable = [CSWVariable  dummyVariableWithName:@"y"];
     XCTAssertTrue([[dummyVariable description] isEqualToString:@"[y:dummy]"]);
 }
 
 -(void)testCanInitSlackVariableWithName
 {
-    CSWSlackVariable *variable = [[CSWSlackVariable alloc] initWithName:@"slack"];
-    XCTAssertTrue([variable isKindOfClass:[CSWSlackVariable class]]);
+    CSWVariable *variable = [CSWVariable slackVariableWithName:@"slack"];
     XCTAssertTrue([[variable name] isEqualToString:@"slack"]);
 }
 
 -(void)testSlackVariableIsNotExternal
 {
-    CSWSlackVariable *variable = [[CSWSlackVariable alloc] init];
+    CSWVariable *variable = [CSWVariable slackVariableWithName:@"slack"];
     XCTAssertFalse([variable isExternal]);
 }
 
 -(void)testSlackVariableIsPivotable
 {
-    CSWSlackVariable *variable = [[CSWSlackVariable alloc] init];
+    CSWVariable *variable = [CSWVariable slackVariableWithName:@"slack"];
     XCTAssertTrue([variable isPivotable]);
 }
 
 -(void)testSlackVariableIsRestricted
 {
-    CSWSlackVariable *variable = [[CSWSlackVariable alloc] init];
+    CSWVariable *variable = [CSWVariable slackVariableWithName:@"slack"];
     XCTAssertTrue([variable isRestricted]);
 }
 
 -(void)testSlackVariableDescription
 {
-    CSWSlackVariable *variable = [[CSWSlackVariable alloc] initWithName:@"x"];
+    CSWVariable *variable = [CSWVariable slackVariableWithName:@"x"];
     XCTAssertTrue([[variable description] isEqualToString:@"[x:slack]"]);
+}
+
+-(void)testObjectiveIsNotExternal
+{
+    CSWVariable *variable = [CSWVariable objectiveVariableWithName:@"obj"];
+    XCTAssertFalse([variable isExternal]);
+}
+
+-(void)testObjectiveIsNotPivotable
+{
+    CSWVariable *variable = [CSWVariable objectiveVariableWithName:@"obj"];
+    XCTAssertFalse([variable isPivotable]);
+}
+
+-(void)testObjectiveIsNotRestricted
+{
+    CSWVariable *variable = [CSWVariable objectiveVariableWithName:@"obj"];
+    XCTAssertFalse([variable isRestricted]);
 }
 
 @end

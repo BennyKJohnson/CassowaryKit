@@ -1,9 +1,9 @@
 #import <XCTest/XCTest.h>
 #import "CSWSimplexSolver.h"
 #import "CSWVariable.h"
-#import "CSWDummyVariable.h"
-#import "CSWConstraintFactory.h"
+#import "CSWVariable+PrivateMethods.h"
 #import "CSWSimplexSolver+PrivateMethods.h"
+#import "CSWConstraintFactory.h"
 
 @interface CSWSimplexSolverTests : XCTestCase
 
@@ -45,7 +45,7 @@
 -(void) testCanAddConstraint
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
-    CSWVariable *y = [[CSWVariable alloc] initWithValue:2];
+    CSWVariable *y = [CSWVariable variableWithValue:2];
     
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
     [expression addVariable:y coefficient:1.0];
@@ -57,7 +57,7 @@
 
 -(void)testSolvesCorrectlyAfterAddingConstraint
 {
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *x = [CSWVariable variableWithValue:0];
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:x coefficient:-1 constant:10];
@@ -72,20 +72,20 @@
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     
-    CSWAbstractVariable *variable = [solver choseSubject:expression];
+    CSWVariable *variable = [solver choseSubject:expression];
     XCTAssertNil(variable);
 }
 
 -(void)testChooseSubjectReturnsFirstExternalUnrestrictedVariable
 {
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
-    CSWDummyVariable *dummyVariable = [[CSWDummyVariable alloc] init];
-    CSWVariable *externalVariable = [[CSWVariable alloc] initWithValue:1.0];
+    CSWVariable *dummyVariable = [CSWVariable dummyVariableWithName:@"dummy"];
+    CSWVariable *externalVariable = [CSWVariable variableWithValue:1.0];
     [expression addVariable:dummyVariable coefficient:1.0];
     [expression addVariable:externalVariable coefficient:1.0];
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     
-    CSWAbstractVariable *variable = [solver choseSubject:expression];
+    CSWVariable *variable = [solver choseSubject:expression];
     XCTAssertEqual(variable, externalVariable);
 }
 
@@ -93,8 +93,8 @@
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
 
-    CSWVariable *x = [[CSWVariable alloc] initWithValue: 167];
-    CSWVariable *y = [[CSWVariable alloc] initWithValue:2];
+    CSWVariable *x = [CSWVariable variableWithValue: 167];
+    CSWVariable *y = [CSWVariable variableWithValue:2];
 
     [self addStayConstraintsForVariables:@[x, y] solver:solver];
     CSWConstraint *eq =  [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightVariable:y];
@@ -109,8 +109,8 @@
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
 
-    CSWVariable *x = [[CSWVariable alloc] initWithValue: 167];
-    CSWVariable *y = [[CSWVariable alloc] initWithValue:2];
+    CSWVariable *x = [CSWVariable variableWithValue: 167];
+    CSWVariable *y = [CSWVariable variableWithValue:2];
 
     [self addStayConstraintsForVariables:@[x, y] solver:solver];
     CSWConstraint *eq = [CSWConstraint constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightVariable:x];
@@ -124,8 +124,8 @@
 -(void)testAddStayConstraints
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:5];
-    CSWVariable *y = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *x = [CSWVariable variableWithValue:5];
+    CSWVariable *y = [CSWVariable variableWithValue:10];
     
     CSWConstraint *stayConstraintX = [[CSWConstraint alloc] initStayConstraintWithVariable:x strength:[CSWStrength strengthWeak]];
     CSWConstraint *stayConstraintY = [[CSWConstraint alloc] initStayConstraintWithVariable:y strength:[CSWStrength strengthWeak]];
@@ -139,7 +139,7 @@
 -(void)testSolvesNumberEqualsVar
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *x = [CSWVariable variableWithValue:10];
     CSWConstraint *equation = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:100];
     [solver addConstraint:equation];
     [solver solve];
@@ -150,7 +150,7 @@
 -(void)testSolvesVarIsGreaterThanOrEqualToValue
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *x = [CSWVariable variableWithValue:10];
     CSWConstraint *ieq = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:200];
     
     [solver addConstraint:ieq];
@@ -161,7 +161,7 @@
 -(void)testSolvesVarIsLessThanOrEqualToValue
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *x = [CSWVariable variableWithValue:10];
     CSWConstraint *ieq = [CSWConstraint constraintWithLeftConstant:100 operator:CSWConstraintOperatorLessThanOrEqual rightVariable:x];
     [solver addConstraint:ieq];
     [solver solve];
@@ -172,9 +172,9 @@
 -(void)testSolvesExpressionIsEqualToVariable
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:10];
-    CSWVariable *width = [[CSWVariable alloc] initWithValue:10];
-    CSWVariable *rightMin = [[CSWVariable alloc] initWithValue:100];
+    CSWVariable *x = [CSWVariable variableWithValue:10];
+    CSWVariable *width = [CSWVariable variableWithValue:10];
+    CSWVariable *rightMin = [CSWVariable variableWithValue:100];
     
     CSWLinearExpression *right = [[CSWLinearExpression alloc] initWithVariable:x];
     [right addVariable:width];
@@ -196,9 +196,9 @@
 -(void)testSolvesExpressionIsGreaterThanOrEqualToVariable
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:10];
-    CSWVariable *width = [[CSWVariable alloc] initWithValue:10];
-    CSWVariable *rightMin = [[CSWVariable alloc] initWithValue:100];
+    CSWVariable *x = [CSWVariable variableWithValue:10];
+    CSWVariable *width = [CSWVariable variableWithValue:10];
+    CSWVariable *rightMin = [CSWVariable variableWithValue:100];
     
     CSWLinearExpression *right = [[CSWLinearExpression alloc] initWithVariable:x];
     [right addVariable:width];
@@ -218,9 +218,9 @@
 {
     CSWSimplexSolver *solver = [self autoSolver];
     
-     CSWVariable *x = [[CSWVariable alloc] initWithValue:10];
-     CSWVariable *width = [[CSWVariable alloc] initWithValue:10];
-     CSWVariable *rightMin = [[CSWVariable alloc] initWithValue:100];
+     CSWVariable *x = [CSWVariable variableWithValue:10];
+     CSWVariable *width = [CSWVariable variableWithValue:10];
+     CSWVariable *rightMin = [CSWVariable variableWithValue:100];
      
      CSWLinearExpression *right = [[CSWLinearExpression alloc] initWithVariable:x];
      [right addVariable:width];
@@ -238,14 +238,14 @@
 -(void)testSolvesExpressionIsEqualToExpression
 {
     CSWSimplexSolver *solver = [self autoSolver];
-    CSWVariable *x1 = [[CSWVariable alloc] initWithValue:10];
-    CSWVariable *width1 = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *x1 = [CSWVariable variableWithValue:10];
+    CSWVariable *width1 = [CSWVariable variableWithValue:10];
     
     CSWLinearExpression *right1 = [[CSWLinearExpression alloc] initWithVariable:x1];
     [right1 addVariable:width1];
     
-    CSWVariable *x2 = [[CSWVariable alloc] initWithValue:100];
-    CSWVariable *width2 = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *x2 = [CSWVariable variableWithValue:100];
+    CSWVariable *width2 = [CSWVariable variableWithValue:10];
     CSWLinearExpression *right2 = [[CSWLinearExpression alloc] initWithVariable:x2];
     [right2 addVariable:width2];
     
@@ -265,13 +265,13 @@
 -(void)testSolvesExpressionIsLessThanOrEqualToExpression
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
-    CSWVariable *x1 = [[CSWVariable alloc] initWithValue:10];
-    CSWVariable *width1 = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *x1 = [CSWVariable variableWithValue:10];
+    CSWVariable *width1 = [CSWVariable variableWithValue:10];
       
     CSWLinearExpression *right1 = [[CSWLinearExpression alloc] initWithVariables: @[x1, width1]];
 
-    CSWVariable *x2 = [[CSWVariable alloc] initWithValue:100];
-    CSWVariable *width2 = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *x2 = [CSWVariable variableWithValue:100];
+    CSWVariable *width2 = [CSWVariable variableWithValue:10];
     CSWLinearExpression *right2 = [[CSWLinearExpression alloc] initWithVariables:@[x2, width2]];
       
     CSWConstraint *ieq = [CSWConstraint constraintWithLeftExpression:right2 operator:CSWConstraintOperatorLessThanOrEqual rightExpression:right1];
@@ -287,13 +287,13 @@
 -(void)testSolvesExpressionIsGreaterThanOrEqualToExpression
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
-    CSWVariable *x1 = [[CSWVariable alloc] initWithValue:10];
-    CSWVariable *width1 = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *x1 = [CSWVariable variableWithValue:10];
+    CSWVariable *width1 = [CSWVariable variableWithValue:10];
       
     CSWLinearExpression *right1 = [[CSWLinearExpression alloc] initWithVariables: @[x1, width1]];
 
-    CSWVariable *x2 = [[CSWVariable alloc] initWithValue:100];
-    CSWVariable *width2 = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *x2 = [CSWVariable variableWithValue:100];
+    CSWVariable *width2 = [CSWVariable variableWithValue:10];
     CSWLinearExpression *right2 = [[CSWLinearExpression alloc] initWithVariables:@[x2, width2]];
       
     CSWConstraint *ieq = [CSWConstraint constraintWithLeftExpression:right1 operator:CSWConstraintOperationGreaterThanOrEqual rightExpression:right2];
@@ -309,7 +309,7 @@
 -(void)testSolvesAfterRemovingConstraint
 {
     CSWSimplexSolver *solver = [self autoSolver];
-    CSWVariable *x = [[CSWVariable alloc] init];
+    CSWVariable *x = [CSWVariable variable];
     
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable: x coefficient:-1 constant:100];
     
@@ -331,7 +331,7 @@
 -(void)testSolvesAfterRemovingMultipleConstraints
 {
     CSWSimplexSolver *solver = [self autoSolver];
-    CSWVariable *x = [[CSWVariable alloc] init];
+    CSWVariable *x = [CSWVariable variable];
     
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable: x coefficient:-1 constant:100];
     
@@ -352,8 +352,8 @@
 -(void)testSolvesAfterRemovingConstraint2
 {
     CSWSimplexSolver *solver = [self autoSolver];
-    CSWVariable *x = [[CSWVariable alloc] init];
-    CSWVariable *y = [[CSWVariable alloc] init];
+    CSWVariable *x = [CSWVariable variable];
+    CSWVariable *y = [CSWVariable variable];
     
     CSWLinearExpression *xExpression = [[CSWLinearExpression alloc] initWithVariable:x coefficient:-1 constant:100];
     CSWConstraint *xConstraint = [[CSWConstraint alloc] initLinearConstraintWithExpression:xExpression strength:[CSWStrength strengthWeak] variable:nil];
@@ -396,7 +396,7 @@
 
 -(void)testDelete3
 {
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *x = [CSWVariable variableWithValue:0];
     CSWSimplexSolver *solver = [self autoSolver];
     CSWConstraint *cxConstraint = [[CSWConstraint alloc] initLinearConstraintWithExpression:[[CSWLinearExpression alloc] initWithVariable:x coefficient:1 constant:-100]];
     cxConstraint.strength = [CSWStrength strengthWeak];
@@ -417,10 +417,10 @@
 
 -(void)testMultiEdit
 {
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:3];
-    CSWVariable *y = [[CSWVariable alloc] initWithValue:-5];
-    CSWVariable *w = [[CSWVariable alloc] initWithValue:0];
-    CSWVariable *h = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *x = [CSWVariable variableWithValue:3];
+    CSWVariable *y = [CSWVariable variableWithValue:-5];
+    CSWVariable *w = [CSWVariable variableWithValue:0];
+    CSWVariable *h = [CSWVariable variableWithValue:0];
     
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     [self addStayConstraintsForVariables:@[x, y, w, h] solver:solver];
@@ -554,10 +554,10 @@
 -(void)testQuad
 {
     NSArray *corners = @[
-        @{ @"x": [[CSWVariable alloc] initWithValue:50], @"y": [[CSWVariable alloc] initWithValue:50]},
-        @{ @"x": [[CSWVariable alloc] initWithValue:50], @"y": [[CSWVariable alloc] initWithValue:250]},
-        @{ @"x": [[CSWVariable alloc] initWithValue:250], @"y": [[CSWVariable alloc] initWithValue:250]},
-        @{ @"x": [[CSWVariable alloc] initWithValue:250], @"y": [[CSWVariable alloc] initWithValue:50]},
+        @{ @"x": [CSWVariable variableWithValue:50], @"y": [CSWVariable variableWithValue:50]},
+        @{ @"x": [CSWVariable variableWithValue:50], @"y": [CSWVariable variableWithValue:250]},
+        @{ @"x": [CSWVariable variableWithValue:250], @"y": [CSWVariable variableWithValue:250]},
+        @{ @"x": [CSWVariable variableWithValue:250], @"y": [CSWVariable variableWithValue:50]},
     ];
 
     NSArray *midpoints = @[
@@ -718,7 +718,7 @@
 
 -(void)testRequiredStrengthEditVariable
 {
-    CSWVariable *v = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *v = [CSWVariable variableWithValue:0];
     CSWSimplexSolver *solver = [self autoSolver];
     
     CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:v strength:[CSWStrength strengthStrong]];
@@ -734,7 +734,7 @@
 
 -(void)testRequiredStayConstraintDefeatsStrongEditConstraintWhenSuggestingEditVariable
 {
-    CSWVariable *v = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *v = [CSWVariable variableWithValue:0];
     CSWSimplexSolver *solver = [self autoSolver];
     CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:v strength:[CSWStrength strengthRequired]];
     
@@ -749,8 +749,8 @@
 
 -(void)testBug16
 {
-        CSWVariable *a = [[CSWVariable alloc] initWithValue:1];
-        CSWVariable *b = [[CSWVariable alloc] initWithValue:2];
+        CSWVariable *a = [CSWVariable variableWithValue:1];
+        CSWVariable *b = [CSWVariable variableWithValue:2];
         CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
         
         CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:a strength:[CSWStrength strengthWeak]];
@@ -774,9 +774,9 @@
 
 -(void)testBug16B
 {
-    CSWVariable *a = [[CSWVariable alloc] init];
-    CSWVariable *b = [[CSWVariable alloc] init];
-    CSWVariable *c = [[CSWVariable alloc] init];
+    CSWVariable *a = [CSWVariable variable];
+    CSWVariable *b = [CSWVariable variable];
+    CSWVariable *c = [CSWVariable variable];
     
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     [self addStayConstraintsForVariables:@[a, c] solver:solver];
@@ -792,8 +792,8 @@
 -(void)testSolvesCorrectlyAfterSuggestingValues
 {
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:5];
-    CSWVariable *y = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *x = [CSWVariable variableWithValue:5];
+    CSWVariable *y = [CSWVariable variableWithValue:10];
 
     [self addStayConstraintsForVariables:@[x, y] solver:solver];
     [solver suggestVariable: x equals: 6];
@@ -832,8 +832,8 @@
 // casso1_test
 -(void)testCompetingWeakConstraintsWithYConstraintTakingPriorityOverX
 {
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:0];
-    CSWVariable *y = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *x = [CSWVariable variableWithValue:0];
+    CSWVariable *y = [CSWVariable variableWithValue:0];
     
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     NSDictionary *constraints = [self createConstraintsForCasso1X:x y:y];
@@ -846,8 +846,8 @@
 
 -(void)testCompetingWeakConstraintsWithXConstraintTakingPriorityOverY
 {
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:0];
-    CSWVariable *y = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *x = [CSWVariable variableWithValue:0];
+    CSWVariable *y = [CSWVariable variableWithValue:0];
     
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     NSDictionary *constraints = [self createConstraintsForCasso1X:x y:y];
@@ -860,8 +860,8 @@
 
 -(void)testCassowary2
 {
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:0];
-    CSWVariable *y = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *x = [CSWVariable variableWithValue:0];
+    CSWVariable *y = [CSWVariable variableWithValue:0];
     y.name = @"y";
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
 
@@ -883,7 +883,7 @@
 // inconsistent1
 -(void)testThrowsErrorWhenAddingTwoConflictingConstraintsWhichSpecifyTheValueOfVariable
 {
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *x = [CSWVariable variableWithValue:0];
     
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     CSWConstraint *c1 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:10];
@@ -895,7 +895,7 @@
 
 -(void)testThrowsErrorWhenAddingTwoConflictingConstraintsWithDifferentInequities
 {
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *x = [CSWVariable variableWithValue:0];
     
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     CSWConstraint *c1 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperationGreaterThanOrEqual rightConstant:10];
@@ -907,12 +907,12 @@
 
 -(void)testThrowsErrorWhenAddingTwoConflictingConstraints
 {
-    CSWVariable *v = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *v = [CSWVariable variableWithValue:0];
     v.name = @"v";
-    CSWVariable *w = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *w = [CSWVariable variableWithValue:0];
     w.name = @"w";
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:0];
-    CSWVariable *y = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *x = [CSWVariable variableWithValue:0];
+    CSWVariable *y = [CSWVariable variableWithValue:0];
 
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     CSWConstraint *c1 = [CSWConstraint constraintWithLeftVariable:v operator:CSWConstraintOperationGreaterThanOrEqual rightConstant:10];
@@ -931,7 +931,7 @@
 
 -(void)testModifyingConstraintStrengthUpdatesSolver
 {
-    CSWVariable *x = [[CSWVariable alloc] init];
+    CSWVariable *x = [CSWVariable variable];
     CSWSimplexSolver *solver = [self autoSolver];
     
     CSWConstraint *c1 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:1];
@@ -947,7 +947,7 @@
 
 -(void)testModifyingConstraintWeightUpdatesSolver
 {
-    CSWVariable *x = [[CSWVariable alloc] init];
+    CSWVariable *x = [CSWVariable variable];
     CSWSimplexSolver *solver = [self autoSolver];
     CSWConstraint *c1 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:1];
     c1.strength = [CSWStrength strengthStrong];
@@ -965,7 +965,7 @@
 
 -(void)testDoesNotContainConstraintIfConstraintHasNotBeenAdded
 {
-    CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:[[CSWVariable alloc] init] operator:CSWConstraintOperatorEqual rightConstant:42];
+    CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:[CSWVariable variable] operator:CSWConstraintOperatorEqual rightConstant:42];
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     
     XCTAssertFalse([solver containsConstraint: constraint]);
@@ -973,7 +973,7 @@
 
 -(void)testDoesContainConstraintIfConstraintHasBeenAdded
 {
-    CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:[[CSWVariable alloc] init] operator:CSWConstraintOperatorEqual rightConstant:42];
+    CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:[CSWVariable variable] operator:CSWConstraintOperatorEqual rightConstant:42];
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     [solver addConstraint:constraint];
     
@@ -982,7 +982,7 @@
 
 -(void)testDoesNotContainConstraintAfterRemovingConstraint
 {
-    CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:[[CSWVariable alloc] init] operator:CSWConstraintOperatorEqual rightConstant:42];
+    CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:[CSWVariable variable] operator:CSWConstraintOperatorEqual rightConstant:42];
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     [solver addConstraint:constraint];
     [solver removeConstraint:constraint];
@@ -992,7 +992,7 @@
 
 -(void)testEditUnconstrainedVariable
 {
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:0];
+    CSWVariable *variable = [CSWVariable variableWithValue:0];
     CSWSimplexSolver *solver = [[CSWSimplexSolver alloc] init];
     
     CSWConstraint *constraint = [[CSWConstraint alloc] initEditConstraintWithVariable:variable stength:[CSWStrength strengthStrong]];

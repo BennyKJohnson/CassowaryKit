@@ -6,13 +6,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)dualOptimize;
 
--(void)deltaEditConstant: (CSWDouble)delta plusErrorVariable: (CSWAbstractVariable*)plusErrorVariable minusErrorVariable: (CSWAbstractVariable*)minusErrorVariable;
+-(void)deltaEditConstant: (CSWDouble)delta plusErrorVariable: (CSWVariable*)plusErrorVariable minusErrorVariable: (CSWVariable*)minusErrorVariable;
 
--(void)optimize: (CSWAbstractVariable*)zVariable;
+-(void)optimize: (CSWVariable*)zVariable;
 
--(void)pivotWithEntryVariable: (CSWAbstractVariable*)entryVariable exitVariable: (CSWAbstractVariable*)exitVariable;
+-(void)pivotWithEntryVariable: (CSWVariable*)entryVariable exitVariable: (CSWVariable*)exitVariable;
 
--(CSWAbstractVariable*)choseSubject: (CSWLinearExpression*)expression;
+-(CSWVariable*)choseSubject: (CSWLinearExpression*)expression;
 
 @end
 

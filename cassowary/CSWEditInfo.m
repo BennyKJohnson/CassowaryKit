@@ -2,7 +2,7 @@
 
 @implementation CSWEditInfo
 
--(instancetype)initWithVariable: (CSWAbstractVariable*)variable constraint: (CSWConstraint*)constraint plusVariable: (CSWAbstractVariable*)plusVariable minusVariable: (CSWAbstractVariable*)minusVariable previousConstant: (NSInteger)previousConstant
+-(instancetype)initWithVariable: (CSWVariable*)variable constraint: (CSWConstraint*)constraint plusVariable: (CSWVariable*)plusVariable minusVariable: (CSWVariable*)minusVariable previousConstant: (NSInteger)previousConstant
 {
     self = [super init];
     if (self != nil) {

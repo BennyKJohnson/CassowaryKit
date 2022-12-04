@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "CSWAbstractVariable.h"
+#import "CSWVariable.h"
 #import "CSWLinearExpression.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,37 +19,37 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSMapTable *rows;
 
--(void) addRowForVariable: (CSWAbstractVariable*)variable equalsExpression:(CSWLinearExpression*)expression;
+-(void) addRowForVariable: (CSWVariable*)variable equalsExpression:(CSWLinearExpression*)expression;
 
--(void) removeRowForVariable: (CSWAbstractVariable*)variable;
+-(void) removeRowForVariable: (CSWVariable*)variable;
 
--(BOOL) hasRowForVariable: (CSWAbstractVariable*)variable;
+-(BOOL) hasRowForVariable: (CSWVariable*)variable;
 
--(void) substituteOutVariable: (CSWAbstractVariable*)variable forExpression:(CSWLinearExpression*)expression;
+-(void) substituteOutVariable: (CSWVariable*)variable forExpression:(CSWLinearExpression*)expression;
 
--(void) substituteOutTerm: (CSWAbstractVariable*)term withExpression:(CSWLinearExpression*)newExpression inExpression: (CSWLinearExpression*)expression subject: (CSWAbstractVariable*)subject;
+-(void) substituteOutTerm: (CSWVariable*)term withExpression:(CSWLinearExpression*)newExpression inExpression: (CSWLinearExpression*)expression subject: (CSWVariable*)subject;
 
--(BOOL) isBasicVariable: (CSWAbstractVariable*)variable;
+-(BOOL) isBasicVariable: (CSWVariable*)variable;
 
--(void)addVariable: (CSWAbstractVariable*)variable toExpression: (CSWLinearExpression*)expression;
+-(void)addVariable: (CSWVariable*)variable toExpression: (CSWLinearExpression*)expression;
 
--(void)addVariable: (CSWAbstractVariable*)variable toExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient;
+-(void)addVariable: (CSWVariable*)variable toExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient;
 
--(void)addVariable: (CSWAbstractVariable*)variable toExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient subject: (CSWAbstractVariable* _Nullable)subject;
+-(void)addVariable: (CSWVariable*)variable toExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient subject: (CSWVariable* _Nullable)subject;
 
--(void)setVariable: (CSWAbstractVariable*)variable onExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient;
+-(void)setVariable: (CSWVariable*)variable onExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient;
 
--(void)addNewExpression: (CSWLinearExpression*)newExpression toExpression: (CSWLinearExpression*)existingExpression n: (CSWDouble)n subject: (nullable CSWAbstractVariable*)subject;
+-(void)addNewExpression: (CSWLinearExpression*)newExpression toExpression: (CSWLinearExpression*)existingExpression n: (CSWDouble)n subject: (nullable CSWVariable*)subject;
 
 -(void)addNewExpression: (CSWLinearExpression*)newExpression toExpression: (CSWLinearExpression*)existingExpression;
 
--(void)addMappingFromExpressionVariable: (CSWAbstractVariable*)columnVariable toRowVariable: (CSWAbstractVariable*)rowVariable;
+-(void)addMappingFromExpressionVariable: (CSWVariable*)columnVariable toRowVariable: (CSWVariable*)rowVariable;
 
--(void)removeColumn: (CSWAbstractVariable*)variable;
+-(void)removeColumn: (CSWVariable*)variable;
 
--(CSWLinearExpression*)rowExpressionForVariable: (CSWAbstractVariable*)variable;
+-(CSWLinearExpression*)rowExpressionForVariable: (CSWVariable*)variable;
 
--(void)changeSubjectOnExpression: (CSWLinearExpression*)expression existingSubject:(CSWAbstractVariable*)existingSubject newSubject: (CSWAbstractVariable*)newSubject;
+-(void)changeSubjectOnExpression: (CSWLinearExpression*)expression existingSubject:(CSWVariable*)existingSubject newSubject: (CSWVariable*)newSubject;
 
 @end
 

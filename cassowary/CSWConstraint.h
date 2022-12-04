@@ -22,9 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(instancetype)initWithType: (CSWConstraintType)type
     strength: (CSWStrength* _Nullable)strength
     expression: (CSWLinearExpression* _Nullable)expression
-                   variable: (CSWAbstractVariable* _Nullable)variable;
+                   variable: (CSWVariable* _Nullable)variable;
 
--(instancetype)initLinearConstraintWithExpression:(CSWLinearExpression *)expression strength: (CSWStrength*)strength variable: (nullable CSWAbstractVariable*)variable;
+-(instancetype)initLinearConstraintWithExpression:(CSWLinearExpression *)expression strength: (CSWStrength*)strength variable: (nullable CSWVariable*)variable;
 
 -(instancetype)initEditConstraintWithVariable: (CSWVariable*)variable stength: (CSWStrength*)strength;
 
@@ -34,16 +34,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(instancetype)initWithLhsVariable: (CSWVariable*)lhs equalsRhsVariable: (CSWVariable*)rhs;
 
++(CSWConstraint*)constraintWithLeftVariable: (CSWVariable*)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWVariable*)rhsVariable;
 
-+(CSWConstraint*)constraintWithLeftVariable: (CSWAbstractVariable*)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWAbstractVariable*)rhsVariable;
++(CSWConstraint*)constraintWithLeftVariable: (CSWVariable*)lhs operator: (CSWConstraintOperator)operator rightConstant: (CSWDouble)rhs;
 
-+(CSWConstraint*)constraintWithLeftVariable: (CSWAbstractVariable*)lhs operator: (CSWConstraintOperator)operator rightConstant: (CSWDouble)rhs;
++(CSWConstraint*)constraintWithLeftVariable: (CSWVariable*)lhs operator: (CSWConstraintOperator)operator rightExpression: (CSWLinearExpression*)rhs;
 
-+(CSWConstraint*)constraintWithLeftVariable: (CSWAbstractVariable*)lhs operator: (CSWConstraintOperator)operator rightExpression: (CSWLinearExpression*)rhs;
++(CSWConstraint*)constraintWithLeftConstant: (CSWDouble)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWVariable*)rhs;
 
-+(CSWConstraint*)constraintWithLeftConstant: (CSWDouble)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWAbstractVariable*)rhs;
-
-+(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWAbstractVariable*)rhs;
++(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWVariable*)rhs;
 
 +(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightExpression: (CSWLinearExpression*)rhs;
 
@@ -55,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) CSWLinearExpression *expression;
 
-@property (nonatomic, strong) CSWAbstractVariable *variable;
+@property (nonatomic, strong) CSWVariable *variable;
 
 -(CSWLinearExpression*) expression;
 

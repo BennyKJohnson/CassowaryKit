@@ -2,19 +2,19 @@
 
 @implementation CSWTracableSimplexSolver
 
-- (void)pivotWithEntryVariable:(CSWAbstractVariable *)entryVariable exitVariable:(CSWAbstractVariable *)exitVariable
+- (void)pivotWithEntryVariable:(CSWVariable *)entryVariable exitVariable:(CSWVariable *)exitVariable
 {    
     NSLog(@"pivotWithEntryVariable: %@ exitVariable: %@", entryVariable, exitVariable);
     [super pivotWithEntryVariable:entryVariable exitVariable:exitVariable];
 }
 
--(void)optimize: (CSWAbstractVariable*)zVariable
+-(void)optimize: (CSWVariable*)zVariable
 {
     NSLog(@"optimize: %@", zVariable);
     [super optimize: zVariable];
 }
 
--(void)deltaEditConstant: (CSWDouble)delta plusErrorVariable: (CSWAbstractVariable*)plusErrorVariable minusErrorVariable: (CSWAbstractVariable*)minusErrorVariable
+-(void)deltaEditConstant: (CSWDouble)delta plusErrorVariable: (CSWVariable*)plusErrorVariable minusErrorVariable: (CSWVariable*)minusErrorVariable
 {
     NSLog(@"deltaEditConstant: %f plusErrorVariable: %@ minusErrorVariable: %@", delta, plusErrorVariable, minusErrorVariable);
     [super deltaEditConstant:delta plusErrorVariable:plusErrorVariable minusErrorVariable:minusErrorVariable];

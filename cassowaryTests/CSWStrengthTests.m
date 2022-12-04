@@ -1,12 +1,4 @@
-//
-//  CSWStrengthTests.m
-//  cassowaryTests
-//
-//  Created by Benjamin Johnson on 10/11/22.
-//  Copyright © 2022 Benjamin Johnson. All rights reserved.
-//
-
-#import <XCTest/XCTest.h>
+ #import <XCTest/XCTest.h>
 #import "CSWSymbolicWeight.h"
 #import "CSWStrength.h"
 

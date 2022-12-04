@@ -16,7 +16,7 @@
     return self;
 }
 
--(instancetype)initWithVariable: (CSWAbstractVariable*)variable
+-(instancetype)initWithVariable: (CSWVariable*)variable
 {
     self = [self init];
     if (self) {
@@ -48,7 +48,7 @@
     return self;
 }
 
--(instancetype)initWithVariable: (CSWAbstractVariable*)variable coefficient: (CSWDouble)coefficient constant: (CSWDouble)constant
+-(instancetype)initWithVariable: (CSWVariable*)variable coefficient: (CSWDouble)coefficient constant: (CSWDouble)constant
 {
     self = [self init];
     if (self) {
@@ -58,18 +58,18 @@
     return self;
 }
 
--(void)removeVariable: (nonnull CSWAbstractVariable*)variable
+-(void)removeVariable: (nonnull CSWVariable*)variable
 {
     [self.terms removeObjectForKey:variable];
     [self.termVariables removeObject:variable];
 }
 
--(NSNumber*)multiplierForTerm: (CSWAbstractVariable*)variable
+-(NSNumber*)multiplierForTerm: (CSWVariable*)variable
 {
     return [self.terms objectForKey:variable];
 }
 
--(CSWDouble)newSubject:(CSWAbstractVariable*)subject
+-(CSWDouble)newSubject:(CSWVariable*)subject
 {
     CSWDouble reciprocal = 1.0 / [self coefficientForTerm:subject];
     
@@ -84,11 +84,11 @@
     self.constant = self.constant * value;
     
     NSMutableArray *keys = [NSMutableArray arrayWithCapacity:[self.terms count]];
-    for (CSWAbstractVariable *term in self.terms) {
+    for (CSWVariable *term in self.terms) {
         [keys addObject:term];
     }
     
-    for (CSWAbstractVariable *term in keys) {
+    for (CSWVariable *term in keys) {
         NSNumber *termCoefficent = [self.terms objectForKey:term];
         CSWDouble multipliedTermCoefficent = [termCoefficent doubleValue] * value;
         [self.terms setObject:[NSNumber numberWithDouble:multipliedTermCoefficent] forKey:term];
@@ -100,7 +100,7 @@
     [self multiplyConstantAndTermsBy: 1 / value];
 }
 
--(CSWDouble)coefficientForTerm: (CSWAbstractVariable*)variable
+-(CSWDouble)coefficientForTerm: (CSWVariable*)variable
 {
     return [[self multiplierForTerm:variable] floatValue];
 }
@@ -115,7 +115,7 @@
     CSWLinearExpression *expression = [[[self class] allocWithZone:zone] init];
     if (expression) {
         [expression setConstant:[self constant]];
-        for (CSWAbstractVariable *variable in self.termVariables) {
+        for (CSWVariable *variable in self.termVariables) {
             [expression addVariable:variable coefficient:[self coefficientForTerm:variable]];
         }
     }
@@ -123,12 +123,12 @@
     return expression;
 }
 
--(CSWAbstractVariable*)findPivotableVariableWithMostNegativeCoefficient
+-(CSWVariable*)findPivotableVariableWithMostNegativeCoefficient
 {
     CSWDouble mostNegativeCoefficient = 0;
-    CSWAbstractVariable *candidate;
+    CSWVariable *candidate;
     
-    for (CSWAbstractVariable *term in self.termVariables) {
+    for (CSWVariable *term in self.termVariables) {
         CSWDouble coefficientForTerm = [self coefficientForTerm:term];
         if ([term isPivotable] && coefficientForTerm < mostNegativeCoefficient) {
             mostNegativeCoefficient = coefficientForTerm;
@@ -144,18 +144,18 @@
     return [self.terms count] == 0;
 }
 
--(BOOL)isTermForVariable: (CSWAbstractVariable*)variable
+-(BOOL)isTermForVariable: (CSWVariable*)variable
 {
     return [self.terms objectForKey:variable] != nil;
 }
 
--(CSWAbstractVariable*)anyPivotableVariable
+-(CSWVariable*)anyPivotableVariable
 {
     if ([self isConstant]) {
         [[NSException exceptionWithName:NSInternalInconsistencyException reason:@"anyPivotableVariable invoked on a constant expression" userInfo:nil] raise];
     }
     
-    for (CSWAbstractVariable *variable in self.termVariables) {
+    for (CSWVariable *variable in self.termVariables) {
         if ([variable isPivotable]) {
             return variable;
         }
@@ -166,7 +166,7 @@
 
 -(BOOL)containsOnlyDummyVariables
 {
-    for (CSWAbstractVariable *term in self.termVariables) {
+    for (CSWVariable *term in self.termVariables) {
         if (![term isDummy]) {
             return NO;
         }
@@ -178,7 +178,7 @@
 -(NSArray*)externalVariables
 {
     NSMutableArray *externalVariables = [NSMutableArray array];
-    for (CSWAbstractVariable *variable in self.terms) {
+    for (CSWVariable *variable in self.terms) {
         if ([variable isExternal]) {
             [externalVariables addObject:variable];
         }
@@ -190,20 +190,20 @@
 -(NSArray*)termKeys
 {
     NSMutableArray *variables = [NSMutableArray array];
-    for (CSWAbstractVariable *variable in self.terms) {
+    for (CSWVariable *variable in self.terms) {
         [variables addObject:variable];
     }
     
     return variables;
 }
 
--(void)addVariable: (CSWAbstractVariable*)variable
+-(void)addVariable: (CSWVariable*)variable
 {
     [self addVariable:variable coefficient:1];
 }
 
 
--(void)addVariable: (CSWAbstractVariable*)variable coefficient: (CSWDouble)coefficient;
+-(void)addVariable: (CSWVariable*)variable coefficient: (CSWDouble)coefficient;
 {
     if (![CSWFloatComparator isApproxiatelyZero:coefficient]) {
         if ([self isTermForVariable:variable]) {
@@ -232,7 +232,7 @@
 {
     [self setConstant:self.constant + expression.constant * multiplier];
   
-     for (CSWAbstractVariable *term in [expression termKeys]) {
+     for (CSWVariable *term in [expression termKeys]) {
          CSWDouble termCoefficient = [expression coefficientForTerm:term] * multiplier;
          [self addVariable:term coefficient:termCoefficient];
      }

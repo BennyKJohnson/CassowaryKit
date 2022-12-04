@@ -12,7 +12,7 @@
 -(instancetype)initWithType: (CSWConstraintType)type
                 strength: (CSWStrength*)strength
                 expression: (CSWLinearExpression*)expression
-                variable: (CSWAbstractVariable*)variable
+                variable: (CSWVariable*)variable
 {
     self = [super init];
      if (self) {
@@ -26,7 +26,7 @@
 
 -(instancetype)initLinearConstraintWithExpression:(CSWLinearExpression *)expression
                                          strength: (CSWStrength*)strength
-                                         variable: (nullable CSWAbstractVariable*)variable
+                                         variable: (nullable CSWVariable*)variable
 {
     return [self initWithType:CSWConstraintTypeLinear strength:strength expression:expression variable:variable];
 }
@@ -64,27 +64,27 @@
     return [self initLinearConstraintWithExpression:expression];
 }
 
-+(CSWConstraint*)constraintWithLeftVariable: (CSWAbstractVariable*)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWAbstractVariable*)rhsVariable
++(CSWConstraint*)constraintWithLeftVariable: (CSWVariable*)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWVariable*)rhsVariable
 {
     return [CSWConstraintFactory constraintWithLeftVariable:lhs operator:operator rightVariable:rhsVariable];
 }
 
-+(CSWConstraint*)constraintWithLeftVariable: (CSWAbstractVariable*)lhs operator: (CSWConstraintOperator)operator rightConstant: (CSWDouble)rhs
++(CSWConstraint*)constraintWithLeftVariable: (CSWVariable*)lhs operator: (CSWConstraintOperator)operator rightConstant: (CSWDouble)rhs
 {
     return [CSWConstraintFactory constraintWithLeftVariable:lhs operator:operator rightConstant:rhs];
 }
 
-+(CSWConstraint*)constraintWithLeftVariable: (CSWAbstractVariable*)lhs operator: (CSWConstraintOperator)operator rightExpression: (CSWLinearExpression*)rhs
++(CSWConstraint*)constraintWithLeftVariable: (CSWVariable*)lhs operator: (CSWConstraintOperator)operator rightExpression: (CSWLinearExpression*)rhs
 {
     return [CSWConstraintFactory constraintWithLeftVariable:lhs operator:CSWConstraintOperatorEqual rightExpression:rhs];
 }
 
-+(CSWConstraint*)constraintWithLeftConstant: (CSWDouble)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWAbstractVariable*)rhs
++(CSWConstraint*)constraintWithLeftConstant: (CSWDouble)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWVariable*)rhs
 {
     return [CSWConstraintFactory constraintWithLeftConstant:lhs operator:operator rightVariable:rhs];
 }
 
-+(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWAbstractVariable*)rhs
++(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWVariable*)rhs
 {
     return [CSWConstraintFactory constraintWithLeftExpression:lhs operator:operator rightVariable:rhs];
 }

@@ -23,7 +23,7 @@
 // v becomes a basic variable
 // expr is now owned by ClTableau class,
 // and ClTableauis responsible for deleting it
--(void)addRowForVariable: (CSWAbstractVariable*)variable equalsExpression: (CSWLinearExpression*)expression
+-(void)addRowForVariable: (CSWVariable*)variable equalsExpression: (CSWLinearExpression*)expression
 {
     [self.rows setObject:expression forKey: variable];
     if (variable.isExternal) {
@@ -32,8 +32,8 @@
     [self addTermVariablesForExpression:expression variable:variable];
 }
 
--(void)addTermVariablesForExpression: (CSWLinearExpression*)expression variable: (CSWAbstractVariable*)variable {
-    for (CSWAbstractVariable *expressionTermVariable in expression.termVariables) {
+-(void)addTermVariablesForExpression: (CSWLinearExpression*)expression variable: (CSWVariable*)variable {
+    for (CSWVariable *expressionTermVariable in expression.termVariables) {
          [self addMappingFromExpressionVariable:expressionTermVariable toRowVariable:variable];
          if ([expressionTermVariable isExternal]) {
              [_externalParametricVariables addObject:expressionTermVariable];
@@ -41,7 +41,7 @@
      }
 }
 
--(void)addMappingFromExpressionVariable: (CSWAbstractVariable*)columnVariable toRowVariable: (CSWAbstractVariable*)rowVariable
+-(void)addMappingFromExpressionVariable: (CSWVariable*)columnVariable toRowVariable: (CSWVariable*)rowVariable
 {
     NSMutableSet *columnSet = [self.columns objectForKey:columnVariable];
     if (columnSet == nil) {
@@ -51,7 +51,7 @@
     [columnSet addObject:rowVariable];
 }
 
--(void)removeMappingFromExpressionVariable: (CSWAbstractVariable*)columnVariable toRowVariable: (CSWAbstractVariable*)rowVariable
+-(void)removeMappingFromExpressionVariable: (CSWVariable*)columnVariable toRowVariable: (CSWVariable*)rowVariable
 {
     NSMutableSet *columnSet = [self.columns objectForKey:columnVariable];
     if (columnSet == nil) {
@@ -60,7 +60,7 @@
     [columnSet removeObject:rowVariable];
 }
 
--(void)removeColumn: (CSWAbstractVariable*)variable
+-(void)removeColumn: (CSWVariable*)variable
 {
     NSSet *rows = [ self.columns objectForKey:variable];
     if (rows != nil) {
@@ -76,7 +76,7 @@
     }
 }
 
--(void)removeRowForVariable: (CSWAbstractVariable*)variable
+-(void)removeRowForVariable: (CSWVariable*)variable
 {
     CSWLinearExpression *expression = [self.rows objectForKey:variable];
     if (expression == nil) {
@@ -89,7 +89,7 @@
         [_externalRows removeObjectForKey:variable];
     }
     
-    for (CSWAbstractVariable *expressionTermVariable in expression.termVariables) {
+    for (CSWVariable *expressionTermVariable in expression.termVariables) {
         [self removeMappingFromExpressionVariable:expressionTermVariable toRowVariable:variable];
           if ([expressionTermVariable isExternal]) {
               [_externalParametricVariables addObject:expressionTermVariable];
@@ -97,16 +97,16 @@
       }
 }
 
--(BOOL)hasRowForVariable: (CSWAbstractVariable*)variable
+-(BOOL)hasRowForVariable: (CSWVariable*)variable
 {
     return [self.rows objectForKey:variable] != nil;
 }
 
--(void)substituteOutVariable: (CSWAbstractVariable*)variable forExpression:(CSWLinearExpression*)expression
+-(void)substituteOutVariable: (CSWVariable*)variable forExpression:(CSWLinearExpression*)expression
 {
     NSSet *variableSet = [[self.columns objectForKey:variable] copy];
     
-    for (CSWAbstractVariable *columnVariable in variableSet) {
+    for (CSWVariable *columnVariable in variableSet) {
         CSWLinearExpression *row = [self.rows objectForKey:columnVariable];
         [self substituteOutTerm:variable withExpression:expression inExpression:row subject:columnVariable];
         if ([columnVariable isRestricted] && row.constant < 0.0) {
@@ -121,18 +121,18 @@
     [self.columns removeObjectForKey:variable];
 }
 
--(void)substituteOutTerm: (CSWAbstractVariable*)term withExpression:(CSWLinearExpression*)newExpression inExpression: (CSWLinearExpression*)expression subject: (CSWAbstractVariable*)subject
+-(void)substituteOutTerm: (CSWVariable*)term withExpression:(CSWLinearExpression*)newExpression inExpression: (CSWLinearExpression*)expression subject: (CSWVariable*)subject
 {
     CSWDouble coefficieint = [expression coefficientForTerm:term];
     [expression removeVariable: term];
     expression.constant = (coefficieint * newExpression.constant) + expression.constant;
     
-    for (CSWAbstractVariable *newExpressionTerm in newExpression.termVariables) {
+    for (CSWVariable *newExpressionTerm in newExpression.termVariables) {
         [self substituteOutTermInExpression:expression newExpression:newExpression subject:subject term:newExpressionTerm multiplier:coefficieint];
     }
 }
 
-- (void)substituteOutTermInExpression:(CSWLinearExpression * _Nonnull)expression newExpression:(CSWLinearExpression * _Nonnull)newExpression subject:(CSWAbstractVariable * _Nonnull)subject term:(CSWAbstractVariable *)term multiplier: (CSWDouble)multiplier {
+- (void)substituteOutTermInExpression:(CSWLinearExpression * _Nonnull)expression newExpression:(CSWLinearExpression * _Nonnull)newExpression subject:(CSWVariable * _Nonnull)subject term:(CSWVariable *)term multiplier: (CSWDouble)multiplier {
     NSNumber *coefficentInNewExpression = [newExpression multiplierForTerm:term];
     NSNumber *coefficentInExistingExpression = [expression multiplierForTerm:term];
     
@@ -157,22 +157,22 @@
     return newCoefficent;
 }
 
--(BOOL) isBasicVariable: (CSWAbstractVariable*)variable
+-(BOOL) isBasicVariable: (CSWVariable*)variable
 {
     return [self.rows objectForKey:variable] != nil;
 }
 
--(void)addVariable: (CSWAbstractVariable*)variable toExpression: (CSWLinearExpression*)expression
+-(void)addVariable: (CSWVariable*)variable toExpression: (CSWLinearExpression*)expression
 {
     [self addVariable:variable toExpression:expression withCoefficient: 1.0 subject: nil];
 }
 
--(void)addVariable: (CSWAbstractVariable*)variable toExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient;
+-(void)addVariable: (CSWVariable*)variable toExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient;
 {
     [self addVariable:variable toExpression:expression withCoefficient:coefficient subject:nil];
 }
 
--(void)addVariable: (CSWAbstractVariable*)variable toExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient subject: (CSWAbstractVariable*)subject
+-(void)addVariable: (CSWVariable*)variable toExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient subject: (CSWVariable*)subject
 {
     if ([expression isTermForVariable:variable]) {
         CSWDouble newCoefficient = [expression coefficientForTerm:variable] + coefficient;
@@ -192,7 +192,7 @@
     }
 }
 
--(void)removeColumnVariable: (CSWAbstractVariable*)variable subject: (CSWAbstractVariable*)subject
+-(void)removeColumnVariable: (CSWVariable*)variable subject: (CSWVariable*)subject
 {
     NSMutableSet *column = [self.columns objectForKey:variable];
     if (subject != nil && column != nil) {
@@ -205,11 +205,11 @@
     [self addNewExpression:newExpression toExpression:existingExpression n:1 subject:nil];
 }
 
--(void)addNewExpression: (CSWLinearExpression*)newExpression toExpression: (CSWLinearExpression*)existingExpression n: (CSWDouble)n subject: (nullable CSWAbstractVariable*)subject
+-(void)addNewExpression: (CSWLinearExpression*)newExpression toExpression: (CSWLinearExpression*)existingExpression n: (CSWDouble)n subject: (nullable CSWVariable*)subject
 {
     [existingExpression setConstant:existingExpression.constant + (n * newExpression.constant)];
     
-    for (CSWAbstractVariable *term in [newExpression termKeys]) {
+    for (CSWVariable *term in [newExpression termKeys]) {
         CSWDouble newCoefficient = [newExpression coefficientForTerm:term] * n;
         [self addVariable:term toExpression:existingExpression withCoefficient:newCoefficient subject:subject];
         
@@ -217,7 +217,7 @@
     }
 }
 
--(void)recordUpdatedVariable: (CSWAbstractVariable*)variable
+-(void)recordUpdatedVariable: (CSWVariable*)variable
 {
     if ([variable isExternal]) {
         [_externalParametricVariables addObject:variable];
@@ -225,18 +225,18 @@
     }
 }
 
--(void)setVariable: (CSWAbstractVariable*)variable onExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient
+-(void)setVariable: (CSWVariable*)variable onExpression: (CSWLinearExpression*)expression withCoefficient: (CSWDouble)coefficient
 {
     [expression addVariable:variable coefficient:coefficient];
     [self recordUpdatedVariable:variable];
 }
 
--(void)changeSubjectOnExpression: (CSWLinearExpression*)expression existingSubject:(CSWAbstractVariable*)existingSubject newSubject: (CSWAbstractVariable*)newSubject
+-(void)changeSubjectOnExpression: (CSWLinearExpression*)expression existingSubject:(CSWVariable*)existingSubject newSubject: (CSWVariable*)newSubject
 {
     [self setVariable:existingSubject onExpression:expression withCoefficient: [expression newSubject:newSubject]];
 }
 
--(CSWLinearExpression*)rowExpressionForVariable: (CSWAbstractVariable*)variable
+-(CSWLinearExpression*)rowExpressionForVariable: (CSWVariable*)variable
 {
     return [self.rows objectForKey:variable];
 }
@@ -262,7 +262,7 @@
 -(NSString *)columnsDescription
 {
     NSMutableString *description = [NSMutableString string];
-    for (CSWAbstractVariable *columnVariable in self.columns) {
+    for (CSWVariable *columnVariable in self.columns) {
         [description appendFormat:@"%@ : %@", columnVariable, [_columns objectForKey:columnVariable]];
     }
     
@@ -272,7 +272,7 @@
 -(NSString*)rowsDescription
 {
     NSMutableString *description = [NSMutableString string];
-    for (CSWAbstractVariable *variable in _rows) {
+    for (CSWVariable *variable in _rows) {
         [description appendFormat:@"%@ : %@\n", variable, [_rows objectForKey:variable]];
     }
     return description;

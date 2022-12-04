@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "CSWAbstractVariable.h"
+#import "CSWVariable.h"
 
 typedef CGFloat CSWDouble;
 
@@ -15,33 +15,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(instancetype)initWithConstant: (CSWDouble)constant;
 
--(instancetype)initWithVariable: (CSWAbstractVariable*)variable;
+-(instancetype)initWithVariable: (CSWVariable*)variable;
 
--(instancetype)initWithVariable: (CSWAbstractVariable*)variable coefficient: (CSWDouble)value constant: (CSWDouble)constant;
+-(instancetype)initWithVariable: (CSWVariable*)variable coefficient: (CSWDouble)value constant: (CSWDouble)constant;
 
 -(instancetype)initWithVariables: (NSArray*)variables;
 
--(NSNumber*)multiplierForTerm: (CSWAbstractVariable*)variable;
+-(NSNumber*)multiplierForTerm: (CSWVariable*)variable;
 
--(void)removeVariable: (nonnull CSWAbstractVariable*)variable;
+-(void)removeVariable: (nonnull CSWVariable*)variable;
 
 -(void)multiplyConstantAndTermsBy: (CSWDouble)value;
 
 -(void)divideConstantAndTermsBy: (CSWDouble)value;
 
--(CSWDouble)coefficientForTerm: (CSWAbstractVariable*)variable;
+-(CSWDouble)coefficientForTerm: (CSWVariable*)variable;
 
--(CSWDouble)newSubject:(CSWAbstractVariable*)subject;
+-(CSWDouble)newSubject:(CSWVariable*)subject;
 
--(void)addVariable: (CSWAbstractVariable*)variable;
+-(void)addVariable: (CSWVariable*)variable;
 
--(void)addVariable: (CSWAbstractVariable*)variable coefficient: (CSWDouble)coefficient;
+-(void)addVariable: (CSWVariable*)variable coefficient: (CSWDouble)coefficient;
 
 -(void)addExpression: (CSWLinearExpression*)expression;
 
 -(void)addExpression: (CSWLinearExpression*)expression multiplier: (CSWDouble)multiplier;
 
--(CSWAbstractVariable*)findPivotableVariableWithMostNegativeCoefficient;
+-(CSWVariable*)findPivotableVariableWithMostNegativeCoefficient;
 
 -(void)normalize;
 
@@ -49,9 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(BOOL)isConstant;
 
--(BOOL)isTermForVariable: (CSWAbstractVariable*)variable;
+-(BOOL)isTermForVariable: (CSWVariable*)variable;
 
--(CSWAbstractVariable*)anyPivotableVariable;
+-(CSWVariable*)anyPivotableVariable;
 
 -(NSArray*)externalVariables;
 

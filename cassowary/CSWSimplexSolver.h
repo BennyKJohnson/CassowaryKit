@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "CSWTableau.h"
 #import "CSWConstraint.h"
-#import "CSWObjectiveVariable.h"
 #import "CSWEditVariableManager.h"
 #import "CSWSuggestion.h"
 
@@ -9,8 +8,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 struct ExpressionResult {
     CSWLinearExpression *expression;
-    CSWAbstractVariable *minus;
-    CSWAbstractVariable *plus;
+    CSWVariable *minus;
+    CSWVariable *plus;
     double previousConstant;
 };
 typedef struct ExpressionResult ExpressionResult;
@@ -23,7 +22,7 @@ enum CSWErrorCode {
 
 @interface CSWSimplexSolver : CSWTableau
 {
-    CSWObjectiveVariable *_objective;
+    CSWVariable *_objective;
     int _slackCounter;
     int _dummyCounter;
     int _artificialCounter;
@@ -36,6 +35,10 @@ enum CSWErrorCode {
     BOOL _needsSolving;
 }
 
+@property BOOL autoSolve;
+
+@property (nonatomic, strong) CSWEditVariableManager *editVariableManager;
+
 -(void)addConstraint: (CSWConstraint*)constraint;
 
 -(void)addConstraints: (NSArray*)constraints;
@@ -44,15 +47,15 @@ enum CSWErrorCode {
 
 -(void)removeConstraints: (NSArray*)constraints;
 
--(void)suggestVariable: (CSWAbstractVariable*)varible equals: (CSWDouble)value;
+-(void)suggestVariable: (CSWVariable*)varible equals: (CSWDouble)value;
 
--(void)suggestEditVariable: (CSWAbstractVariable*)variable equals: (CSWDouble)value;
+-(void)suggestEditVariable: (CSWVariable*)variable equals: (CSWDouble)value;
 
 -(void)suggestEditVariables: (NSArray*)suggestions;
 
 -(void)suggestEditConstraint: (CSWConstraint*)constraint equals: (CSWDouble)value;
 
-- (void)removeEditVariable: (CSWAbstractVariable*)variable;
+- (void)removeEditVariable: (CSWVariable*)variable;
 
 -(void)beginEdit;
 
@@ -67,10 +70,6 @@ enum CSWErrorCode {
 -(void)updateConstraint: (CSWConstraint*)constraint strength: (CSWStrength*)strength;
 
 -(BOOL)containsConstraint: (CSWConstraint*)constraint;
-
-@property BOOL autoSolve;
-
-@property (nonatomic, strong) CSWEditVariableManager *editVariableManager;
 
 @end
 

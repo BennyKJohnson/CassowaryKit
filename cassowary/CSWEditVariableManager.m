@@ -72,7 +72,7 @@
     return nil;
 }
 
--(NSArray*)editInfosForVariable: (CSWAbstractVariable*)editVariable
+-(NSArray*)editInfosForVariable: (CSWVariable*)editVariable
 {
     NSMutableArray *editInfos = [NSMutableArray array];
     for (CSWEditInfo *editInfo in _editVariablesList) {

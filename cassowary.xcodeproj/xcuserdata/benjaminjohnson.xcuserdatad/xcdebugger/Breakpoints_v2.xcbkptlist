@@ -384,22 +384,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8A7253C2-FE12-44FD-B2FE-EE7253664502"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "cassowary/CSWSimplexSolver.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "678"
-            endingLineNumber = "678"
-            landmarkName = "-optimize:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "9280B3C0-3AD1-4060-A764-E4D04DA4BF52"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -407,8 +391,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "498"
-            endingLineNumber = "498"
+            startingLineNumber = "496"
+            endingLineNumber = "496"
             landmarkName = "-createExpression:expressionResult:"
             landmarkType = "7">
          </BreakpointContent>
@@ -547,8 +531,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "518"
-            endingLineNumber = "518"
+            startingLineNumber = "516"
+            endingLineNumber = "516"
             landmarkName = "-createExpression:expressionResult:"
             landmarkType = "7">
          </BreakpointContent>
@@ -563,8 +547,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "503"
-            endingLineNumber = "503"
+            startingLineNumber = "501"
+            endingLineNumber = "501"
             landmarkName = "-createExpression:expressionResult:"
             landmarkType = "7">
             <Locations>
@@ -627,8 +611,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "-_removeConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -675,8 +659,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388"
+            startingLineNumber = "386"
+            endingLineNumber = "386"
             landmarkName = "-removeEditVariableForEditInfo:"
             landmarkType = "7">
          </BreakpointContent>
@@ -691,8 +675,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "384"
-            endingLineNumber = "384"
+            startingLineNumber = "382"
+            endingLineNumber = "382"
             landmarkName = "-removeEditVariableForEditInfo:"
             landmarkType = "7">
          </BreakpointContent>
@@ -803,8 +787,8 @@
             filePath = "cassowaryTests/CSWConstraintTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "-testCanInitWithLhsVariableEqualsRhsVariable"
             landmarkType = "7">
          </BreakpointContent>
@@ -819,8 +803,8 @@
             filePath = "cassowaryTests/CSWConstraintTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "-testCanInitWithLhsVariableEqualsRhsVariable"
             landmarkType = "7">
          </BreakpointContent>
@@ -914,8 +898,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "-_addConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -994,8 +978,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "428"
-            endingLineNumber = "428"
+            startingLineNumber = "426"
+            endingLineNumber = "426"
             landmarkName = "-suggestEditConstraint:equals:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1026,8 +1010,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "-_addConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1042,8 +1026,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
+            startingLineNumber = "410"
+            endingLineNumber = "410"
             landmarkName = "-suggestVariable:equals:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1058,8 +1042,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
             landmarkName = "-_addConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1074,8 +1058,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "-_removeConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1090,8 +1074,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "-_removeConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1106,8 +1090,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "-_removeConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1265,8 +1249,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "-_addConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1297,8 +1281,8 @@
             filePath = "cassowaryTests/CSWConstraintTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "-testCanInitWithLhsVariableLessThanOrEqualToRhsVariable"
             landmarkType = "7">
          </BreakpointContent>
@@ -1313,8 +1297,8 @@
             filePath = "cassowaryTests/CSWConstraintTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "-testCanInitWithLhsVariableLessThanOrEqualToRhsVariable"
             landmarkType = "7">
          </BreakpointContent>
@@ -1361,8 +1345,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "695"
-            endingLineNumber = "695"
+            startingLineNumber = "691"
+            endingLineNumber = "691"
             landmarkName = "-optimize:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1393,8 +1377,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
+            startingLineNumber = "393"
+            endingLineNumber = "393"
             landmarkName = "-suggestEditVariables:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1441,8 +1425,8 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "-resolveExitVariableRemoveConstraint:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1457,9 +1441,167 @@
             filePath = "cassowary/CSWSimplexSolver.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "370"
-            endingLineNumber = "370"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
             landmarkName = "-endEdit"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E6E290DB-09F0-4546-B5D7-5ACBBDE78108"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "cassowaryTests/CSWVariableTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "-testVariableIsNotDummy"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E6E290DB-09F0-4546-B5D7-5ACBBDE78108 - e419538c7afbd224"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CIVariableTests testVariableIsNotDummy]"
+                  moduleName = "cassowaryTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/benjaminjohnson/Development/cassowary/cassowaryTests/CSWVariableTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "E6E290DB-09F0-4546-B5D7-5ACBBDE78108 - e419538c7afbd224"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CIVariableTests testVariableIsNotDummy]"
+                  moduleName = "cassowaryTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/benjaminjohnson/Development/cassowary/cassowaryTests/CSWVariableTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "459">
+               </Location>
+               <Location
+                  uuid = "E6E290DB-09F0-4546-B5D7-5ACBBDE78108 - e419538c7afbd224"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CIVariableTests testVariableIsNotDummy]"
+                  moduleName = "cassowaryTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/benjaminjohnson/Development/cassowary/cassowaryTests/CSWVariableTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "515">
+               </Location>
+               <Location
+                  uuid = "E6E290DB-09F0-4546-B5D7-5ACBBDE78108 - e419538c7afbd224"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CIVariableTests testVariableIsNotDummy]"
+                  moduleName = "cassowaryTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/benjaminjohnson/Development/cassowary/cassowaryTests/CSWVariableTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "608">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6BBF3B36-3DA9-415F-AF16-0A627C2B6019"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "cassowaryTests/CSWVariableTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "-testVariableIsNotDummy"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2628DADC-417F-4A0C-8E89-D906BD9FB86A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "cassowary/CSWSimplexSolver.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "954"
+            endingLineNumber = "954"
+            landmarkName = "-createDummyVariableWithPrefix:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7DA8D279-2A14-419C-AED4-0D6CB9C69FB4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "cassowary/CSWAbstractVariable.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "-isDummy"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F9C9D5FC-A883-4976-B424-16C8B1FCED57"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "cassowary/CSWAbstractVariable.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "-copyWithZone:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5F218E06-405E-4235-BC4F-945F2D1F7412"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "cassowary/CSWDummyVariable.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "7"
+            endingLineNumber = "7"
+            landmarkName = "-isDummy"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -1,19 +1,43 @@
 #import <Foundation/Foundation.h>
-#import "CSWAbstractVariable.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CSWVariable : CSWAbstractVariable <NSCopying>
+ enum CSWVariableType {
+    CSWVariableTypeDummy,
+    CSWVariableTypeSlack,
+    CSWVaraibleTypeVariable,
+    CSWVariableTypeObjective,
+    CSWVariableTypeExternal
+};
+typedef enum CSWVariableType CSWVariableType;
+
+@interface CSWVariable : NSObject <NSCopying>
+
+@property CSWVariableType type;
+
+@property NSUInteger id;
 
 @property (nonatomic) CGFloat value;
 
--(instancetype)initWithValue: (CGFloat)value;
+@property (strong, nonatomic) NSString *name;
 
--(instancetype)initWithValue: (CGFloat)value name: (nullable NSString*)name;
+-(BOOL)isExternal;
 
-- (id)copyWithZone:(nullable NSZone *)zone;
+-(BOOL)isDummy;
+
+-(BOOL)isPivotable;
+
+-(BOOL)isRestricted;
+
+-(instancetype)initWithName: (NSString*)name;
 
 +(instancetype)variable;
+
++(instancetype)variableWithValue: (CGFloat)value;
+
++(instancetype)variableWithValue: (CGFloat)value name: (NSString* _Nullable)name;
+
+- (id)copyWithZone:(nullable NSZone *)zone;
 
 @end
 

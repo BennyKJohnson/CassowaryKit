@@ -1,11 +1,3 @@
-//
-//  CSWConstraintTests.m
-//  cassowaryTests
-//
-//  Created by Benjamin Johnson on 13/11/22.
-//  Copyright © 2022 Benjamin Johnson. All rights reserved.
-//
-
 #import <XCTest/XCTest.h>
 #import "CSWConstraint.h"
 #import "CSWStrength.h"
@@ -70,7 +62,7 @@
 
 -(void)testInitEditConstraintWithVariable
 {
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:5];
+    CSWVariable *variable = [CSWVariable variableWithValue:5];
     CSWConstraint *editConstraint = [[CSWConstraint alloc] initEditConstraintWithVariable:variable stength:[CSWStrength strengthRequired]];
     XCTAssertEqual([editConstraint type], CSWConstraintTypeEdit);
     XCTAssertEqual([editConstraint variable], variable);
@@ -80,14 +72,14 @@
 
 -(void)testEditConstraintIsEditConstraint
 {
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:5];
+    CSWVariable *variable = [CSWVariable variableWithValue:5];
     CSWConstraint *editConstraint = [[CSWConstraint alloc] initEditConstraintWithVariable:variable stength:[CSWStrength strengthRequired]];
     XCTAssertTrue([editConstraint isEditConstraint]);
 }
 
 -(void)testInitStayConstraintWithVariableCoefficientAndConstant
 {
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *variable = [CSWVariable variableWithValue:10];
     CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable: variable strength:[CSWStrength strengthStrong]];
     
     XCTAssertTrue([stayConstraint isKindOfClass:[CSWConstraint class]]);

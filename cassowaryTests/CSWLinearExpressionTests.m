@@ -1,7 +1,7 @@
 #import <XCTest/XCTest.h>
 #import "CSWLinearExpression.h"
 #import "CSWVariable.h"
-#import "CSWSlackVariable.h"
+#import "CSWVariable+PrivateMethods.h"
 
 @interface ClLinearExpressionTests : XCTestCase
 
@@ -17,7 +17,7 @@
 
 -(void)testInitWithVariableCoefficientAndConstant
 {
-    CSWVariable *variable = [[CSWVariable alloc] init];
+    CSWVariable *variable = [CSWVariable variable];
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:variable coefficient:5 constant:10];
     
     XCTAssertTrue([expression isKindOfClass:[CSWLinearExpression class]]);
@@ -28,7 +28,7 @@
 - (void)testAddVariableUpdatesTermsWithCoefficent
 {
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
-    CSWVariable *variable = [[CSWVariable alloc] initWithValue:5.0];
+    CSWVariable *variable = [CSWVariable variableWithValue:5.0];
     
     [expression addVariable: variable coefficient: 1.0];
 }
@@ -37,8 +37,8 @@
 {
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
     [expression setConstant:5.0];
-    CSWVariable *x = [[CSWVariable alloc] initWithValue:1.0];
-    CSWVariable *y = [[CSWVariable alloc] initWithValue:1.0];
+    CSWVariable *x = [CSWVariable variableWithValue:1.0];
+    CSWVariable *y = [CSWVariable variableWithValue:1.0];
     [expression addVariable:x coefficient:1];
     [expression addVariable:y coefficient:5];
     
@@ -50,9 +50,9 @@
 {
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
     [expression setConstant:2.0];
-    CSWVariable *subject = [[CSWVariable alloc] init];
-    CSWVariable *x = [[CSWVariable alloc] init];
-    CSWVariable *y = [[CSWVariable alloc] init];
+    CSWVariable *subject = [CSWVariable variable];
+    CSWVariable *x = [CSWVariable variable];
+    CSWVariable *y = [CSWVariable variable];
     
     [expression addVariable:x coefficient:1.0];
     [expression addVariable:y coefficient:5.0];
@@ -78,7 +78,7 @@
 -(void)testIsNotConstantWhenExpressionHasTerms
 {
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
-    CSWVariable *term = [[CSWVariable alloc] init];
+    CSWVariable *term = [CSWVariable variable];
     [expression addVariable:term coefficient:5];
     
     XCTAssertFalse([expression isConstant]);
@@ -97,7 +97,7 @@
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
     [expression setConstant:2];
     
-    CSWVariable *a = [[CSWVariable alloc] initWithValue:10];
+    CSWVariable *a = [CSWVariable variableWithValue:10];
     [expression addVariable:a coefficient:10];
     XCTAssertNil([expression anyPivotableVariable]);
 }
@@ -107,8 +107,8 @@
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
     [expression setConstant:2];
     
-    CSWVariable *a = [[CSWVariable alloc] initWithValue:10];
-    CSWSlackVariable *pivotableVariable = [[CSWSlackVariable alloc] init];
+    CSWVariable *a = [CSWVariable variableWithValue:10];
+    CSWVariable *pivotableVariable = [CSWVariable slackVariableWithName:@"slack"];
     
     [expression addVariable:a coefficient:10];
     [expression addVariable:pivotableVariable coefficient:2];
@@ -121,13 +121,13 @@
     CSWLinearExpression *existingExpression = [[CSWLinearExpression alloc] init];
     existingExpression.constant = 10;
     
-    CSWVariable *a = [[CSWVariable alloc] init];
-    CSWVariable *b = [[CSWVariable alloc] init];
+    CSWVariable *a = [CSWVariable variable];
+    CSWVariable *b = [CSWVariable variable];
     [existingExpression addVariable:a];
     [existingExpression addVariable:b];
     
-    CSWVariable *c = [[CSWVariable alloc] init];
-    CSWVariable *d = [[CSWVariable alloc] init];
+    CSWVariable *c = [CSWVariable variable];
+    CSWVariable *d = [CSWVariable variable];
     CSWLinearExpression *newExpressiopn = [[CSWLinearExpression alloc] initWithConstant:15];
     [newExpressiopn addVariable:c coefficient:3];
     [newExpressiopn addVariable:d coefficient:4];

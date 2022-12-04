@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(CSWEditInfo*)editInfoForConstraint: (CSWConstraint*)constraint;
 
--(NSArray*)editInfosForVariable: (CSWAbstractVariable*)editVariable;
+-(NSArray*)editInfosForVariable: (CSWVariable*)editVariable;
 
 -(void)removeEditInfoForConstraint: (CSWConstraint*)constraint;
 
