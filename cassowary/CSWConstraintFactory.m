@@ -17,8 +17,8 @@
          } else if (operator == CSWConstraintOperatorLessThanOrEqual) {
              [rhsExpression addVariable:lhs coefficient:-1];
          }
-
-        return [[CSWInequalityConstraint alloc] initLinearConstraintWithExpression:rhsExpression];
+        
+        return [[CSWConstraint alloc] initLinearInequityConstraintWithExpression:rhsExpression];
     }
 }
 
@@ -44,7 +44,7 @@
               [expression addVariable:lhs coefficient:-1.0];
         }
         
-        return [[CSWInequalityConstraint alloc] initLinearConstraintWithExpression:expression];
+        return [[CSWConstraint alloc] initLinearInequityConstraintWithExpression:expression];
     }
 }
 
@@ -62,7 +62,7 @@
             [valueExpression addVariable:rhs coefficient:1.0];
         }
         
-        return [[CSWInequalityConstraint alloc]  initLinearConstraintWithExpression:valueExpression];
+        return [[CSWConstraint alloc] initLinearInequityConstraintWithExpression:valueExpression];
     }
 }
 
@@ -86,7 +86,7 @@
             [expression addExpression:lhs multiplier:-1];
         }
         
-        return [[CSWInequalityConstraint alloc] initLinearConstraintWithExpression:expression];
+        return [[CSWConstraint alloc] initLinearInequityConstraintWithExpression:expression];
     }
 }
 

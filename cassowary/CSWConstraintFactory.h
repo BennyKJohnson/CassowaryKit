@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import "CSWInequalityConstraint.h"
 #import "CSWConstraint.h"
 
 NS_ASSUME_NONNULL_BEGIN

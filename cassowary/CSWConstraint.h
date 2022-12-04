@@ -9,7 +9,8 @@
  enum CSWConstraintType {
     CSWConstraintTypeEdit,
     CSWConstraintTypeStay,
-    CSWConstraintTypeLinear
+    CSWConstraintTypeLinear,
+    CSWConstraintTypeLinearInequity
 };
 typedef enum CSWConstraintType CSWConstraintType;
 
@@ -17,12 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CSWConstraint : NSObject
 
+-(instancetype)initWithType: (CSWConstraintType)type
+                   strength: (CSWStrength* _Nullable)strength
+                 expression: (CSWLinearExpression* _Nullable)expression
+               variable: (CSWVariable* _Nullable)variable;
+
 -(instancetype)initLinearConstraintWithExpression: (CSWLinearExpression*)expression;
 
--(instancetype)initWithType: (CSWConstraintType)type
-    strength: (CSWStrength* _Nullable)strength
-    expression: (CSWLinearExpression* _Nullable)expression
-                   variable: (CSWVariable* _Nullable)variable;
+-(instancetype)initLinearInequityConstraintWithExpression: (CSWLinearExpression*)expression;
 
 -(instancetype)initLinearConstraintWithExpression:(CSWLinearExpression *)expression strength: (CSWStrength*)strength variable: (nullable CSWVariable*)variable;
 

@@ -110,7 +110,7 @@
     CSWVariable *y = [[CSWVariable alloc] init];
     
     CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightVariable:y];
-    XCTAssertEqual(constraint.type, CSWConstraintTypeLinear);
+    XCTAssertEqual(constraint.type, CSWConstraintTypeLinearInequity);
     XCTAssertEqual([constraint isInequality], YES);
     XCTAssertEqual([constraint.expression constant], 0);
     XCTAssertEqual([constraint.expression coefficientForTerm:x], -1);

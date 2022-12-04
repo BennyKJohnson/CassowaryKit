@@ -37,6 +37,14 @@
 
 }
 
+-(instancetype)initLinearInequityConstraintWithExpression: (CSWLinearExpression*)expression
+{
+    CSWConstraint *constraint = [self initLinearConstraintWithExpression:expression strength:[CSWStrength strengthRequired] variable:nil];
+    _type = CSWConstraintTypeLinearInequity;
+    return constraint;
+
+}
+
 -(instancetype)initEditConstraintWithVariable: (CSWVariable*)variable stength: (CSWStrength*)strength
 {
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:variable coefficient:-1 constant:variable.value];
@@ -116,7 +124,7 @@
 
 -(BOOL) isInequality
 {
-    return NO;
+    return self.type == CSWConstraintTypeLinearInequity;
 }
 
 @end

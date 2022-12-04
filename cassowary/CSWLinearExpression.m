@@ -202,7 +202,6 @@
     [self addVariable:variable coefficient:1];
 }
 
-
 -(void)addVariable: (CSWVariable*)variable coefficient: (CSWDouble)coefficient;
 {
     if (![CSWFloatComparator isApproxiatelyZero:coefficient]) {
