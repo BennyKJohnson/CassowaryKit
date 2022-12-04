@@ -12,7 +12,7 @@
 		6F0DD7C929204B3A00617FAE /* CSWConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F0DD7C729204B3A00617FAE /* CSWConstraint.h */; };
 		6F0DD7CA29204B3A00617FAE /* CSWConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F0DD7C829204B3A00617FAE /* CSWConstraint.m */; };
 		6F0DD7CC29204B5700617FAE /* CSWConstraintTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F0DD7CB29204B5700617FAE /* CSWConstraintTests.m */; };
-		6F1D846729197C44006B012A /* cassowary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F1D845D29197C44006B012A /* cassowary.framework */; };
+		6F1D846729197C44006B012A /* CassowaryKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F1D845D29197C44006B012A /* CassowaryKit.framework */; };
 		6F1D846E29197C44006B012A /* cassowary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1D846029197C44006B012A /* cassowary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F1D847C29197DDB006B012A /* CSWVariableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1D847B29197DDB006B012A /* CSWVariableTests.m */; };
 		6F1D847F2919845D006B012A /* CSWLinearExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1D847D2919845D006B012A /* CSWLinearExpression.h */; };
@@ -63,10 +63,10 @@
 		6F0DD7C729204B3A00617FAE /* CSWConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWConstraint.h; sourceTree = "<group>"; };
 		6F0DD7C829204B3A00617FAE /* CSWConstraint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWConstraint.m; sourceTree = "<group>"; };
 		6F0DD7CB29204B5700617FAE /* CSWConstraintTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWConstraintTests.m; sourceTree = "<group>"; };
-		6F1D845D29197C44006B012A /* cassowary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = cassowary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F1D845D29197C44006B012A /* CassowaryKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CassowaryKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F1D846029197C44006B012A /* cassowary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cassowary.h; sourceTree = "<group>"; };
 		6F1D846129197C44006B012A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6F1D846629197C44006B012A /* cassowaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cassowaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F1D846629197C44006B012A /* CassowaryKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CassowaryKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F1D846D29197C44006B012A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F1D847B29197DDB006B012A /* CSWVariableTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWVariableTests.m; sourceTree = "<group>"; };
 		6F1D847D2919845D006B012A /* CSWLinearExpression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWLinearExpression.h; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F1D846729197C44006B012A /* cassowary.framework in Frameworks */,
+				6F1D846729197C44006B012A /* CassowaryKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,8 +132,8 @@
 		6F1D845E29197C44006B012A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6F1D845D29197C44006B012A /* cassowary.framework */,
-				6F1D846629197C44006B012A /* cassowaryTests.xctest */,
+				6F1D845D29197C44006B012A /* CassowaryKit.framework */,
+				6F1D846629197C44006B012A /* CassowaryKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -221,9 +221,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6F1D845C29197C44006B012A /* cassowary */ = {
+		6F1D845C29197C44006B012A /* CassowaryKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6F1D847129197C44006B012A /* Build configuration list for PBXNativeTarget "cassowary" */;
+			buildConfigurationList = 6F1D847129197C44006B012A /* Build configuration list for PBXNativeTarget "CassowaryKit" */;
 			buildPhases = (
 				6F1D845829197C44006B012A /* Headers */,
 				6F1D845929197C44006B012A /* Sources */,
@@ -234,14 +234,14 @@
 			);
 			dependencies = (
 			);
-			name = cassowary;
+			name = CassowaryKit;
 			productName = cassowary;
-			productReference = 6F1D845D29197C44006B012A /* cassowary.framework */;
+			productReference = 6F1D845D29197C44006B012A /* CassowaryKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		6F1D846529197C44006B012A /* cassowaryTests */ = {
+		6F1D846529197C44006B012A /* CassowaryKitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6F1D847429197C44006B012A /* Build configuration list for PBXNativeTarget "cassowaryTests" */;
+			buildConfigurationList = 6F1D847429197C44006B012A /* Build configuration list for PBXNativeTarget "CassowaryKitTests" */;
 			buildPhases = (
 				6F1D846229197C44006B012A /* Sources */,
 				6F1D846329197C44006B012A /* Frameworks */,
@@ -252,9 +252,9 @@
 			dependencies = (
 				6F1D846929197C44006B012A /* PBXTargetDependency */,
 			);
-			name = cassowaryTests;
+			name = CassowaryKitTests;
 			productName = cassowaryTests;
-			productReference = 6F1D846629197C44006B012A /* cassowaryTests.xctest */;
+			productReference = 6F1D846629197C44006B012A /* CassowaryKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -274,7 +274,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6F1D845729197C44006B012A /* Build configuration list for PBXProject "cassowary" */;
+			buildConfigurationList = 6F1D845729197C44006B012A /* Build configuration list for PBXProject "CassowaryKit" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -287,8 +287,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6F1D845C29197C44006B012A /* cassowary */,
-				6F1D846529197C44006B012A /* cassowaryTests */,
+				6F1D845C29197C44006B012A /* CassowaryKit */,
+				6F1D846529197C44006B012A /* CassowaryKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -350,7 +350,7 @@
 /* Begin PBXTargetDependency section */
 		6F1D846929197C44006B012A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6F1D845C29197C44006B012A /* cassowary */;
+			target = 6F1D845C29197C44006B012A /* CassowaryKit */;
 			targetProxy = 6F1D846829197C44006B012A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -550,7 +550,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6F1D845729197C44006B012A /* Build configuration list for PBXProject "cassowary" */ = {
+		6F1D845729197C44006B012A /* Build configuration list for PBXProject "CassowaryKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6F1D846F29197C44006B012A /* Debug */,
@@ -559,7 +559,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6F1D847129197C44006B012A /* Build configuration list for PBXNativeTarget "cassowary" */ = {
+		6F1D847129197C44006B012A /* Build configuration list for PBXNativeTarget "CassowaryKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6F1D847229197C44006B012A /* Debug */,
@@ -568,7 +568,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6F1D847429197C44006B012A /* Build configuration list for PBXNativeTarget "cassowaryTests" */ = {
+		6F1D847429197C44006B012A /* Build configuration list for PBXNativeTarget "CassowaryKitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6F1D847529197C44006B012A /* Debug */,

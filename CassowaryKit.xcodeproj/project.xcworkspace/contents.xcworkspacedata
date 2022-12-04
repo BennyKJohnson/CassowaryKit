@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:cassowary.xcodeproj">
+      location = "self:/Users/benjaminjohnson/Development/cassowary/CassowaryKit.xcodeproj">
    </FileRef>
 </Workspace>
