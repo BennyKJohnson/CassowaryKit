@@ -132,8 +132,8 @@
     
     [solver addConstraints:@[stayConstraintX, stayConstraintY]];
     [solver solve];
-    XCTAssertEqualWithAccuracy(x.value, 5, 0.0001);
-    XCTAssertEqualWithAccuracy(y.value, 10, 0.0001);
+    XCTAssertEqualWithAccuracy(x.value, 5.0, 0.0001);
+    XCTAssertEqualWithAccuracy(y.value, 10.0, 0.0001);
 }
 
 -(void)testSolvesNumberEqualsVar
@@ -604,29 +604,29 @@
     }
 
     // Add constraints to prevent turning inside out
-    CGPoint xPairs[] = {
-        CGPointMake(0, 2),
-        CGPointMake(0, 3),
-        CGPointMake(1, 2),
-        CGPointMake(1, 3),
+    NSPoint xPairs[] = {
+        NSMakePoint(0, 2),
+        NSMakePoint(0, 3),
+        NSMakePoint(1, 2),
+        NSMakePoint(1, 3),
     };
     for (int i = 0; i < 4; i++) {
-        CGPoint pair = xPairs[i];
+        NSPoint pair = xPairs[i];
         CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:corners[(int)pair.x][@"x"] coefficient:1 constant:1];
         CSWConstraint *ieq = [CSWConstraint constraintWithLeftExpression:expression operator:CSWConstraintOperatorLessThanOrEqual rightVariable:corners[(int)pair.y][@"x"]];
 
         [solver addConstraint:ieq];
     }
 
-    CGPoint yPairs[] = {
-        CGPointMake(0, 1),
-        CGPointMake(0, 2),
-        CGPointMake(3, 1),
-        CGPointMake(3, 2),
+    NSPoint yPairs[] = {
+        NSMakePoint(0, 1),
+        NSMakePoint(0, 2),
+        NSMakePoint(3, 1),
+        NSMakePoint(3, 2),
     };
 
     for (int i = 0; i < 4; i++) {
-        CGPoint pair = yPairs[i];
+        NSPoint pair = yPairs[i];
         CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:corners[(int)pair.x][@"y"] coefficient:1 constant:1];
         CSWConstraint *ieq = [CSWConstraint constraintWithLeftExpression:expression operator:CSWConstraintOperatorLessThanOrEqual rightVariable:corners[(int)pair.y][@"y"]];
 
@@ -645,11 +645,11 @@
         [solver addConstraints:@[lowerBoundsXConstraint, upperBoundsXConstraint, lowerBoundsYConstraint, upperBoundsYConstraint]];
     }
 
-    CGPoint expectedCornerValues[] = {
-        CGPointMake(50, 50),
-        CGPointMake(50, 250),
-        CGPointMake(250, 250),
-        CGPointMake(250, 50)
+    NSPoint expectedCornerValues[] = {
+        NSMakePoint(50, 50),
+        NSMakePoint(50, 250),
+        NSMakePoint(250, 250),
+        NSMakePoint(250, 50)
     };
 
     for (int i = 0; i < 4; i++) {
@@ -657,10 +657,10 @@
         XCTAssertEqual([(CSWVariable*) corners[i][@"y"] value], expectedCornerValues[i].y);
     }
 
-    CGPoint expectedMidpointValues[] = {
-        CGPointMake(50, 150),
-        CGPointMake(150, 250),
-        CGPointMake(250, 150),
+    NSPoint expectedMidpointValues[] = {
+        NSMakePoint(50, 150),
+        NSMakePoint(150, 250),
+        NSMakePoint(250, 150),
     };
 
     for (int i = 0; i < 3; i++) {
@@ -670,11 +670,11 @@
 
     [solver suggestVariable:corners[0][@"x"] equals:100];
 
-    CGPoint expectedCornerValues2[] = {
-        CGPointMake(100, 50),
-        CGPointMake(50, 250),
-        CGPointMake(250, 250),
-        CGPointMake(250, 50)
+    NSPoint expectedCornerValues2[] = {
+        NSMakePoint(100, 50),
+        NSMakePoint(50, 250),
+        NSMakePoint(250, 250),
+        NSMakePoint(250, 50)
     };
 
     for (int i = 0; i < 4; i++) {
@@ -682,19 +682,17 @@
         XCTAssertEqual([(CSWVariable*) corners[i][@"y"] value], expectedCornerValues2[i].y);
     }
 
-    CGPoint expectedMidpointValues2[] = {
-        CGPointMake(75, 150),
-        CGPointMake(150, 250),
-        CGPointMake(250, 150),
-        CGPointMake(175, 50)
+    NSPoint expectedMidpointValues2[] = {
+        NSMakePoint(75, 150),
+        NSMakePoint(150, 250),
+        NSMakePoint(250, 150),
+        NSMakePoint(175, 50)
     };
     for (int i = 0; i < 4; i++) {
         XCTAssertEqual([(CSWVariable*) midpoints[i][@"x"] value], expectedMidpointValues2[i].x);
         XCTAssertEqual([(CSWVariable*) midpoints[i][@"y"] value], expectedMidpointValues2[i].y);
     }
-    
-    NSLog(@"==== Last suggestion");
-    
+        
     [solver suggestEditVariables:@[
         [[CSWSuggestion alloc] initWithVariable: midpoints[0][@"x"] value: 50],
         [[CSWSuggestion alloc] initWithVariable: midpoints[0][@"y"] value: 150],

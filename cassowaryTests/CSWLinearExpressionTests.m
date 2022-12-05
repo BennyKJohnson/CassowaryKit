@@ -18,7 +18,7 @@
 -(void)testInitWithVariableCoefficientAndConstant
 {
     CSWVariable *variable = [CSWVariable variable];
-    CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:variable coefficient:5 constant:10];
+    CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:variable coefficient:5.0 constant:10.0];
     
     XCTAssertTrue([expression isKindOfClass:[CSWLinearExpression class]]);
     XCTAssertEqual([expression coefficientForTerm:variable], 5);
