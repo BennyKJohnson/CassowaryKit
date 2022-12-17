@@ -15,6 +15,7 @@ CSWLinearExpression.h \
 CSWSimplexSolver.h \
 CSWSimplexSolver+PrivateMethods.h \
 CSWStrength.h \
+CSWTierWeightedStrength.h \
 CSWSuggestion.h \
 CSWSymbolicWeight.h \
 CSWTableau.h \
@@ -31,6 +32,7 @@ CSWFloatComparator.m \
 CSWLinearExpression.m \
 CSWSimplexSolver.m \
 CSWStrength.m \
+CSWTierWeightedStrength.m \
 CSWSuggestion.m \
 CSWSymbolicWeight.m \
 CSWTableau.m \
