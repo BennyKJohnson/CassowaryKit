@@ -3,39 +3,38 @@
 
 @implementation CSWStrength
 
--(instancetype)initWithName: (NSString*)name symbolicWeight: (CSWSymbolicWeight*)symbolicWeight weight: (double)weight;
+-(instancetype)initWithName: (NSString*)name strength: (double)strength;
 {
     if (self = [super init]) {
         self.name = name;
-        self.symbolicWeight = symbolicWeight;
-        self.weight = weight;
+        self.strength = strength;
     }
     return self;
 }
 
 +(instancetype)strengthRequired
 {
-    return [[CSWStrength alloc] initWithName:@"<Required>" symbolicWeight:[[CSWSymbolicWeight alloc] initWithLevels:@[@(1000), @(1000), @(1000)]] weight:1.0];
+    return [[CSWStrength alloc] initWithName:@"<Required>" strength:1000];
 }
 
 +(instancetype)strengthStrong
 {
-    return [[CSWStrength alloc] initWithName:@"strong" symbolicWeight:[[CSWSymbolicWeight alloc] initWithLevels:@[@(1.0), @(0), @(0)]] weight:1.0];
+    return [[CSWStrength alloc] initWithName:@"strong" strength:750];
 }
 
 +(instancetype)strengthMedium
 {
-    return [[CSWStrength alloc] initWithName:@"medium" symbolicWeight:[[CSWSymbolicWeight alloc] initWithLevels:@[@(0), @(1), @(0)]] weight:1.0];
+    return [[CSWStrength alloc] initWithName:@"medium" strength:500];
 }
 
 +(instancetype)strengthWeak
 {
-    return [[CSWStrength alloc] initWithName:@"weak" symbolicWeight:[[CSWSymbolicWeight alloc] initWithLevels:@[@(0), @(0), @(1)]] weight:1.0];
+    return [[CSWStrength alloc] initWithName:@"weak" strength:250];
 }
 
 -(BOOL)isEqualToStrength: (CSWStrength*)strength
 {
-    return [self.name isEqual:strength.name] && [self.symbolicWeight isEqualToSymbolicWeight:[strength symbolicWeight]] && [CSWFloatComparator isApproxiatelyEqual:self.weight b:strength.weight];
+    return [self.name isEqual:strength.name] && [CSWFloatComparator isApproxiatelyEqual:self.strength b:strength.strength];
 }
 
 - (BOOL)isEqual:(id)other
@@ -53,17 +52,17 @@
 
 -(BOOL)isRequired
 {
-    return [self.symbolicWeight isEqual:[[CSWStrength strengthRequired] symbolicWeight]];
+    return [CSWFloatComparator isApproxiatelyEqual:self.strength b:[[CSWStrength strengthRequired] strength]];
 }
 
 -(double)value
 {
-    return self.weight * [self.symbolicWeight value];
+    return self.strength;
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    CSWStrength *copy = [[[self class] allocWithZone:zone] initWithName:self.name symbolicWeight:[self.symbolicWeight copy] weight:self.weight];
+    CSWStrength *copy = [[[self class] allocWithZone:zone] initWithName:self.name strength:self.strength];
     
     return copy;
 }

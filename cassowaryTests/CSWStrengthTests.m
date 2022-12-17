@@ -1,6 +1,7 @@
  #import <XCTest/XCTest.h>
 #import "CSWSymbolicWeight.h"
 #import "CSWStrength.h"
+#import "CSWTierWeightedStrength.h"
 
 @interface CSWStrengthTests : XCTestCase
 
@@ -13,7 +14,7 @@
     CSWSymbolicWeight *weight = [[CSWSymbolicWeight alloc] initWithLevelsCount:3];
     NSString *strengthName = @"strength";
     
-    CSWStrength *strength = [[CSWStrength alloc] initWithName: strengthName symbolicWeight:weight weight:2.0];
+    CSWTierWeightedStrength *strength = [[CSWTierWeightedStrength alloc] initWithName: strengthName symbolicWeight:weight weight:2.0];
     
     XCTAssertTrue([strength isKindOfClass:[CSWStrength class]]);
     XCTAssertEqual(strength.name, strengthName);
@@ -39,7 +40,7 @@
 
 -(void)testInitWithRequiredStrength
 {
-    CSWStrength *strength = [CSWStrength strengthRequired];
+    CSWTierWeightedStrength *strength = [CSWTierWeightedStrength strengthRequired];
     CSWSymbolicWeight *weight = [strength symbolicWeight];
     CSWSymbolicWeight *expectedWeight = [[CSWSymbolicWeight alloc] initWithLevels:@[@(1000), @(1000), @(1000)]];
     XCTAssertTrue([weight isEqualToSymbolicWeight: expectedWeight]);
@@ -48,7 +49,7 @@
 
 -(void)testInitWithStrongStrength
 {
-    CSWStrength *strength = [CSWStrength strengthStrong];
+    CSWTierWeightedStrength *strength = [CSWTierWeightedStrength strengthStrong];
     CSWSymbolicWeight *weight = [strength symbolicWeight];
     CSWSymbolicWeight *expectedWeight = [[CSWSymbolicWeight alloc] initWithLevels:@[@(1.0), @(0), @(0)]];
     XCTAssertTrue([weight isEqualToSymbolicWeight: expectedWeight]);
@@ -57,7 +58,7 @@
 
 -(void)testInitWithMediumStrength
 {
-    CSWStrength *strength = [CSWStrength strengthMedium];
+    CSWTierWeightedStrength *strength = [CSWTierWeightedStrength strengthMedium];
     CSWSymbolicWeight *weight = [strength symbolicWeight];
     CSWSymbolicWeight *expectedWeight = [[CSWSymbolicWeight alloc] initWithLevels:@[@(0), @(1), @(0)]];
     XCTAssertTrue([weight isEqualToSymbolicWeight: expectedWeight]);

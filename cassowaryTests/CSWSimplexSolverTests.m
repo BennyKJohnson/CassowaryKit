@@ -4,6 +4,7 @@
 #import "CSWVariable+PrivateMethods.h"
 #import "CSWSimplexSolver+PrivateMethods.h"
 #import "CSWConstraintFactory.h"
+#import "CSWTierWeightedStrength.h"
 
 @interface CSWSimplexSolverTests : XCTestCase
 
@@ -573,11 +574,11 @@
     double factor = 1;
     
     for (NSDictionary *corner in corners) {
-        CSWStrength *stayStrength = [CSWStrength strengthWeak];
+        CSWTierWeightedStrength *stayStrength = [CSWTierWeightedStrength strengthWeak];
         stayStrength.weight = factor;
         CSWConstraint *x = [[CSWConstraint alloc] initStayConstraintWithVariable:corner[@"x"] strength:stayStrength];
         [solver addConstraint:x];
-        CSWStrength *yStrength = [CSWStrength strengthWeak];
+        CSWTierWeightedStrength *yStrength = [CSWTierWeightedStrength strengthWeak];
         yStrength.weight = factor;
         CSWConstraint *y = [[CSWConstraint alloc] initStayConstraintWithVariable:corner[@"y"] strength: stayStrength];
         [solver addConstraint:y];
@@ -954,7 +955,7 @@
     
     [solver addConstraints:@[c1, c2]];
     
-    CSWStrength *newC1Strength = [CSWStrength strengthStrong];
+    CSWTierWeightedStrength *newC1Strength = [CSWTierWeightedStrength strengthStrong];
     newC1Strength.weight = 3;
     
     [solver updateConstraint:c1 strength:newC1Strength];

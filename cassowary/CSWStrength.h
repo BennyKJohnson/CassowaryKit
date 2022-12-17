@@ -7,11 +7,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *name;
 
-@property (nonatomic, strong) CSWSymbolicWeight *symbolicWeight;
+@property double strength;
 
-@property double weight;
-
--(instancetype)initWithName: (NSString*)name symbolicWeight: (CSWSymbolicWeight*)symbolicWeight weight: (double)weight;
+-(instancetype)initWithName: (nullable NSString*)name strength: (double)strength;
 
 +(instancetype)strengthRequired;
 
