@@ -20,13 +20,6 @@
     XCTAssertEqual([variable name], @"x");
 }
 
--(void)testVariableIsEqualWithIdenticalProperties
-{
-    CSWVariable *variable = [CSWVariable variableWithValue:11 name:@"x"];
-    CSWVariable *otherVariable = [CSWVariable variableWithValue:11 name:@"x"];
-    XCTAssertTrue([variable isEqual:otherVariable]); 
-}
-
 -(void)testVariableIsNotDummy
 {
     CSWVariable *variable = [CSWVariable variable];

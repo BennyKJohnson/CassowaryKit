@@ -91,13 +91,6 @@
     return NO;
 }
 
-- (id)copyWithZone:(nullable NSZone *)zone
-{
-    NSException *exception = [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Do not use CSWVariable directly" userInfo:nil];
-    [exception raise];
-    return nil;
-}
-
 - (NSString *)description
 {
     if (self.type == CSWVariableTypeDummy) {
@@ -111,29 +104,6 @@
     }
     
     return [NSString stringWithFormat:@"[%@]", self.name];
-}
-
-- (BOOL)isEqual:(id)other
-{
-    if (![other isKindOfClass:[CSWVariable class]]) {
-        return NO;
-    }
-    
-    CSWVariable *otherVariable = (CSWVariable*)other;
-    
-    if (self.type != otherVariable.type) {
-        return NO;
-    }
-    
-    if (![self.name isEqual: otherVariable.name]) {
-        return NO;
-    }
-    
-    if (self.type == CSWVariableTypeExternal && self.value != otherVariable.value) {
-        return NO;
-    }
-
-    return YES;
 }
 
 @end

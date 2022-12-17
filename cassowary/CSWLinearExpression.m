@@ -9,7 +9,7 @@
 {
     self = [super init];
     if (self) {
-        self.terms = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableStrongMemory];
+        self.terms = [NSMapTable strongToStrongObjectsMapTable];
         self.termVariables = [NSMutableArray array];
         self.constant = 0;
     }
@@ -126,7 +126,7 @@
 -(CSWVariable*)findPivotableVariableWithMostNegativeCoefficient
 {
     CSWDouble mostNegativeCoefficient = 0;
-    CSWVariable *candidate;
+    CSWVariable *candidate = nil;
     
     for (CSWVariable *term in self.termVariables) {
         CSWDouble coefficientForTerm = [self coefficientForTerm:term];

@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 };
 typedef enum CSWVariableType CSWVariableType;
 
-@interface CSWVariable : NSObject <NSCopying>
+@interface CSWVariable : NSObject
 
 @property CSWVariableType type;
 
@@ -36,8 +36,6 @@ typedef enum CSWVariableType CSWVariableType;
 +(instancetype)variableWithValue: (CGFloat)value;
 
 +(instancetype)variableWithValue: (CGFloat)value name: (NSString* _Nullable)name;
-
-- (id)copyWithZone:(nullable NSZone *)zone;
 
 @end
 

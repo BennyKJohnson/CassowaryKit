@@ -71,7 +71,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     CSWLinearExpression *expression = [self createExpression:constraint expressionResult:&expressionResult];
     BOOL addedDirectly = [self tryAddingExpressionDirectly: expression];
     if (!addedDirectly) {
-        NSError *error;
+        NSError *error = nil;
         [self addWithArtificialVariable:expression error:&error];
         if (error != nil) {
             [[NSException exceptionWithName:NSInvalidArgumentException reason:@"Conflicting constraint" userInfo:nil] raise];
@@ -91,7 +91,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     if (subject == nil) {
         return NO;
     }
-    
+
     [expression newSubject: subject];
     if ([self.columns objectForKey:subject] != nil) {
         [self substituteOutVariable:subject forExpression:expression];
@@ -320,7 +320,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     BOOL foundUnrestricted = NO;
     BOOL foundNewRestricted = NO;
     
-    CSWVariable *subject;
+    CSWVariable *subject = nil;
     for (CSWVariable *variable in expression.termVariables) {
         CGFloat coefficent = [[expression multiplierForTerm:variable] floatValue];
         BOOL isNewVariable = ![self.columns doesContain:variable];
