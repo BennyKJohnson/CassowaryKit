@@ -84,7 +84,7 @@
 
 +(CSWConstraint*)constraintWithLeftVariable: (CSWVariable*)lhs operator: (CSWConstraintOperator)operator rightExpression: (CSWLinearExpression*)rhs
 {
-    return [CSWConstraintFactory constraintWithLeftVariable:lhs operator:CSWConstraintOperatorEqual rightExpression:rhs];
+    return [CSWConstraintFactory constraintWithLeftVariable:lhs operator:operator rightExpression:rhs];
 }
 
 +(CSWConstraint*)constraintWithLeftConstant: (CSWDouble)lhs operator: (CSWConstraintOperator)operator rightVariable: (CSWVariable*)rhs
