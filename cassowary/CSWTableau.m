@@ -6,11 +6,11 @@
 -(instancetype)init
 {
     if (self = [super init]) {
-        self.rows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
+        rows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
                                           valueOptions:NSMapTableStrongMemory];
         self.columns = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
-        self.externalParametricVariables = [NSMutableSet set];
+        externalParametricVariables = [NSMutableSet set];
         self.externalRows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
         self.infeasibleRows = [NSMutableArray array];
@@ -25,7 +25,7 @@
 // and ClTableauis responsible for deleting it
 -(void)addRowForVariable: (CSWVariable*)variable equalsExpression: (CSWLinearExpression*)expression
 {
-    [self.rows setObject:expression forKey: variable];
+    [rows setObject:expression forKey: variable];
     if (variable.isExternal) {
         [self.externalRows setObject:expression forKey:variable];
     }
@@ -36,7 +36,7 @@
     for (CSWVariable *expressionTermVariable in expression.termVariables) {
          [self addMappingFromExpressionVariable:expressionTermVariable toRowVariable:variable];
          if ([expressionTermVariable isExternal]) {
-             [self.externalParametricVariables addObject:expressionTermVariable];
+             [externalParametricVariables addObject:expressionTermVariable];
          }
      }
 }
@@ -62,10 +62,10 @@
 
 -(void)removeColumn: (CSWVariable*)variable
 {
-    NSSet *rows = [ self.columns objectForKey:variable];
+    NSSet *crows = [ self.columns objectForKey:variable];
     if (rows != nil) {
-        for (id clv in rows) {
-            CSWLinearExpression *expression = [self.rows objectForKey:clv];
+        for (id clv in crows) {
+            CSWLinearExpression *expression = [rows objectForKey:clv];
             [expression removeVariable:variable];
         }
         [self.columns removeObjectForKey:variable];
@@ -78,13 +78,13 @@
 
 -(void)removeRowForVariable: (CSWVariable*)variable
 {
-    CSWLinearExpression *expression = [self.rows objectForKey:variable];
+    CSWLinearExpression *expression = [rows objectForKey:variable];
     if (expression == nil) {
         NSException *missingExpressionException = [NSException exceptionWithName:NSInvalidArgumentException reason:@"No expression exists for the provided variable" userInfo:nil];
         [missingExpressionException raise];
         return;
     }
-    [self.rows removeObjectForKey:variable];
+    [rows removeObjectForKey:variable];
     if (variable.isExternal) {
         [self.externalRows removeObjectForKey:variable];
     }
@@ -92,14 +92,14 @@
     for (CSWVariable *expressionTermVariable in expression.termVariables) {
         [self removeMappingFromExpressionVariable:expressionTermVariable toRowVariable:variable];
           if ([expressionTermVariable isExternal]) {
-              [self.externalParametricVariables addObject:expressionTermVariable];
+              [externalParametricVariables addObject:expressionTermVariable];
           }
       }
 }
 
 -(BOOL)hasRowForVariable: (CSWVariable*)variable
 {
-    return [self.rows objectForKey:variable] != nil;
+    return [rows objectForKey:variable] != nil;
 }
 
 -(void)substituteOutVariable: (CSWVariable*)variable forExpression:(CSWLinearExpression*)expression
@@ -107,7 +107,7 @@
     NSSet *variableSet = [[self.columns objectForKey:variable] copy];
     
     for (CSWVariable *columnVariable in variableSet) {
-        CSWLinearExpression *row = [self.rows objectForKey:columnVariable];
+        CSWLinearExpression *row = [rows objectForKey:columnVariable];
         [self substituteOutTerm:variable withExpression:expression inExpression:row subject:columnVariable];
         if ([columnVariable isRestricted] && row.constant < 0.0) {
             [self.infeasibleRows addObject: columnVariable];
@@ -116,7 +116,7 @@
 
     if ([variable isExternal]) {
         [self.externalRows setObject:expression forKey:variable];
-        [self.externalParametricVariables removeObject:variable];
+        [externalParametricVariables removeObject:variable];
     }
     [self.columns removeObjectForKey:variable];
 }
@@ -159,7 +159,7 @@
 
 -(BOOL) isBasicVariable: (CSWVariable*)variable
 {
-    return [self.rows objectForKey:variable] != nil;
+    return [rows objectForKey:variable] != nil;
 }
 
 -(void)addVariable: (CSWVariable*)variable toExpression: (CSWLinearExpression*)expression
@@ -220,7 +220,7 @@
 -(void)recordUpdatedVariable: (CSWVariable*)variable
 {
     if ([variable isExternal]) {
-        [self.externalParametricVariables addObject:variable];
+        [externalParametricVariables addObject:variable];
         [_updatedExternals addObject:variable];
     }
 }
@@ -238,17 +238,38 @@
 
 -(CSWLinearExpression*)rowExpressionForVariable: (CSWVariable*)variable
 {
-    return [self.rows objectForKey:variable];
+    return [rows objectForKey:variable];
+}
+
+-(void)pivotWithEntryVariable: (CSWVariable*)entryVariable exitVariable: (CSWVariable*)exitVariable
+{
+    // expr is the Expression for the exit variable (about to leave the basis) --
+    // so that the old tableau includes the equation:
+    //   exitVar = expr
+    CSWLinearExpression *expression = [self rowExpressionForVariable:exitVariable];
+    [self removeRowForVariable:exitVariable];
+    
+    // Compute an Expression for the entry variable.  Since expr has
+    // been deleted from the tableau we can destructively modify it to
+    // build this Expression.
+    [self changeSubjectOnExpression:expression existingSubject:exitVariable newSubject:entryVariable];
+    [self substituteOutVariable:entryVariable forExpression:expression];
+    
+    if ([entryVariable isExternal]) {
+        [externalParametricVariables removeObject:entryVariable];
+    }
+    
+    [self addRowForVariable:entryVariable equalsExpression:expression];
 }
 
 - (NSString *)description
 {
     NSMutableString *description = [NSMutableString stringWithString:@"Tableau Information\n"];
-    [description appendFormat:@"Rows: %ld (%ld constraints)\n", _rows.count, _rows.count - 1];
+    [description appendFormat:@"Rows: %ld (%ld constraints)\n", rows.count, rows.count - 1];
     [description appendFormat:@"Columns: %ld\n", _columns.count];
     [description appendFormat:@"Infesible rows: %ld\n", self.infeasibleRows.count];
     [description appendFormat:@"External basic variables: %ld\n", self.externalRows.count];
-    [description appendFormat:@"External parametric variables: %ld\n\n", self.externalParametricVariables.count];
+    [description appendFormat:@"External parametric variables: %ld\n\n", externalParametricVariables.count];
     
     [description appendFormat:@"Columns: \n"];
     [description appendString:[self columnsDescription]];
@@ -272,10 +293,42 @@
 -(NSString*)rowsDescription
 {
     NSMutableString *description = [NSMutableString string];
-    for (CSWVariable *variable in _rows) {
-        [description appendFormat:@"%@ : %@\n", variable, [_rows objectForKey:variable]];
+    for (CSWVariable *variable in rows) {
+        [description appendFormat:@"%@ : %@\n", variable, [rows objectForKey:variable]];
     }
     return description;
+}
+
+-(BOOL)hasInfeasibleRows
+{
+    return [self.infeasibleRows count] > 0;
+}
+
+- (BOOL)containsExternalParametricVariableForEveryExternalTerm {
+    for (CSWVariable *rowVariable in rows) {
+        CSWLinearExpression *expression = [rows objectForKey:rowVariable];
+        for (CSWVariable *variable in [expression termVariables]) {
+            if ([variable isExternal]) {
+                if (![externalParametricVariables containsObject:variable]) {
+                    return NO;
+                }
+            }
+        }
+    }
+    
+    return YES;
+}
+
+- (BOOL)containsExternalRowForEachExternalRowVariable {
+    for (CSWVariable *rowVariable in rows) {
+        if ([rowVariable isExternal]) {
+            if ([self.externalRows objectForKey:rowVariable] == nil) {
+                return NO;
+            }
+        }
+    }
+    
+    return YES;
 }
 
 @end

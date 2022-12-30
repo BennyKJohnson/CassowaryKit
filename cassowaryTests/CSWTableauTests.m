@@ -20,7 +20,6 @@
 {
     CSWTableau *tableau = [[CSWTableau alloc] init];
     XCTAssertTrue([tableau isKindOfClass:[CSWTableau class]]);
-    XCTAssertEqual([tableau.rows count], 0);
     XCTAssertEqual([tableau.columns count], 0);
 }
 
@@ -34,7 +33,6 @@
     [tableau addRowForVariable: variable equalsExpression: expression];
     
     XCTAssertTrue([tableau hasRowForVariable:variable]);
-    XCTAssertEqual([tableau.rows objectForKey:variable], expression);
     
     [self assertTableMapping:tableau fromExpressionVariable:anotherVariable toRowVariable:variable];
 }
@@ -57,7 +55,7 @@
     
     [tableau removeRowForVariable:variable];
     
-    XCTAssertNil([tableau.rows objectForKey:variable]);
+    XCTAssertNil([tableau rowExpressionForVariable:variable]);
     
     NSSet *columns = [[tableau columns] objectForKey:anotherVariable];
     XCTAssertNotNil(columns);
