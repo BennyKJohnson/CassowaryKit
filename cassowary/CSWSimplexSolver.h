@@ -20,7 +20,7 @@ enum CSWErrorCode {
     CSWErrorCodeRequired = 1
 };
 
-@interface CSWSimplexSolver : CSWTableau
+@interface CSWSimplexSolver : NSObject
 {
     CSWVariable *_objective;
     int _slackCounter;
@@ -33,6 +33,7 @@ enum CSWErrorCode {
     NSMutableArray *_stayMinusErrorVariables;
     NSMutableArray *_stayPlusErrorVariables;
     BOOL _needsSolving;
+    CSWTableau *_tableau;
 }
 
 @property BOOL autoSolve;
