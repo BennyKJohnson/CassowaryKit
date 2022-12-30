@@ -351,7 +351,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     if ([self.editVariableManager isEmpty]) {
         [[NSException exceptionWithName:NSInternalInconsistencyException reason:@"No edit variables have been added to solver" userInfo:nil] raise];
     }
-    [_infeasibleRows removeAllObjects];
+    [self.infeasibleRows removeAllObjects];
     [self resetStayConstraints];
     [self.editVariableManager pushEditVariableCount];
 }
@@ -373,7 +373,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 {
     [self dualOptimize];
     [self _updateExternalVariables];
-    [_infeasibleRows removeAllObjects];
+    [self.infeasibleRows removeAllObjects];
     [self resetStayConstraints];
 }
 
@@ -441,7 +441,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     if (plusExpression != nil) {
         plusExpression.constant += delta;
         if (plusExpression.constant < 0) {
-            [_infeasibleRows addObject:plusErrorVariable];
+            [self.infeasibleRows addObject:plusErrorVariable];
         }
         return;
     }
@@ -450,7 +450,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     if (minusExpression != nil) {
         minusExpression.constant += -delta;
         if (minusExpression.constant < 0) {
-            [_infeasibleRows addObject:minusErrorVariable];
+            [self.infeasibleRows addObject:minusErrorVariable];
         }
         return;
     }
@@ -474,7 +474,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
             [self.updatedExternals addObject:basicVariable];
         }
         if (basicVariable.isRestricted && expression.constant < 0) {
-            [_infeasibleRows addObject:basicVariable];
+            [self.infeasibleRows addObject:basicVariable];
         }
     }
 }
@@ -738,9 +738,9 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 // Re-Optimize using the dual simplex algorithm.
 -(void)dualOptimize
 {
-    while ([_infeasibleRows count] > 0) {
-        CSWVariable *exitVariable = [_infeasibleRows firstObject];
-        [_infeasibleRows removeObject:exitVariable];
+    while ([self.infeasibleRows count] > 0) {
+        CSWVariable *exitVariable = [self.infeasibleRows firstObject];
+        [self.infeasibleRows removeObject:exitVariable];
         
         CSWLinearExpression *exitVariableExpression = [self.rows objectForKey:exitVariable];
         if (!exitVariableExpression) {

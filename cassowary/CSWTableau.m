@@ -13,7 +13,7 @@
         self.externalParametricVariables = [NSMutableSet set];
         self.externalRows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
-        _infeasibleRows = [NSMutableArray array];
+        self.infeasibleRows = [NSMutableArray array];
         self.updatedExternals = [NSMutableSet set];
     }
     return self;
@@ -110,7 +110,7 @@
         CSWLinearExpression *row = [self.rows objectForKey:columnVariable];
         [self substituteOutTerm:variable withExpression:expression inExpression:row subject:columnVariable];
         if ([columnVariable isRestricted] && row.constant < 0.0) {
-            [_infeasibleRows addObject: columnVariable];
+            [self.infeasibleRows addObject: columnVariable];
         }
     }
 
@@ -246,7 +246,7 @@
     NSMutableString *description = [NSMutableString stringWithString:@"Tableau Information\n"];
     [description appendFormat:@"Rows: %ld (%ld constraints)\n", _rows.count, _rows.count - 1];
     [description appendFormat:@"Columns: %ld\n", _columns.count];
-    [description appendFormat:@"Infesible rows: %ld\n", _infeasibleRows.count];
+    [description appendFormat:@"Infesible rows: %ld\n", self.infeasibleRows.count];
     [description appendFormat:@"External basic variables: %ld\n", self.externalRows.count];
     [description appendFormat:@"External parametric variables: %ld\n\n", self.externalParametricVariables.count];
     
