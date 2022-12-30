@@ -5,9 +5,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CSWTableau : NSObject
-{
-    NSMutableSet *_externalParametricVariables;
-    
+{    
     NSMapTable *_externalRows;
     
     NSMutableArray *_infeasibleRows;
@@ -15,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 @property (nonatomic, strong) NSMutableSet *updatedExternals;
+
+@property (nonatomic, strong) NSMutableSet *externalParametricVariables;
 
 @property (nonatomic, strong) NSMapTable *columns;
 

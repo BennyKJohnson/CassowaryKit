@@ -809,7 +809,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     [self substituteOutVariable:entryVariable forExpression:expression];
     
     if ([entryVariable isExternal]) {
-        [_externalParametricVariables removeObject:entryVariable];
+        [self.externalParametricVariables removeObject:entryVariable];
     }
     
     [self addRowForVariable:entryVariable equalsExpression:expression];
@@ -914,7 +914,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         CSWLinearExpression *expression = [self.rows objectForKey:rowVariable];
         for (CSWVariable *variable in [expression termVariables]) {
             if ([variable isExternal]) {
-                if (![_externalParametricVariables containsObject:variable]) {
+                if (![self.externalParametricVariables containsObject:variable]) {
                     return NO;
                 }
             }

@@ -10,7 +10,7 @@
                                           valueOptions:NSMapTableStrongMemory];
         self.columns = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
-        _externalParametricVariables = [NSMutableSet set];
+        self.externalParametricVariables = [NSMutableSet set];
         _externalRows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
         _infeasibleRows = [NSMutableArray array];
@@ -36,7 +36,7 @@
     for (CSWVariable *expressionTermVariable in expression.termVariables) {
          [self addMappingFromExpressionVariable:expressionTermVariable toRowVariable:variable];
          if ([expressionTermVariable isExternal]) {
-             [_externalParametricVariables addObject:expressionTermVariable];
+             [self.externalParametricVariables addObject:expressionTermVariable];
          }
      }
 }
@@ -92,7 +92,7 @@
     for (CSWVariable *expressionTermVariable in expression.termVariables) {
         [self removeMappingFromExpressionVariable:expressionTermVariable toRowVariable:variable];
           if ([expressionTermVariable isExternal]) {
-              [_externalParametricVariables addObject:expressionTermVariable];
+              [self.externalParametricVariables addObject:expressionTermVariable];
           }
       }
 }
@@ -116,7 +116,7 @@
 
     if ([variable isExternal]) {
         [_externalRows setObject:expression forKey:variable];
-        [_externalParametricVariables removeObject:variable];
+        [self.externalParametricVariables removeObject:variable];
     }
     [self.columns removeObjectForKey:variable];
 }
@@ -220,7 +220,7 @@
 -(void)recordUpdatedVariable: (CSWVariable*)variable
 {
     if ([variable isExternal]) {
-        [_externalParametricVariables addObject:variable];
+        [self.externalParametricVariables addObject:variable];
         [_updatedExternals addObject:variable];
     }
 }
@@ -248,7 +248,7 @@
     [description appendFormat:@"Columns: %ld\n", _columns.count];
     [description appendFormat:@"Infesible rows: %ld\n", _infeasibleRows.count];
     [description appendFormat:@"External basic variables: %ld\n", _externalRows.count];
-    [description appendFormat:@"External parametric variables: %ld\n\n", _externalParametricVariables.count];
+    [description appendFormat:@"External parametric variables: %ld\n\n", self.externalParametricVariables.count];
     
     [description appendFormat:@"Columns: \n"];
     [description appendString:[self columnsDescription]];
