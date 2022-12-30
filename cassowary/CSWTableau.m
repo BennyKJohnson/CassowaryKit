@@ -11,7 +11,7 @@
         self.columns = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
         self.externalParametricVariables = [NSMutableSet set];
-        _externalRows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
+        self.externalRows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
         _infeasibleRows = [NSMutableArray array];
         self.updatedExternals = [NSMutableSet set];
@@ -27,7 +27,7 @@
 {
     [self.rows setObject:expression forKey: variable];
     if (variable.isExternal) {
-        [_externalRows setObject:expression forKey:variable];
+        [self.externalRows setObject:expression forKey:variable];
     }
     [self addTermVariablesForExpression:expression variable:variable];
 }
@@ -72,7 +72,7 @@
     }
     
     if ([variable isExternal]) {
-        [_externalRows removeObjectForKey:variable];
+        [self.externalRows removeObjectForKey:variable];
     }
 }
 
@@ -86,7 +86,7 @@
     }
     [self.rows removeObjectForKey:variable];
     if (variable.isExternal) {
-        [_externalRows removeObjectForKey:variable];
+        [self.externalRows removeObjectForKey:variable];
     }
     
     for (CSWVariable *expressionTermVariable in expression.termVariables) {
@@ -115,7 +115,7 @@
     }
 
     if ([variable isExternal]) {
-        [_externalRows setObject:expression forKey:variable];
+        [self.externalRows setObject:expression forKey:variable];
         [self.externalParametricVariables removeObject:variable];
     }
     [self.columns removeObjectForKey:variable];
@@ -247,7 +247,7 @@
     [description appendFormat:@"Rows: %ld (%ld constraints)\n", _rows.count, _rows.count - 1];
     [description appendFormat:@"Columns: %ld\n", _columns.count];
     [description appendFormat:@"Infesible rows: %ld\n", _infeasibleRows.count];
-    [description appendFormat:@"External basic variables: %ld\n", _externalRows.count];
+    [description appendFormat:@"External basic variables: %ld\n", self.externalRows.count];
     [description appendFormat:@"External parametric variables: %ld\n\n", self.externalParametricVariables.count];
     
     [description appendFormat:@"Columns: \n"];

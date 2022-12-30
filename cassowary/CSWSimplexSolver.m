@@ -783,7 +783,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 
 -(void)_updateExternalVariables
 {
-    for (CSWVariable *variable in _externalRows) {
+    for (CSWVariable *variable in self.externalRows) {
         CSWDouble calculatedValue = [self rowExpressionForVariable:variable].constant;
         if (calculatedValue != variable.value) {
             [variable setValue:calculatedValue];
@@ -900,7 +900,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 - (BOOL)containsExternalRowForEachExternalRowVariable {
     for (CSWVariable *rowVariable in self.rows) {
         if ([rowVariable isExternal]) {
-            if ([_externalRows objectForKey:rowVariable] == nil) {
+            if ([self.externalRows objectForKey:rowVariable] == nil) {
                 return NO;
             }
         }

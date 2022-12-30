@@ -6,8 +6,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CSWTableau : NSObject
 {    
-    NSMapTable *_externalRows;
-    
     NSMutableArray *_infeasibleRows;
     
 }
@@ -19,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMapTable *columns;
 
 @property (nonatomic, strong) NSMapTable *rows;
+
+@property (nonatomic, strong) NSMapTable *externalRows;
 
 -(void) addRowForVariable: (CSWVariable*)variable equalsExpression:(CSWLinearExpression*)expression;
 
