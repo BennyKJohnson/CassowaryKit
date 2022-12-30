@@ -1,3 +1,4 @@
 # GNUstep build files
 obj
 cassowaryTests/cassowarykittest.bundle
+CassowaryKit.xcodeproj/project.xcworkspace/xcuserdata/
