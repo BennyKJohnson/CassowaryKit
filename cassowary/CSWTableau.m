@@ -14,7 +14,7 @@
         _externalRows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
         _infeasibleRows = [NSMutableArray array];
-        _updatedExternals = [NSMutableSet set];
+        self.updatedExternals = [NSMutableSet set];
     }
     return self;
 }

@@ -24,7 +24,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         _artificialCounter = 0;
         _dummyCounter = 0;
         _variableCounter = 0;
-
+        
         _objective = [CSWVariable objectiveVariableWithName:@"Z"];
         CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
         [self.rows setObject: expression forKey:_objective];
@@ -63,7 +63,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     
     if ([constraint isKindOfClass:[CSWConstraint class]]) {
         for (CSWVariable *externalVariable in [constraint.expression externalVariables]) {
-            [_updatedExternals addObject:externalVariable];
+            [self.updatedExternals addObject:externalVariable];
         }
     }
     
@@ -471,7 +471,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         CSWDouble coefficient = [expression coefficientForTerm:minusErrorVariable];
         expression.constant += coefficient * delta;
         if (basicVariable.isExternal) {
-            [_updatedExternals addObject:basicVariable];
+            [self.updatedExternals addObject:basicVariable];
         }
         if (basicVariable.isRestricted && expression.constant < 0) {
             [_infeasibleRows addObject:basicVariable];
@@ -790,7 +790,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         }
     }
     
-    [_updatedExternals removeAllObjects];
+    [self.updatedExternals removeAllObjects];
     _needsSolving = false;
 }
 
