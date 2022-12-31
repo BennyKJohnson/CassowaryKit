@@ -908,7 +908,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     [self solve];
     
     // When a non basic pivotable variable (has a zero) in the objective row, this is a sign there are multiple solutions
-    return [_tableau hasSubstitedOutNonBasicPivotableVariable: _objective];
+    return [[_tableau substitedOutNonBasicPivotableVariables: _objective] count] > 0;
 }
  
 @end

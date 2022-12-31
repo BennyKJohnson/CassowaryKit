@@ -331,15 +331,18 @@
     return YES;
 }
 
--(BOOL)hasSubstitedOutNonBasicPivotableVariable: (CSWVariable*)objective
+-(NSArray*)substitedOutNonBasicPivotableVariables: (CSWVariable*)objective
 {
     CSWLinearExpression *objectiveRowExpression = [self rowExpressionForVariable: objective];
+    
+    NSMutableArray *substitutedOutVariables = [NSMutableArray array];
     for (CSWVariable *columnVariable in columns) {
         if (columnVariable.isPivotable && ![self isBasicVariable:columnVariable] && [objectiveRowExpression.terms objectForKey:columnVariable] == nil) {
-            return YES;
+            [substitutedOutVariables addObject:columnVariable];
         }
     }
-    return NO;
+    
+    return substitutedOutVariables;
 }
 
 -(BOOL)hasColumnForVariable: (CSWVariable*)variable

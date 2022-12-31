@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)containsExternalRowForEachExternalRowVariable;
 
--(BOOL)hasSubstitedOutNonBasicPivotableVariable: (CSWVariable*)objective;
+-(NSArray*)substitedOutNonBasicPivotableVariables: (CSWVariable*)objective;
 
 @end
 
