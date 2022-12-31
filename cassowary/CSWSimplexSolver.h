@@ -72,6 +72,8 @@ enum CSWErrorCode {
 
 -(BOOL)containsConstraint: (CSWConstraint*)constraint;
 
+-(BOOL)isMultipleSolutions;
+
 @end
 
 NS_ASSUME_NONNULL_END

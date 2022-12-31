@@ -906,5 +906,20 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     _dummyCounter++;
     return [CSWVariable dummyVariableWithName:[NSString stringWithFormat:@"%@%d", prefix, _dummyCounter]];
 }
+
+-(BOOL)isMultipleSolutions
+{
+    // First find an optimal solution for the tableau
+    [self solve];
+    
+    // When a non basic pivotable variable (has a zero) in the objective row, this is a sign there are multiple solutions
+    CSWLinearExpression *objectiveRowExpression = [_tableau rowExpressionForVariable: _objective];
+    for (CSWVariable *columnVariable in _tableau.columns) {
+        if (columnVariable.isPivotable && ![_tableau isBasicVariable:columnVariable] && [objectiveRowExpression.terms objectForKey:columnVariable] == nil) {
+            return YES;
+        }
+    }
+    return NO;
+}
  
 @end

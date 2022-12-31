@@ -8,7 +8,6 @@ NS_ASSUME_NONNULL_BEGIN
 {
    NSMutableSet *externalParametricVariables;
    NSMapTable *rows;
-   NSMapTable *columns;
 }
 
 @property (nonatomic, strong) NSMutableSet *updatedExternals;
@@ -16,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMapTable *externalRows;
 
 @property (nonatomic, strong) NSMutableArray *infeasibleRows;
+
+@property (nonatomic, strong) NSMapTable *columns;
 
 -(void) addRowForVariable: (CSWVariable*)variable equalsExpression:(CSWLinearExpression*)expression;
 
