@@ -90,6 +90,12 @@
     }
 }
 
++(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightConstant: (CSWDouble)rhs
+{
+    CSWLinearExpression *rhsExpression = [[CSWLinearExpression alloc] initWithConstant:rhs];
+    return [self constraintWithLeftExpression:lhs operator:operator rightExpression:rhsExpression];
+}
+
 +(CSWConstraint*)stayConstraintWithVariable: (CSWVariable*)variable strength: (CSWStrength*)strength
 {
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:variable coefficient:-1 constant:variable.value];

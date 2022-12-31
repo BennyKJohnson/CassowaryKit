@@ -5,6 +5,7 @@
 #import "CSWSimplexSolver+PrivateMethods.h"
 #import "CSWConstraintFactory.h"
 #import "CSWTierWeightedStrength.h"
+#import "CSWSimplexSolverSolution.h"
 
 @interface CSWSimplexSolverTests : XCTestCase
 
@@ -72,25 +73,6 @@
     
     [solver solve];
     XCTAssertEqual(x.value, 10);
-}
-
--(void)testChooseSubjectReturnsNilIfNoVariablesInExpression
-{
-    CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
-    CSWVariable *variable = [solver choseSubject:expression];
-    XCTAssertNil(variable);
-}
-
--(void)testChooseSubjectReturnsFirstExternalUnrestrictedVariable
-{
-    CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
-    CSWVariable *dummyVariable = [CSWVariable dummyVariableWithName:@"dummy"];
-    CSWVariable *externalVariable = [CSWVariable variableWithValue:1.0];
-    [expression addVariable:dummyVariable coefficient:1.0];
-    [expression addVariable:externalVariable coefficient:1.0];
-    
-    CSWVariable *variable = [solver choseSubject:expression];
-    XCTAssertEqual(variable, externalVariable);
 }
 
 -(void)testSolvesSimple1TestCaseWithXTermAddedFirst
@@ -1124,6 +1106,94 @@
     [solver addConstraints:@[xLessEqualToY, yEquals10, yEquualsXPlus3]];
     [solver addConstraint:xEquals10];
     XCTAssertTrue([solver isMultipleSolutions]);
+}
+
+-(void)testSolveAllReturnsOneSolutionWithARequiredConstraint
+{
+    CSWSimplexSolver *solver = [self autoSolver];
+    CSWVariable *x = [CSWVariable variable];
+    CSWConstraint *xEquals10 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:10];
+    [solver addConstraint:xEquals10];
+    
+    NSArray *solutions = [solver solveAll];
+    XCTAssertEqual([solutions count], 1);
+    XCTAssertEqual([[solutions[0] resultForVariable: x] floatValue], 10);
+}
+
+-(void)testSolveAllReturnsBothSolutionsIfUnderconstrainedWithTwoOptionalConstraints
+{
+    CSWVariable *x = [CSWVariable variable];
+
+    CSWConstraint *xEquals10 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:10];
+    xEquals10.strength = [CSWStrength strengthWeak];
+
+    CSWConstraint *xEquals20 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:20];
+    xEquals20.strength = [CSWStrength strengthWeak];
+
+    [solver addConstraints:@[xEquals10, xEquals20]];
+
+    NSArray *solutions = [solver solveAll];
+    XCTAssertEqual([solutions count], 2);
+
+    XCTAssertEqual([[solutions[0] resultForVariable: x] floatValue], 20);
+    XCTAssertEqual([[solutions[1] resultForVariable: x] floatValue], 10);
+}
+
+-(void)testSolvesAllSolutionsWhenUnderConstrainedCassowary1
+{
+    CSWVariable *x = [CSWVariable variable];
+    CSWVariable *y = [CSWVariable variable];
+    CSWConstraint *xLessEqualToY = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightVariable:y];
+    
+    CSWLinearExpression *exp = [[CSWLinearExpression alloc] initWithVariable:x coefficient:1 constant:3.0];
+    CSWConstraint *yEqualsXPlus3 = [CSWConstraint constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightExpression:exp];
+    
+    CSWConstraint *xEquals10 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:10];
+    xEquals10.strength = [CSWStrength strengthWeak];
+    
+    CSWConstraint *yEquals10 = [CSWConstraint constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightConstant:10];
+    yEquals10.strength = [CSWStrength strengthWeak];
+
+    [solver addConstraints:@[xLessEqualToY, xEquals10, yEquals10, yEqualsXPlus3]];
+    NSArray *solutions = [solver solveAll];
+    XCTAssertEqual([solutions count], 2);
+
+    XCTAssertEqual([[solutions[0] resultForVariable: x] floatValue], 7);
+    XCTAssertEqual([[solutions[0] resultForVariable: y] floatValue], 10);
+    
+    XCTAssertEqual([[solutions[1] resultForVariable: x] floatValue], 10);
+    XCTAssertEqual([[solutions[1] resultForVariable: y] floatValue], 13);
+}
+
+-(void)testSolvesAllSolutionsAfterRemovingConstraint
+{
+    CSWVariable *x = [CSWVariable variable];
+    CSWVariable *y = [CSWVariable variable];
+    CSWConstraint *xLessEqualToY = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightVariable:y];
+    
+    CSWLinearExpression *exp = [[CSWLinearExpression alloc] initWithVariable:x coefficient:1 constant:3.0];
+    CSWConstraint *yEqualsXPlus3 = [CSWConstraint constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightExpression:exp];
+    
+    CSWConstraint *xEquals10 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:10];
+    xEquals10.strength = [CSWStrength strengthWeak];
+    
+    CSWConstraint *yEquals10 = [CSWConstraint constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightConstant:10];
+    yEquals10.strength = [CSWStrength strengthWeak];
+
+    CSWConstraint *xEquals12Required = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:12];
+    
+    [solver addConstraints:@[xLessEqualToY, xEquals10, yEquals10, yEqualsXPlus3]];
+    [solver addConstraint:xEquals12Required];
+    [solver removeConstraint:xEquals12Required];
+    
+    NSArray *solutions = [solver solveAll];
+    XCTAssertEqual([solutions count], 2);
+
+    XCTAssertEqual([[solutions[0] resultForVariable: x] floatValue], 10);
+    XCTAssertEqual([[solutions[0] resultForVariable: y] floatValue], 13);
+    
+    XCTAssertEqual([[solutions[1] resultForVariable: x] floatValue], 7);
+    XCTAssertEqual([[solutions[1] resultForVariable: y] floatValue], 10);
 }
 
 @end

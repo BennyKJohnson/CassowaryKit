@@ -123,20 +123,25 @@
     return expression;
 }
 
--(CSWVariable*)findPivotableVariableWithMostNegativeCoefficient
+-(NSArray*)findPivotableVariablesWithMostNegativeCoefficient
 {
     CSWDouble mostNegativeCoefficient = 0;
-    CSWVariable *candidate = nil;
-    
     for (CSWVariable *term in self.termVariables) {
         CSWDouble coefficientForTerm = [self coefficientForTerm:term];
         if ([term isPivotable] && coefficientForTerm < mostNegativeCoefficient) {
             mostNegativeCoefficient = coefficientForTerm;
-            candidate = term;
         }
     }
     
-    return candidate;
+    NSMutableArray *candidates = [NSMutableArray array];
+    for (CSWVariable *term in self.termVariables) {
+        CSWDouble coefficientForTerm = [self coefficientForTerm:term];
+        if ([term isPivotable] && [CSWFloatComparator isApproxiatelyEqual:coefficientForTerm b:mostNegativeCoefficient]) {
+            [candidates addObject: term];
+        }
+    }
+    
+    return candidates;
 }
 
 - (BOOL)isConstant

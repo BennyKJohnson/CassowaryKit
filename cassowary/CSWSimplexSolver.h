@@ -32,9 +32,12 @@ enum CSWErrorCode {
     NSMapTable *_errorVariables;
     NSMutableArray *_stayMinusErrorVariables;
     NSMutableArray *_stayPlusErrorVariables;
+    NSMutableArray *_addedConstraints;
     BOOL _needsSolving;
     CSWTableau *_tableau;
 }
+
+@property (nonatomic, strong) NSMapTable* _constraintAuxiliaryVariables;
 
 @property BOOL autoSolve;
 
@@ -63,6 +66,9 @@ enum CSWErrorCode {
 -(void)endEdit;
 
 -(void)solve;
+
+// If the solver is underconstrained, this method will return the primary solution and alternative solutions
+-(NSArray*)solveAll;
 
 -(void)resolve;
 

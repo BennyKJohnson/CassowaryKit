@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)addExpression: (CSWLinearExpression*)expression multiplier: (CSWDouble)multiplier;
 
--(CSWVariable*)findPivotableVariableWithMostNegativeCoefficient;
+-(NSArray*)findPivotableVariablesWithMostNegativeCoefficient;
 
 -(void)normalize;
 

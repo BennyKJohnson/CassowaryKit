@@ -102,6 +102,11 @@
     return [CSWConstraintFactory constraintWithLeftExpression:lhs operator:operator rightExpression:rhs];
 }
 
++(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightConstant: (CSWDouble)rhs
+{
+    return [CSWConstraintFactory constraintWithLeftExpression:lhs operator:operator rightConstant: rhs];
+}
+
 +(instancetype)editConstraintWithVariable: (CSWVariable*)variable
 {
     return [[self alloc] initEditConstraintWithVariable:variable stength:[CSWStrength strengthStrong]];

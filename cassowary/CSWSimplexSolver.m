@@ -3,6 +3,7 @@
 #import "CSWVariable.h"
 #import "CSWEditInfo.h"
 #import "CSWVariable+PrivateMethods.h"
+#import "CSWSimplexSolverSolution.h"
 
 NSString * const CSWErrorDomain = @"com.cassowary";
 
@@ -21,11 +22,15 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         _errorVariables = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
         
+        self._constraintAuxiliaryVariables = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableStrongMemory];
+        
         _slackCounter = 0;
         _artificialCounter = 0;
         _dummyCounter = 0;
         _variableCounter = 0;
         
+        _addedConstraints = [NSMutableArray array];
+                
         _objective = [CSWVariable objectiveVariableWithName:@"Z"];
         CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
         [_tableau addRowForVariable:_objective equalsExpression: expression];
@@ -41,8 +46,10 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 -(void)addConstraints: (NSArray*)constraints
 {
     for (CSWConstraint *constraint in constraints) {
-        [self _addConstraint:constraint];
+        [self _addConstraint:constraint tableau:_tableau entryVariable:nil];
+        [_addedConstraints addObject: constraint];
     }
+    
     if (self.autoSolve) {
         [self solve];
     }
@@ -50,13 +57,15 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 
 -(void)addConstraint:(CSWConstraint *)constraint
 {
-    [self _addConstraint:constraint];
+    [self _addConstraint:constraint tableau:_tableau entryVariable:nil];
+    
+    [_addedConstraints addObject: constraint];
     if (self.autoSolve) {
         [self solve];
     }
 }
 
--(void)_addConstraint: (CSWConstraint*)constraint
+-(void)_addConstraint: (CSWConstraint*)constraint tableau: (CSWTableau*)tableau entryVariable: (CSWVariable*)entryVariable
 {
     if ([constraint isEditConstraint] && ![[constraint variable] isExternal]) {
         [[NSException exceptionWithName:NSInvalidArgumentException reason:@"Cannot have an edit variable with a non external variable" userInfo:nil] raise];
@@ -64,16 +73,16 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     
     if ([constraint isKindOfClass:[CSWConstraint class]]) {
         for (CSWVariable *externalVariable in [constraint.expression externalVariables]) {
-            [_tableau.updatedExternals addObject:externalVariable];
+            [tableau.updatedExternals addObject:externalVariable];
         }
     }
     
     ExpressionResult expressionResult;
-    CSWLinearExpression *expression = [self createExpression:constraint expressionResult:&expressionResult];
-    BOOL addedDirectly = [self tryAddingExpressionDirectly: expression];
+    CSWLinearExpression *expression = [self createExpression:constraint expressionResult:&expressionResult tableau:tableau];
+    BOOL addedDirectly = [self tryAddingExpressionDirectly: expression tableau:tableau];
     if (!addedDirectly) {
         NSError *error = nil;
-        [self addWithArtificialVariable:expression error:&error];
+        [self addWithArtificialVariable:expression error:&error tableau:tableau entryVariable: entryVariable];
         if (error != nil) {
             [[NSException exceptionWithName:NSInvalidArgumentException reason:@"Conflicting constraint" userInfo:nil] raise];
         }
@@ -87,18 +96,18 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     _needsSolving = YES;
 }
 
--(BOOL)tryAddingExpressionDirectly: (CSWLinearExpression*)expression {
-    CSWVariable *subject = [self choseSubject:expression];
+-(BOOL)tryAddingExpressionDirectly: (CSWLinearExpression*)expression tableau: (CSWTableau*)tableau {
+    CSWVariable *subject = [self choseSubject:expression tableau:tableau];
     if (subject == nil) {
         return NO;
     }
 
     [expression newSubject: subject];
-    if ([_tableau hasColumnForVariable: subject]) {
-        [_tableau substituteOutVariable:subject forExpression:expression];
+    if ([tableau hasColumnForVariable: subject]) {
+        [tableau substituteOutVariable:subject forExpression:expression];
     }
     
-    [_tableau addRowForVariable:subject equalsExpression:expression];
+    [tableau addRowForVariable:subject equalsExpression:expression];
     return YES;
 }
 
@@ -114,7 +123,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 
 -(void)removeConstraint: (CSWConstraint*)constraint
 {
-    [self _removeConstraint:constraint];
+    [self _removeConstraint:constraint tableau:_tableau];
     // Do additional housekeeping for edit/stay constraints
     if ([constraint isEditConstraint]) {
         CSWEditInfo *editInfoForConstraint = [self.editVariableManager editInfoForConstraint:constraint];
@@ -123,27 +132,28 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     } else if ([constraint isStayConstraint] && [_errorVariables objectForKey:constraint] != nil) {
         [self removeStayErrorVariablesForConstraint:constraint];
     }
+    [_addedConstraints removeObject:constraint];
     
     if (self.autoSolve) {
         [self solve];
     }
 }
 
--(void)_removeConstraint: (CSWConstraint*)constraint
+-(void)_removeConstraint: (CSWConstraint*)constraint tableau: (CSWTableau*)tableau
 {
     [self resetStayConstraints];
     
-    CSWLinearExpression *zRow = [_tableau rowExpressionForVariable:_objective];
+    CSWLinearExpression *zRow = [tableau rowExpressionForVariable:_objective];
     NSArray *constraintErrorVars = [_errorVariables objectForKey:constraint];
     if (constraintErrorVars != nil) {
         for (CSWVariable *errorVariable in constraintErrorVars) {
             CSWDouble value = -[constraint.strength value];
 
-            if ([_tableau isBasicVariable:errorVariable]) {
-                CSWLinearExpression *errorVariableRowExpression = [_tableau rowExpressionForVariable:errorVariable];
-                [_tableau addNewExpression:errorVariableRowExpression toExpression:zRow n:value subject:_objective];
+            if ([tableau isBasicVariable:errorVariable]) {
+                CSWLinearExpression *errorVariableRowExpression = [tableau rowExpressionForVariable:errorVariable];
+                [tableau addNewExpression:errorVariableRowExpression toExpression:zRow n:value subject:_objective];
             } else {
-                [_tableau addVariable:errorVariable toExpression:zRow withCoefficient:value subject: _objective];
+                [tableau addVariable:errorVariable toExpression:zRow withCoefficient:value subject: _objective];
             }
         }
     }
@@ -154,18 +164,18 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     }
     [_markerVariables removeObjectForKey:constraint];
     
-    if ([_tableau rowExpressionForVariable:constraintMarkerVariable] == nil) {
+    if ([tableau rowExpressionForVariable:constraintMarkerVariable] == nil) {
         CSWVariable * exitVariable = [self resolveExitVariableRemoveConstraint:constraintMarkerVariable];
         if (exitVariable) {
-            [_tableau pivotWithEntryVariable:constraintMarkerVariable exitVariable:exitVariable];
+            [tableau pivotWithEntryVariable:constraintMarkerVariable exitVariable:exitVariable];
         } else {
             // ExitVar doesn't occur in any equations, so just remove it.
-            [_tableau removeColumn:constraintMarkerVariable];
+            [tableau removeColumn:constraintMarkerVariable];
         }
     }
     
-    if ([_tableau isBasicVariable:constraintMarkerVariable]) {
-        [_tableau removeRowForVariable:constraintMarkerVariable];
+    if ([tableau isBasicVariable:constraintMarkerVariable]) {
+        [tableau removeRowForVariable:constraintMarkerVariable];
     }
     
     // Delete any error variables.  If cn is an inequality, it also
@@ -173,7 +183,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     // and so it has been deleted when we removed its row.
     for (CSWVariable *errorVariable in constraintErrorVars) {
         if (errorVariable != constraintMarkerVariable) {
-            [_tableau removeColumn: errorVariable];
+            [tableau removeColumn: errorVariable];
         }
     }
     
@@ -275,9 +285,9 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     }
 }
 
--(CSWVariable*)choseSubject: (CSWLinearExpression*)expression
+-(CSWVariable*)choseSubject: (CSWLinearExpression*)expression tableau: (CSWTableau*)tableau
 {
-    CSWVariable *subject = [self chooseSubjectFromExpression:expression];
+    CSWVariable *subject = [self chooseSubjectFromExpression:expression tableau:tableau];
     if (subject != nil) {
         return subject;
     }
@@ -289,7 +299,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     // variables, then we can pick a dummy variable as the subject.
     float coefficent = 0;
     for (CSWVariable *term in expression.termVariables) {
-         if (![_tableau hasColumnForVariable:term]) {
+         if (![tableau hasColumnForVariable:term]) {
             subject = term;
             coefficent = [expression coefficientForTerm:term];
         }
@@ -312,22 +322,22 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     return subject;
 }
 
-- (CSWVariable * _Nonnull)chooseSubjectFromExpression:(CSWLinearExpression * _Nonnull)expression {
+- (CSWVariable * _Nonnull)chooseSubjectFromExpression:(CSWLinearExpression * _Nonnull)expression tableau: (CSWTableau*)tableau {
     BOOL foundUnrestricted = NO;
     BOOL foundNewRestricted = NO;
     
     CSWVariable *subject = nil;
     for (CSWVariable *variable in expression.termVariables) {
         CGFloat coefficent = [[expression multiplierForTerm:variable] floatValue];
-        BOOL isNewVariable = ![_tableau hasColumnForVariable:variable];
+        BOOL isNewVariable = ![tableau hasColumnForVariable:variable];
         
         if (foundUnrestricted && ![variable isRestricted] && isNewVariable) {
             return variable;
         } else if (foundUnrestricted == NO) {
             if ([variable isRestricted]) {
                 if (!foundNewRestricted && ![variable isDummy] && coefficent < 0) {
-                    NSSet *col = [_tableau columnForVariable:variable];
-                    if (col == nil || ([col count] == 1 && [_tableau hasColumnForVariable:_objective])) {
+                    NSSet *col = [tableau columnForVariable:variable];
+                    if (col == nil || ([col count] == 1 && [tableau hasColumnForVariable:_objective])) {
                         subject = variable;
                         foundNewRestricted = true;
                     }
@@ -379,7 +389,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         [[NSException exceptionWithName:NSInternalInconsistencyException reason:@"Failed to find edit info for variable" userInfo:nil] raise];
     }
     
-    [self _removeConstraint:editInfoForVariable.constraint];
+    [self _removeConstraint:editInfoForVariable.constraint tableau: _tableau];
     [_tableau removeColumn:editInfoForVariable.minusVariable];
     [self.editVariableManager removeEditInfo:editInfoForVariable];
 }
@@ -487,7 +497,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
  * Normalize if necessary so that the constant is non-negative.  If
  * the constraint is non-required, give its error variables an
  * appropriate weight in the objective function. */
--(CSWLinearExpression*)createExpression: (CSWConstraint *)constraint expressionResult: (ExpressionResult*)expressionResult;
+-(CSWLinearExpression*)createExpression: (CSWConstraint *)constraint expressionResult: (ExpressionResult*)expressionResult tableau: (CSWTableau*)tableau;
 {
     CSWLinearExpression *constraintExpression = [constraint expression];
     
@@ -496,11 +506,11 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     
     for (CSWVariable *term in constraintExpression.termVariables) {
         CSWDouble termCoefficient = [[constraintExpression multiplierForTerm: term] doubleValue];
-        CSWLinearExpression *rowExpression = [_tableau rowExpressionForVariable:term];
-        if ([_tableau isBasicVariable:term]) {
-            [_tableau addNewExpression:rowExpression toExpression:newExpression n:termCoefficient subject:nil];
+        CSWLinearExpression *rowExpression = [tableau rowExpressionForVariable:term];
+        if ([tableau isBasicVariable:term]) {
+            [tableau addNewExpression:rowExpression toExpression:newExpression n:termCoefficient subject:nil];
         } else {
-            [_tableau addVariable:term toExpression:newExpression withCoefficient:termCoefficient subject:nil];
+            [tableau addVariable:term toExpression:newExpression withCoefficient:termCoefficient subject:nil];
         }
     }
     
@@ -508,11 +518,15 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     result->expression = nil;
     result->minus = nil;
     result->plus = nil;
+
+    if ([self._constraintAuxiliaryVariables objectForKey:constraint] == nil) {
+        [self._constraintAuxiliaryVariables setObject:[NSMutableDictionary dictionary] forKey:constraint];
+    }
     
     if ([constraint isInequality]) {
-        [self applyInequityConstraint:constraint newExpression:newExpression];
+        [self applyInequityConstraint:constraint newExpression:newExpression tableau:tableau];
     } else {
-        [self applyConstraint:constraint newExpression:newExpression result:&result];
+        [self applyConstraint:constraint newExpression:newExpression result:&result tableau:tableau];
     }
     
     // the Constant in the Expression should be non-negative. If necessary
@@ -524,16 +538,23 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     return newExpression;
 }
 
-- (void)applyConstraint:(CSWConstraint *)constraint newExpression:(CSWLinearExpression *)newExpression result:(ExpressionResult **)result {
+- (void)applyConstraint:(CSWConstraint *)constraint newExpression:(CSWLinearExpression *)newExpression result:(ExpressionResult **)result tableau: (CSWTableau*)tableau {
     CSWLinearExpression *constraintExpression = [constraint expression];
+    NSMutableDictionary *constraintAuxiliaryVariables = [self._constraintAuxiliaryVariables objectForKey:constraint];
 
     if ([constraint isRequired]) {
-        CSWVariable *dummyVariable = [self createDummyVariableWithPrefix:@"d"];
-        
+        CSWVariable *dummyVariable;
+        if (constraintAuxiliaryVariables[@"d"] != nil) {
+            dummyVariable = constraintAuxiliaryVariables[@"d"];
+        } else {
+            dummyVariable = [self createDummyVariableWithPrefix:@"d"];
+            constraintAuxiliaryVariables[@"d"] = dummyVariable;
+        }
+
         (*result)->plus = dummyVariable;
         (*result)->minus = dummyVariable;
         (*result)->previousConstant = constraintExpression.constant;
-        [_tableau setVariable:dummyVariable onExpression:newExpression withCoefficient:1];
+        [tableau setVariable:dummyVariable onExpression:newExpression withCoefficient:1];
         [_markerVariables setObject:dummyVariable forKey:constraint];
     } else {
         // cn is a non-required equality. Add a positive and a negative error
@@ -543,21 +564,21 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         //       expr - eplus + eminus = 0
         
         _slackCounter++;
-        CSWVariable *eplusVariable = [self createSlackVariableWithPrefix:@"ep"];
-        CSWVariable *eminusVariable = [self createSlackVariableWithPrefix:@"em"];
-        
-        [_tableau setVariable:eplusVariable onExpression:newExpression withCoefficient:-1];
-        [_tableau setVariable:eminusVariable onExpression:newExpression withCoefficient:1];
+        CSWVariable *eplusVariable = [self slackVariableForConstraint:constraint prefix:@"ep"];
+        CSWVariable *eminusVariable = [self slackVariableForConstraint:constraint prefix:@"em"];
+                
+        [tableau setVariable:eplusVariable onExpression:newExpression withCoefficient:-1];
+        [tableau setVariable:eminusVariable onExpression:newExpression withCoefficient:1];
         [_markerVariables setObject:eplusVariable forKey:constraint];
         
-        CSWLinearExpression *zRow = [_tableau rowExpressionForVariable: _objective];
+        CSWLinearExpression *zRow = [tableau rowExpressionForVariable: _objective];
         CSWDouble swCoefficient = [constraint.strength value];
         
-        [_tableau setVariable:eplusVariable onExpression:zRow withCoefficient:swCoefficient];
-        [_tableau addMappingFromExpressionVariable:eplusVariable toRowVariable:_objective];
+        [tableau setVariable:eplusVariable onExpression:zRow withCoefficient:swCoefficient];
+        [tableau addMappingFromExpressionVariable:eplusVariable toRowVariable:_objective];
         
-        [_tableau setVariable:eminusVariable onExpression:zRow withCoefficient:swCoefficient];
-        [_tableau addMappingFromExpressionVariable:eminusVariable toRowVariable:_objective];
+        [tableau setVariable:eminusVariable onExpression:zRow withCoefficient:swCoefficient];
+        [tableau addMappingFromExpressionVariable:eminusVariable toRowVariable:_objective];
         
         [self insertErrorVariable:constraint variable:eminusVariable];
         [self insertErrorVariable:constraint variable:eplusVariable];
@@ -570,6 +591,19 @@ NSString * const CSWErrorDomain = @"com.cassowary";
             (*result)->minus = eminusVariable;
             (*result)->previousConstant = constraintExpression.constant;
         }
+    }
+}
+
+-(CSWVariable*)slackVariableForConstraint: (CSWConstraint*)constraint prefix: (NSString*)prefix
+{
+    NSMutableDictionary *constraintAuxiliaryVariables = [self._constraintAuxiliaryVariables objectForKey:constraint];
+
+    if (constraintAuxiliaryVariables[prefix] != nil) {
+        return constraintAuxiliaryVariables[prefix];
+    } else {
+        CSWVariable *slackVariable = [self createSlackVariableWithPrefix:prefix];
+        constraintAuxiliaryVariables[prefix] = slackVariable;
+        return slackVariable;
     }
 }
 
@@ -587,10 +621,10 @@ NSString * const CSWErrorDomain = @"com.cassowary";
  // Since both of these variables are newly created we can just Add
  // them to the Expression (they can't be basic).
  */
-- (void)applyInequityConstraint:(CSWConstraint *)constraint newExpression:(CSWLinearExpression *)newExpression {
+- (void)applyInequityConstraint:(CSWConstraint *)constraint newExpression:(CSWLinearExpression *)newExpression tableau: (CSWTableau*)tableau {
     _slackCounter++;
     CSWVariable *slackVariable = [self createSlackVariableWithPrefix:@"s"];
-    [_tableau setVariable:slackVariable onExpression:newExpression withCoefficient:-1];
+    [tableau setVariable:slackVariable onExpression:newExpression withCoefficient:-1];
     
     [_markerVariables setObject:slackVariable forKey:constraint];
     
@@ -599,15 +633,15 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         [newExpression addVariable:eminusSlackVariable coefficient:1];
         
         CSWDouble eminusCoefficient = [constraint.strength value];
-        CSWLinearExpression *zRow = [_tableau rowExpressionForVariable: _objective];
-        [_tableau setVariable:eminusSlackVariable onExpression:zRow withCoefficient: eminusCoefficient];
+        CSWLinearExpression *zRow = [tableau rowExpressionForVariable: _objective];
+        [tableau setVariable:eminusSlackVariable onExpression:zRow withCoefficient: eminusCoefficient];
         
         [self insertErrorVariable:constraint variable:eminusSlackVariable];
-        [_tableau addMappingFromExpressionVariable:eminusSlackVariable toRowVariable: _objective];
+        [tableau addMappingFromExpressionVariable:eminusSlackVariable toRowVariable: _objective];
     }
 }
 
--(void)addWithArtificialVariable: (CSWLinearExpression*)expression error: (NSError **)error
+-(void)addWithArtificialVariable: (CSWLinearExpression*)expression error: (NSError **)error tableau: (CSWTableau*)tableau entryVariable: (CSWVariable*)entryVariable
 {
     
     // The artificial objective is av, which we know is equal to expr
@@ -621,55 +655,99 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     // so do the substitution for its value (we are minimizing
     // the artificial variable).
     // This row will be removed from the tableau after optimizing.
-    [_tableau addRowForVariable:artificialZ equalsExpression:row];
+    [tableau addRowForVariable:artificialZ equalsExpression:row];
     
     // Add the normal row to the tableau -- when artifical
     // variable is minimized to 0 (if possible)
     // this row remains in the tableau to maintain the constraint
     // we are trying to add.
-    [_tableau addRowForVariable: artificialVariable equalsExpression:expression];
+    [tableau addRowForVariable: artificialVariable equalsExpression:expression];
 
     
     // Try to optimize az to 0.
     // Note we are *not* optimizing the real objective, but optimizing
     // the artificial objective to see if the error in the constraint
     // we are adding can be set to 0.
-    [self optimize: artificialZ];
+    [self optimize: artificialZ tableau:tableau entryVariable: entryVariable];
     
-    CSWLinearExpression *azTableauRow = [_tableau rowExpressionForVariable:artificialZ];
+    CSWLinearExpression *azTableauRow = [tableau rowExpressionForVariable:artificialZ];
     
     if (![CSWFloatComparator isApproxiatelyZero:azTableauRow.constant]) {
-        [_tableau removeRowForVariable:artificialZ];
-        [_tableau removeColumn:artificialVariable];
+        [tableau removeRowForVariable:artificialZ];
+        [tableau removeColumn:artificialVariable];
         *error = [[NSError alloc] initWithDomain:CSWErrorDomain code:CSWErrorCodeRequired userInfo:nil];
         return;
     }
     
-    CSWLinearExpression *rowExpression = [_tableau rowExpressionForVariable: artificialVariable];
+    CSWLinearExpression *rowExpression = [tableau rowExpressionForVariable: artificialVariable];
     if (rowExpression != nil) {
         if ([rowExpression isConstant]) {
-            [_tableau removeRowForVariable:artificialVariable];
-            [_tableau removeRowForVariable:artificialZ];
+            [tableau removeRowForVariable:artificialVariable];
+            [tableau removeRowForVariable:artificialZ];
             return;
         }
         CSWVariable *entryVariable = [rowExpression anyPivotableVariable];
-        [_tableau pivotWithEntryVariable:entryVariable exitVariable:artificialVariable];
+        [tableau pivotWithEntryVariable:entryVariable exitVariable:artificialVariable];
     }
     
-    [_tableau removeColumn:artificialVariable];
-    [_tableau removeRowForVariable:artificialZ];
+    [tableau removeColumn:artificialVariable];
+    [tableau removeRowForVariable:artificialZ];
 }
 
 -(void)solve
 {
-    [self optimize:_objective];
+    [self optimize:_objective tableau:_tableau entryVariable:nil];
     [self _updateExternalVariables];
 }
 
-// Minimize the value of the objective.  (The tableau should already be feasible.)
--(void)optimize: (CSWVariable*)zVariable
+- (CSWTableau *)createTableauWithObjective {
+    CSWTableau *tableau = [[CSWTableau alloc] init];
+    CSWVariable *tableauObjective  = [CSWVariable objectiveVariableWithName:@"Z"];
+    CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
+    [tableau addRowForVariable:tableauObjective equalsExpression: expression];
+    return tableau;
+}
+
+-(NSArray*)solveAll
 {
-    CSWLinearExpression *zRow = [_tableau rowExpressionForVariable:zVariable];
+    [self optimize:_objective tableau:_tableau entryVariable:nil];
+    CSWSimplexSolverSolution *solution = [self solutionFromTableau: _tableau];
+
+    NSArray *specialVariables = [_tableau substitedOutNonBasicPivotableVariables:_objective];
+    if ([specialVariables count] == 0) {
+        return [NSArray arrayWithObject:solution];
+    }
+    
+    // TODO handle edit and stay constraints
+    NSMutableArray *solutions = [NSMutableArray arrayWithObject:solution];
+    for (CSWVariable *specialVariable in specialVariables) {
+        CSWTableau * tableau = [self createTableauWithObjective];
+        
+        for (CSWConstraint *constraint in _addedConstraints) {
+            [self _addConstraint:constraint tableau:tableau entryVariable:specialVariable];
+        }
+        
+        [solutions addObject: [self solutionFromTableau:tableau]];
+    }
+    
+    return solutions;
+}
+
+-(CSWSimplexSolverSolution*)solutionFromTableau: (CSWTableau*)tableau
+{
+    CSWSimplexSolverSolution *solution = [[CSWSimplexSolverSolution alloc] init];
+    for (CSWVariable *variable in tableau.externalRows) {
+        CSWDouble calculatedValue = [tableau rowExpressionForVariable:variable].constant;
+        [solution setResult:calculatedValue forVariable: variable];
+    }
+        
+    return solution;
+}
+
+// Minimize the value of the objective.  (The tableau should already be feasible.)
+-(void)optimize: (CSWVariable*)zVariable tableau: (CSWTableau*)tableau entryVariable: (CSWVariable*)preferredEntryVariable
+{
+    CSWLinearExpression *zRow = [tableau rowExpressionForVariable:zVariable];
     if (zRow == nil) {
         [[NSException exceptionWithName:NSInternalInconsistencyException reason:@"Optimize zRow is null" userInfo:nil] raise];
     }
@@ -677,30 +755,42 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     // Find the most negative coefficient in the objective function (ignoring
     // the non-pivotable dummy variables). If all coefficients are positive
     // we're done
-    CSWVariable *entryVariable = [zRow findPivotableVariableWithMostNegativeCoefficient];
+    NSArray *entryVariableCandidates = [zRow findPivotableVariablesWithMostNegativeCoefficient];
+    CSWVariable *entryVariable = nil;
+    if ([entryVariableCandidates count] > 0) {
+        entryVariable = entryVariableCandidates[0];
+        if (preferredEntryVariable && [entryVariableCandidates containsObject:preferredEntryVariable]) {
+            entryVariable = preferredEntryVariable;
+        }
+    }
+    
     CSWDouble objectiveCoefficient = entryVariable != nil ? [zRow coefficientForTerm:entryVariable] : 0;
     while (objectiveCoefficient < -CSWEpsilon) {
         // choose which variable to move out of the basis
         // Only consider pivotable basic variables
         // (i.e. restricted, non-dummy variables)
-        CSWVariable *exitVariable = [self findPivotableExitVariable:entryVariable];
-        [_tableau pivotWithEntryVariable:entryVariable exitVariable:exitVariable];
+        CSWVariable *exitVariable = [self findPivotableExitVariable:entryVariable tableau: tableau];
+        [tableau pivotWithEntryVariable:entryVariable exitVariable:exitVariable];
         
         objectiveCoefficient = 0;
-        entryVariable = [zRow findPivotableVariableWithMostNegativeCoefficient];
+        
+        NSArray *entryVariableCandidatesB = [zRow findPivotableVariablesWithMostNegativeCoefficient];
+        if ([entryVariableCandidatesB count] > 0) {
+            entryVariable = entryVariableCandidatesB[0];
+        }
         if (entryVariable != nil) {
             objectiveCoefficient = [zRow coefficientForTerm:entryVariable];
         }
     }
 }
 
-- (CSWVariable*)findPivotableExitVariable:(CSWVariable *)entryVariable {
+- (CSWVariable*)findPivotableExitVariable:(CSWVariable *)entryVariable tableau: (CSWTableau*)tableau {
     CSWDouble minRatio = DBL_MAX;
     CSWDouble r = 0;
     CSWVariable *exitVariable = nil;
-    for (CSWVariable *variable in [_tableau columnForVariable: entryVariable]) {
+    for (CSWVariable *variable in [tableau columnForVariable: entryVariable]) {
         if ([variable isPivotable]) {
-            CSWLinearExpression *expression = [_tableau rowExpressionForVariable:variable];
+            CSWLinearExpression *expression = [tableau rowExpressionForVariable:variable];
             CSWDouble coefficient = [expression coefficientForTerm:entryVariable];
             
             if (coefficient < 0) {
@@ -910,5 +1000,5 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     // When a non basic pivotable variable (has a zero) in the objective row, this is a sign there are multiple solutions
     return [[_tableau substitedOutNonBasicPivotableVariables: _objective] count] > 0;
 }
- 
+
 @end

@@ -49,6 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightExpression: (CSWLinearExpression*)rhs;
 
++(CSWConstraint*)constraintWithLeftExpression: (CSWLinearExpression*)lhs operator: (CSWConstraintOperator)operator rightConstant: (CSWDouble)rhs;
+
 +(instancetype)editConstraintWithVariable: (CSWVariable*)variable;
 
 @property (readonly) CSWConstraintType type;
