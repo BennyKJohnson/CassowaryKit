@@ -52,18 +52,6 @@
     return solver;
 }
 
--(void) testCanAddConstraint
-{
-    CSWVariable *y = [CSWVariable variableWithValue:2];
-    
-    CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
-    [expression addVariable:y coefficient:1.0];
-    
-    CSWConstraint *equation = [[CSWConstraint alloc] initLinearConstraintWithExpression: [[CSWLinearExpression alloc] initWithVariable:y]];
-    
-    [solver addConstraint: equation];
-}
-
 -(void)testSolvesCorrectlyAfterAddingConstraint
 {
     CSWVariable *x = [CSWVariable variableWithValue:0];
@@ -71,8 +59,8 @@
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] initWithVariable:x coefficient:-1 constant:10];
     [solver addConstraint:[[CSWConstraint alloc] initLinearConstraintWithExpression: expression]];
     
-    [solver solve];
-    XCTAssertEqual(x.value, 10);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 10);
 }
 
 -(void)testSolvesSimple1TestCaseWithXTermAddedFirst
@@ -84,9 +72,10 @@
     CSWConstraint *eq =  [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightVariable:y];
     
     [solver addConstraint:eq];
-    [solver solve];
-    XCTAssertEqual(x.value, 2);
-    XCTAssertEqual(y.value, 2);
+    
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 2);
+    XCTAssertEqual([[solution resultForVariable:y] floatValue], 2);
 }
 
 -(void)testSolvesSimple1TestCaseWithYTermAddedFirst
@@ -98,9 +87,10 @@
     CSWConstraint *eq = [CSWConstraint constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightVariable:x];
 
     [solver addConstraint:eq];
-    [solver solve];
-    XCTAssertEqual(x.value, 167);
-    XCTAssertEqual(y.value, 167);
+    
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 167);
+    XCTAssertEqual([[solution resultForVariable:y] floatValue], 167);
 }
 
 -(void)testAddStayConstraints
@@ -112,9 +102,10 @@
     CSWConstraint *stayConstraintY = [[CSWConstraint alloc] initStayConstraintWithVariable:y strength:[CSWStrength strengthWeak]];
     
     [solver addConstraints:@[stayConstraintX, stayConstraintY]];
-    [solver solve];
-    XCTAssertEqualWithAccuracy(x.value, 5.0, 0.0001);
-    XCTAssertEqualWithAccuracy(y.value, 10.0, 0.0001);
+    
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 5);
+    XCTAssertEqual([[solution resultForVariable:y] floatValue], 10);
 }
 
 -(void)testSolvesNumberEqualsVar
@@ -122,9 +113,9 @@
     CSWVariable *x = [CSWVariable variableWithValue:10];
     CSWConstraint *equation = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:100];
     [solver addConstraint:equation];
-    [solver solve];
+    CSWSimplexSolverSolution *solution = [solver solve];
     
-    XCTAssertEqual(x.value, 100);
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 100);
 }
 
 -(void)testSolvesVarIsGreaterThanOrEqualToValue
@@ -133,8 +124,9 @@
     CSWConstraint *ieq = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:200];
     
     [solver addConstraint:ieq];
-    [solver solve];
-    XCTAssertEqual(x.value, 200);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 200);
 }
 
 -(void)testSolvesVarIsLessThanOrEqualToValue
@@ -142,9 +134,9 @@
     CSWVariable *x = [CSWVariable variableWithValue:10];
     CSWConstraint *ieq = [CSWConstraint constraintWithLeftConstant:100 operator:CSWConstraintOperatorLessThanOrEqual rightVariable:x];
     [solver addConstraint:ieq];
-    [solver solve];
+    CSWSimplexSolverSolution *solution = [solver solve];
     
-    XCTAssertEqual(x.value, 100);
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 100);
 }
 
 -(void)testSolvesExpressionIsEqualToVariable
@@ -164,10 +156,10 @@
     CSWConstraint *stayConstraintRightMin = [[CSWConstraint alloc] initStayConstraintWithVariable:rightMin strength:[CSWStrength strengthWeak]];
     
     [solver addConstraints:@[stayConstraintWidth, stayConstraintRightMin, equation]];
-    [solver solve];
+    CSWSimplexSolverSolution *solution = [solver solve];
     
-    XCTAssertEqual(width.value, 10);
-    XCTAssertEqual(x.value, 90);
+    XCTAssertEqual([[solution resultForVariable:width] floatValue], 10);
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 90);
 }
 
 -(void)testSolvesExpressionIsGreaterThanOrEqualToVariable
@@ -184,10 +176,10 @@
      CSWConstraint *stayConstraintRightMin = [[CSWConstraint alloc] initStayConstraintWithVariable:rightMin strength:[CSWStrength strengthWeak]];
     
     [solver addConstraints:@[stayConstraintWidth, stayConstraintRightMin, ieq]];
-    [solver solve];
-
-    XCTAssertEqual(x.value, 90);
-    XCTAssertEqual(width.value, 10);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    
+    XCTAssertEqual([[solution resultForVariable:width] floatValue], 10);
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 90);
 }
 
 -(void)testSolvesVariableIsLessThanOrEqualToExpression
@@ -207,8 +199,9 @@
         
     [solver addConstraints:@[stayConstraintWidth, stayConstraintRightMin, ieq]];
 
-    XCTAssertEqual(x.value, 90);
-    XCTAssertEqual(width.value, 10);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:width] floatValue], 10);
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 90);
 }
 
 -(void)testSolvesExpressionIsEqualToExpression
@@ -232,10 +225,12 @@
 
     [solver addConstraints:@[stayConstraintWidth1, stayConstraintWidth2, stayConstraintX2, eq]];
     
-    XCTAssertEqual(x1.value, 100);
-    XCTAssertEqual(x2.value, 100);
-    XCTAssertEqual(width1.value, 10);
-    XCTAssertEqual(width2.value, 10);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    
+    XCTAssertEqual([[solution resultForVariable:x1] floatValue], 100);
+    XCTAssertEqual([[solution resultForVariable:x2] floatValue], 100);
+    XCTAssertEqual([[solution resultForVariable:width1] floatValue], 10);
+    XCTAssertEqual([[solution resultForVariable:width2] floatValue], 10);
 }
 
 -(void)testSolvesExpressionIsLessThanOrEqualToExpression
@@ -254,9 +249,8 @@
     [self addStayConstraintsForVariables:@[width1, width2, x2] solver:solver];
     [solver addConstraint:ieq];
     
-    [solver solve];
-    
-    XCTAssertEqual(x1.value, 100);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:x1] floatValue], 100);
 }
 
 -(void)testSolvesExpressionIsGreaterThanOrEqualToExpression
@@ -275,9 +269,8 @@
     [self addStayConstraintsForVariables:@[width1, width2, x2] solver:solver];
     [solver addConstraint:ieq];
     
-    [solver solve];
-    
-    XCTAssertEqual(x1.value, 100);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:x1] floatValue], 100);
 }
 
 -(void)testSolvesAfterRemovingConstraint
@@ -296,10 +289,13 @@
     CSWConstraint *c20 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:20];
     [solver addConstraint:c20];
     
-    XCTAssertEqual(x.value, 10);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 10);
     
     [solver removeConstraint: c10];
-    XCTAssertEqual(x.value, 20);
+    
+    CSWSimplexSolverSolution *solution2 = [solver solve];
+    XCTAssertEqual([[solution2 resultForVariable:x] floatValue], 20);
 }
 
 -(void)testSolvesAfterRemovingMultipleConstraints
@@ -316,11 +312,13 @@
     CSWConstraint *c20 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:20];
     
     [solver addConstraints:@[c10, c20]];
-    XCTAssertEqual(x.value, 10);
+    
+    CSWSimplexSolverSolution *s1 = [solver solve];
+    XCTAssertEqual([[s1 resultForVariable:x] floatValue], 10);
     
     [solver removeConstraints:@[c10, c20]];
-    [solver solve];
-    XCTAssertEqual(x.value, 100);
+    CSWSimplexSolverSolution *s2 = [solver solve];
+    XCTAssertEqual([[s2 resultForVariable:x] floatValue], 100);
 }
 
 -(void)testSolvesAfterRemovingConstraint2
@@ -337,35 +335,43 @@
     
     [solver addConstraint:xConstraint];
     [solver addConstraint:yConstraint];
-    [solver solve];
     
-    XCTAssertEqual(x.value, 100);
-    XCTAssertEqual(y.value, 120);
+    CSWSimplexSolverSolution *s1 = [solver solve];
+    XCTAssertEqual([[s1 resultForVariable:x] floatValue], 100);
+    XCTAssertEqual([[s1 resultForVariable:y] floatValue], 120);
     
     CSWConstraint *c10 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:10];
     CSWConstraint *c20 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:20];
     [solver addConstraints:@[c10, c20]];
     
-    XCTAssertEqual(x.value, 10);
+    CSWSimplexSolverSolution *s2 = [solver solve];
+    XCTAssertEqual([[s2 resultForVariable:x] floatValue], 10);
     
     [solver removeConstraint:c10];
-    XCTAssertEqual(x.value, 20);
+    
+    CSWSimplexSolverSolution *s3 = [solver solve];
+    XCTAssertEqual([[s3 resultForVariable:x] floatValue], 20);
     
     CSWLinearExpression *cxExpression = [[CSWLinearExpression alloc] initWithVariable:x coefficient:-2 constant:0];
     [cxExpression addVariable:y];
     CSWConstraint *cxy = [[CSWConstraint alloc] initLinearConstraintWithExpression:cxExpression];
     [solver addConstraint:cxy];
     
-    XCTAssertEqual(x.value, 20);
-    XCTAssertEqual(y.value, 40);
+    CSWSimplexSolverSolution *s4 = [solver solve];
+    XCTAssertEqual([[s4 resultForVariable:x] floatValue], 20);
+    XCTAssertEqual([[s4 resultForVariable:y] floatValue], 40);
     
     [solver removeConstraint:c20];
-    XCTAssertEqual(x.value, 60);
-    XCTAssertEqual(y.value, 120);
-
+    
+    CSWSimplexSolverSolution *s5 = [solver solve];
+    XCTAssertEqual([[s5 resultForVariable:x] floatValue], 60);
+    XCTAssertEqual([[s5 resultForVariable:y] floatValue], 120);
+    
     [solver removeConstraint:cxy];
-    XCTAssertEqual(x.value, 100);
-    XCTAssertEqual(y.value, 120);
+    
+    CSWSimplexSolverSolution *s6 = [solver solve];
+    XCTAssertEqual([[s6 resultForVariable:x] floatValue], 100);
+    XCTAssertEqual([[s6 resultForVariable:y] floatValue], 120);
 }
 
 -(void)testDelete3
@@ -375,18 +381,27 @@
     CSWConstraint *cxConstraint = [[CSWConstraint alloc] initLinearConstraintWithExpression:[[CSWLinearExpression alloc] initWithVariable:x coefficient:1 constant:-100]];
     cxConstraint.strength = [CSWStrength strengthWeak];
     [solver addConstraint: cxConstraint];
-    XCTAssertEqual(x.value, 100);
+    
+    CSWSimplexSolverSolution *s0 = [solver solve];
+    XCTAssertEqual([[s0 resultForVariable:x] floatValue], 100);
     
     CSWConstraint *c10 = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:10];
     CSWConstraint *c10b = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorLessThanOrEqual rightConstant:10];
 
     [solver addConstraints:@[c10, c10b]];
-    XCTAssertEqual(x.value, 10);
+    
+    CSWSimplexSolverSolution *s1 = [solver solve];
+    XCTAssertEqual([[s1 resultForVariable:x] floatValue], 10);
+
     [solver removeConstraint:c10];
-    XCTAssertEqual(x.value, 10);
+    
+    CSWSimplexSolverSolution *s2 = [solver solve];
+    XCTAssertEqual([[s2 resultForVariable:x] floatValue], 10);
     
     [solver removeConstraint:c10b];
-    XCTAssertEqual(x.value, 100);
+    
+    CSWSimplexSolverSolution *s3 = [solver solve];
+    XCTAssertEqual([[s3 resultForVariable:x] floatValue], 100);
 }
 
 -(void)testMultiEdit
@@ -403,10 +418,11 @@
     
     [solver resolve];
     
-    XCTAssertEqual(x.value, 10);
-    XCTAssertEqual(y.value, 20);
-    XCTAssertEqual(w.value, 0);
-    XCTAssertEqual(h.value, 0);
+    CSWSimplexSolverSolution *s0 = [solver solve];
+    XCTAssertEqual([[s0 resultForVariable:x] floatValue], 10);
+    XCTAssertEqual([[s0 resultForVariable:y] floatValue], 20);
+    XCTAssertEqual([[s0 resultForVariable:w] floatValue], 0);
+    XCTAssertEqual([[s0 resultForVariable:h] floatValue], 0);
     
     // Open a second set of variables for editing
     [self addEditConstraintsForVariables:@[w, h] solver:solver];
@@ -414,19 +430,21 @@
     [solver suggestEditVariable:h equals:40];
     [solver resolve];
     
-    XCTAssertEqual(x.value, 10);
-    XCTAssertEqual(y.value, 20);
-    XCTAssertEqual(w.value, 30);
-    XCTAssertEqual(h.value, 40);
+    CSWSimplexSolverSolution *s1 = [solver solve];
+    XCTAssertEqual([[s1 resultForVariable:x] floatValue], 10);
+    XCTAssertEqual([[s1 resultForVariable:y] floatValue], 20);
+    XCTAssertEqual([[s1 resultForVariable:w] floatValue], 30);
+    XCTAssertEqual([[s1 resultForVariable:h] floatValue], 40);
     
     [solver suggestEditVariable:x equals:50];
     [solver suggestEditVariable:y equals:60];
     [solver resolve];
-
-    XCTAssertEqual(x.value, 50);
-    XCTAssertEqual(y.value, 60);
-    XCTAssertEqual(w.value, 30);
-    XCTAssertEqual(h.value, 40);
+    
+    CSWSimplexSolverSolution *s2 = [solver solve];
+    XCTAssertEqual([[s2 resultForVariable:x] floatValue], 50);
+    XCTAssertEqual([[s2 resultForVariable:y] floatValue], 60);
+    XCTAssertEqual([[s2 resultForVariable:w] floatValue], 30);
+    XCTAssertEqual([[s2 resultForVariable:h] floatValue], 40);
 }
 
 -(void)testSolvesCorrectlyWhenAddingMultipleEditConstraintsForTheSameVariable
@@ -453,10 +471,11 @@
     [solver suggestEditVariable:y equals:60];
     [solver resolve];
     
-    XCTAssertEqual(x.value, 50);
-    XCTAssertEqual(y.value, 60);
-    XCTAssertEqual(w.value, 30);
-    XCTAssertEqual(h.value, 40);
+    CSWSimplexSolverSolution *s1 = [solver solve];
+    XCTAssertEqual([[s1 resultForVariable:x] floatValue], 50);
+    XCTAssertEqual([[s1 resultForVariable:y] floatValue], 60);
+    XCTAssertEqual([[s1 resultForVariable:w] floatValue], 30);
+    XCTAssertEqual([[s1 resultForVariable:h] floatValue], 40);
 }
 
 -(void)testCanAddAndRemoveEditVariables
@@ -469,18 +488,23 @@
     [solver suggestEditVariable:x equals:10];
     [solver resolve];
     [solver removeEditVariable:x];
-    XCTAssertEqual(x.value, 10);
+    
+    CSWSimplexSolverSolution *s1 = [solver solve];
+    XCTAssertEqual([[s1 resultForVariable:x] floatValue], 10);
     
     [solver suggestEditVariable:x equals:20];
     [solver resolve];
-    XCTAssertEqual(x.value, 20);
     
+    CSWSimplexSolverSolution *s2 = [solver solve];
+    XCTAssertEqual([[s2 resultForVariable:x] floatValue], 20);
+        
     [self addEditConstraintsForVariables:@[x] solver:solver];
     [solver suggestEditVariable:x equals:30];
     [solver resolve];
     [solver removeEditVariable:x];
     
-    XCTAssertEqual(x.value, 30);
+    CSWSimplexSolverSolution *s3 = [solver solve];
+    XCTAssertEqual([[s3 resultForVariable:x] floatValue], 30);
 }
 
 -(void)testCanAddMultipleEditConstraintsForTheSameVariable
@@ -494,31 +518,39 @@
     [solver addConstraint:e1];
     [solver suggestEditVariable:x equals:1];
     [solver resolve];
-    XCTAssertEqual(x.value, 1);
+    
+    CSWSimplexSolverSolution *s1 = [solver solve];
+    XCTAssertEqual([[s1 resultForVariable:x] floatValue], 1);
 
     [solver addConstraint:e2];
     [solver suggestEditVariable:x equals:2];
     [solver resolve];
-    XCTAssertEqual(x.value, 2);
-
+    
+    CSWSimplexSolverSolution *s2 = [solver solve];
+    XCTAssertEqual([[s2 resultForVariable:x] floatValue], 2);
+    
     [solver removeConstraint:e1];
     [solver suggestEditVariable:x equals:3];
     [solver resolve];
-    XCTAssertEqual(x.value, 3);
+    
+    CSWSimplexSolverSolution *s3 = [solver solve];
+    XCTAssertEqual([[s3 resultForVariable:x] floatValue], 3);
 
     [solver removeConstraint:e2];
     [solver addConstraint:e1];
     [solver addConstraint:e2];
     [solver suggestEditVariable:x equals:5];
     [solver resolve];
-    XCTAssertEqual(x.value, 5);
+    
+    CSWSimplexSolverSolution *s4 = [solver solve];
+    XCTAssertEqual([[s4 resultForVariable:x] floatValue], 5);
 
     [solver removeConstraint:e2];
     [solver suggestEditVariable:x equals:6];
     [solver resolve];
-    XCTAssertEqual(x.value, 6);
     
-    [solver removeConstraint:e1];
+    CSWSimplexSolverSolution *s5 = [solver solve];
+    XCTAssertEqual([[s5 resultForVariable:x] floatValue], 6);
 }
 
 -(void)testQuad
@@ -622,9 +654,10 @@
         NSMakePoint(250, 50)
     };
 
+    CSWSimplexSolverSolution *s1 = [solver solve];
     for (int i = 0; i < 4; i++) {
-        XCTAssertEqual([(CSWVariable*) corners[i][@"x"] value], expectedCornerValues[i].x);
-        XCTAssertEqual([(CSWVariable*) corners[i][@"y"] value], expectedCornerValues[i].y);
+        XCTAssertEqual([[s1 resultForVariable:corners[i][@"x"]] floatValue], expectedCornerValues[i].x);
+        XCTAssertEqual([[s1 resultForVariable:corners[i][@"y"]] floatValue], expectedCornerValues[i].y);
     }
 
     NSPoint expectedMidpointValues[] = {
@@ -634,8 +667,8 @@
     };
 
     for (int i = 0; i < 3; i++) {
-        XCTAssertEqual([(CSWVariable*) midpoints[i][@"x"] value], expectedMidpointValues[i].x);
-        XCTAssertEqual([(CSWVariable*) midpoints[i][@"y"] value], expectedMidpointValues[i].y);
+        XCTAssertEqual([[s1 resultForVariable:midpoints[i][@"x"]] floatValue], expectedMidpointValues[i].x);
+        XCTAssertEqual([[s1 resultForVariable:midpoints[i][@"y"]] floatValue], expectedMidpointValues[i].y);
     }
 
     [solver suggestVariable:corners[0][@"x"] equals:100];
@@ -646,10 +679,12 @@
         NSMakePoint(250, 250),
         NSMakePoint(250, 50)
     };
+    
+    CSWSimplexSolverSolution *s2 = [solver solve];
 
     for (int i = 0; i < 4; i++) {
-        XCTAssertEqual([(CSWVariable*) corners[i][@"x"] value], expectedCornerValues2[i].x);
-        XCTAssertEqual([(CSWVariable*) corners[i][@"y"] value], expectedCornerValues2[i].y);
+        XCTAssertEqual([[s2 resultForVariable:corners[i][@"x"]] floatValue], expectedCornerValues2[i].x);
+        XCTAssertEqual([[s2 resultForVariable:corners[i][@"y"]] floatValue], expectedCornerValues2[i].y);
     }
 
     NSPoint expectedMidpointValues2[] = {
@@ -659,8 +694,8 @@
         NSMakePoint(175, 50)
     };
     for (int i = 0; i < 4; i++) {
-        XCTAssertEqual([(CSWVariable*) midpoints[i][@"x"] value], expectedMidpointValues2[i].x);
-        XCTAssertEqual([(CSWVariable*) midpoints[i][@"y"] value], expectedMidpointValues2[i].y);
+        XCTAssertEqual([[s2 resultForVariable:midpoints[i][@"x"]] floatValue], expectedMidpointValues2[i].x);
+        XCTAssertEqual([[s2 resultForVariable:midpoints[i][@"y"]] floatValue], expectedMidpointValues2[i].y);
     }
         
     [solver suggestEditVariables:@[
@@ -668,14 +703,15 @@
         [[CSWSuggestion alloc] initWithVariable: midpoints[0][@"y"] value: 150],
     ]];
     
-    XCTAssertEqual([(CSWVariable*) midpoints[0][@"x"] value], 50);
-    XCTAssertEqual([(CSWVariable*) midpoints[0][@"y"] value], 150);
+    CSWSimplexSolverSolution *s3 = [solver solve];
+    XCTAssertEqual([[s3 resultForVariable:midpoints[0][@"x"]] floatValue], 50);
+    XCTAssertEqual([[s3 resultForVariable:midpoints[0][@"y"]] floatValue], 150);
+
+    XCTAssertEqual([[s3 resultForVariable:midpoints[3][@"x"]] floatValue], 150);
+    XCTAssertEqual([[s3 resultForVariable:midpoints[3][@"y"]] floatValue], 50);
     
-    XCTAssertEqual([(CSWVariable*) midpoints[3][@"x"] value], 150);
-    XCTAssertEqual([(CSWVariable*) midpoints[3][@"y"] value], 50);
-    
-    XCTAssertEqual([(CSWVariable*) corners[0][@"x"] value], 50);
-    XCTAssertEqual([(CSWVariable*) corners[0][@"y"] value], 50);
+    XCTAssertEqual([[s3 resultForVariable:corners[0][@"x"]] floatValue], 50);
+    XCTAssertEqual([[s3 resultForVariable:corners[0][@"y"]] floatValue], 50);
 }
 
 -(void)testBeginEditThrowsErrorIfNoEditableVariables
@@ -691,13 +727,17 @@
     
     CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:v strength:[CSWStrength strengthStrong]];
     [solver addConstraint:stayConstraint];
-    XCTAssertEqual(v.value, 0);
+    
+    CSWSimplexSolverSolution *s0 = [solver solve];
+    XCTAssertEqual([[s0 resultForVariable:v] floatValue], 0);
+
     [solver addConstraint:[[CSWConstraint alloc] initEditConstraintWithVariable:v stength:[CSWStrength strengthRequired]]];
     [solver beginEdit];
     [solver suggestEditVariable:v equals:2];
     [solver endEdit];
     
-    XCTAssertEqual(v.value, 2);
+    CSWSimplexSolverSolution *s = [solver solve];
+    XCTAssertEqual([[s resultForVariable:v] floatValue], 2);
 }
 
 -(void)testRequiredStayConstraintDefeatsStrongEditConstraintWhenSuggestingEditVariable
@@ -712,7 +752,9 @@
     [solver beginEdit];
     [solver suggestEditVariable:v equals:2];
     [solver endEdit];
-    XCTAssertEqual(v.value, 0);
+    
+    CSWSimplexSolverSolution *s = [solver solve];
+    XCTAssertEqual([[s resultForVariable:v] floatValue], 0);
 }
 
 -(void)testBug16
@@ -733,10 +775,11 @@
         [solver beginEdit];
         [solver suggestEditVariable:a equals:3];
         [solver endEdit];
-        
-        XCTAssertEqual(a.value, 3);
-        XCTAssertEqual(b.value, 3);
     
+        CSWSimplexSolverSolution *s = [solver solve];
+    
+        XCTAssertEqual([[s resultForVariable:a] floatValue], 3);
+        XCTAssertEqual([[s resultForVariable:b] floatValue], 3);
 }
 
 -(void)testBug16B
@@ -752,7 +795,9 @@
     [solver addConstraints:@[aEquals, bEqualsC]];
     
     [solver suggestVariable:c equals:100];
-    XCTAssertEqual(a.value, 10);
+    
+    CSWSimplexSolverSolution *s = [solver solve];
+    XCTAssertEqual([[s resultForVariable:a] floatValue], 10);
 }
 
 -(void)testSolvesCorrectlyAfterSuggestingValues
@@ -762,9 +807,9 @@
 
     [self addStayConstraintsForVariables:@[x, y] solver:solver];
     [solver suggestVariable: x equals: 6];
-    [solver solve];
-
-    XCTAssertEqual(x.value, 6);
+    
+    CSWSimplexSolverSolution *s = [solver solve];
+    XCTAssertEqual([[s resultForVariable:x] floatValue], 6);
 }
 
 -(NSDictionary*)createConstraintsForCasso1X: (CSWVariable*)x y:(CSWVariable*)y
@@ -802,10 +847,10 @@
     
     NSDictionary *constraints = [self createConstraintsForCasso1X:x y:y];
     [solver addConstraints:@[constraints[@"x<=y"], constraints[@"yx"], constraints[@"x"], constraints[@"y"]]];
-    [solver solve];
     
-    XCTAssertEqual(x.value, 7);
-    XCTAssertEqual(y.value, 10);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 7);
+    XCTAssertEqual([[solution resultForVariable:y] floatValue], 10);
 }
 
 -(void)testCompetingWeakConstraintsWithXConstraintTakingPriorityOverY
@@ -815,10 +860,10 @@
     
     NSDictionary *constraints = [self createConstraintsForCasso1X:x y:y];
     [solver addConstraints:@[constraints[@"x<=y"], constraints[@"yx"], constraints[@"y"], constraints[@"x"]]];
-    [solver solve];
     
-    XCTAssertEqual(x.value, 10);
-    XCTAssertEqual(y.value, 13);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 10);
+    XCTAssertEqual([[solution resultForVariable:y] floatValue], 13);
 }
 
 -(void)testCassowary2
@@ -836,10 +881,10 @@
     CSWConstraint *x10 = [CSWConstraintFactory constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:10];
 
     [solver addConstraints:@[yEqualsX, xLessThanOrEqualToY, x10]];
-    [solver solve];
 
-    XCTAssertEqual(x.value, 10);
-    XCTAssertEqual(y.value, 13);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 10);
+    XCTAssertEqual([[solution resultForVariable:y] floatValue], 13);
 }
 
 // inconsistent1
@@ -900,9 +945,14 @@
     c2.strength = [CSWStrength strengthMedium];
     
     [solver addConstraints:@[c1, c2]];
-    XCTAssertEqual(x.value, 2);
+    
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:x] floatValue], 2);
+
     [solver updateConstraint: c1 strength: [CSWStrength strengthStrong]];
-    XCTAssertEqual(x.value, 1);
+    
+    CSWSimplexSolverSolution *s2 = [solver solve];
+    XCTAssertEqual([[s2 resultForVariable:x] floatValue], 1);
 }
 
 -(void)testModifyingConstraintWeightUpdatesSolver
@@ -920,7 +970,8 @@
     newC1Strength.weight = 3;
     
     [solver updateConstraint:c1 strength:newC1Strength];
-    XCTAssertEqual(x.value, 1);
+    CSWSimplexSolverSolution *s1 = [solver solve];
+    XCTAssertEqual([[s1 resultForVariable:x] floatValue], 1);
 }
 
 -(void)testDoesNotContainConstraintIfConstraintHasNotBeenAdded
@@ -947,21 +998,6 @@
     XCTAssertFalse([solver containsConstraint:constraint]);
 }
 
--(void)testEditUnconstrainedVariable
-{
-    CSWVariable *variable = [CSWVariable variableWithValue:0];
-    
-    CSWConstraint *constraint = [[CSWConstraint alloc] initEditConstraintWithVariable:variable stength:[CSWStrength strengthStrong]];
-    [solver addConstraint:constraint];
-    XCTAssertEqual(variable.value, 0);
-    XCTAssertTrue([solver isValid]);
-    
-    [solver suggestVariable:variable equals:2];
-    [solver resolve];
-    XCTAssertEqual(variable.value, 2);
-    XCTAssertTrue([solver isValid]);
-}
-
 -(void)testIndependentValuesCanBeSuggestedForConcurrentEdits
 {
     CSWSimplexSolver *solver = [self autoSolver];
@@ -977,7 +1013,8 @@
     [solver suggestEditConstraint:e2 equals:21];
     [solver resolve];
 
-    XCTAssertEqual(variable.value, 42);
+    CSWSimplexSolverSolution *solution = [solver solve];
+    XCTAssertEqual([[solution resultForVariable:variable] floatValue], 42);
 }
 
 -(void)testDoesNotHaveMultipleSolutionWithASingleRequiredConstraint

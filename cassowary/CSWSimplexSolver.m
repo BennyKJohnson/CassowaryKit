@@ -542,10 +542,10 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     [tableau removeRowForVariable:artificialZ];
 }
 
--(void)solve
+-(CSWSimplexSolverSolution*)solve
 {
     [self optimize:_objective tableau:_tableau entryVariable:nil];
-    [self _updateExternalVariables];
+    return [self solutionFromTableau: _tableau];
 }
 
 - (CSWTableau *)createTableauWithObjective {
@@ -558,8 +558,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 
 -(NSArray*)solveAll
 {
-    [self optimize:_objective tableau:_tableau entryVariable:nil];
-    CSWSimplexSolverSolution *solution = [self solutionFromTableau: _tableau];
+    CSWSimplexSolverSolution *solution = [self solve];
 
     NSArray *specialVariables = [_tableau substitedOutNonBasicPivotableVariables:_objective];
     if ([specialVariables count] == 0) {

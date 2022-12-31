@@ -4,6 +4,7 @@
 #import "CSWEditVariableManager.h"
 #import "CSWSuggestion.h"
 #import "CSWTableauConstraintConverter.h"
+#import "CSWSimplexSolverSolution.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -54,7 +55,7 @@ enum CSWErrorCode {
 
 -(void)endEdit;
 
--(void)solve;
+-(CSWSimplexSolverSolution*)solve;
 
 // If the solver is underconstrained, this method will return the primary solution and alternative solutions
 -(NSArray*)solveAll;
