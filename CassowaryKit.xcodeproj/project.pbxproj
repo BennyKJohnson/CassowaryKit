@@ -37,6 +37,8 @@
 		6F8E00CF295FD5F400BA44E0 /* CSWSimplexSolverSolution.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8E00CD295FD5F400BA44E0 /* CSWSimplexSolverSolution.h */; };
 		6F8E00D0295FD5F400BA44E0 /* CSWSimplexSolverSolution.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8E00CE295FD5F400BA44E0 /* CSWSimplexSolverSolution.m */; };
 		6F8E00D9295FD60700BA44E0 /* CSWSimplexSolverSolutionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8E00D3295FD5F900BA44E0 /* CSWSimplexSolverSolutionTests.m */; };
+		6F8E00DE2960328E00BA44E0 /* CSWTableauConstraintConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8E00DC2960328E00BA44E0 /* CSWTableauConstraintConverter.h */; };
+		6F8E00DF2960328E00BA44E0 /* CSWTableauConstraintConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8E00DD2960328E00BA44E0 /* CSWTableauConstraintConverter.m */; };
 		6FCBB8B3291CE808008692B2 /* CSWTableauTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBB8B2291CE808008692B2 /* CSWTableauTests.m */; };
 		6FCBB8B6291CE850008692B2 /* CSWTableau.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCBB8B4291CE850008692B2 /* CSWTableau.h */; };
 		6FCBB8B7291CE850008692B2 /* CSWTableau.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBB8B5291CE850008692B2 /* CSWTableau.m */; };
@@ -96,6 +98,8 @@
 		6F8E00CD295FD5F400BA44E0 /* CSWSimplexSolverSolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSWSimplexSolverSolution.h; sourceTree = "<group>"; };
 		6F8E00CE295FD5F400BA44E0 /* CSWSimplexSolverSolution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSWSimplexSolverSolution.m; sourceTree = "<group>"; };
 		6F8E00D3295FD5F900BA44E0 /* CSWSimplexSolverSolutionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSWSimplexSolverSolutionTests.m; sourceTree = "<group>"; };
+		6F8E00DC2960328E00BA44E0 /* CSWTableauConstraintConverter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWTableauConstraintConverter.h; sourceTree = "<group>"; };
+		6F8E00DD2960328E00BA44E0 /* CSWTableauConstraintConverter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWTableauConstraintConverter.m; sourceTree = "<group>"; };
 		6FCBB8B2291CE808008692B2 /* CSWTableauTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWTableauTests.m; sourceTree = "<group>"; };
 		6FCBB8B4291CE850008692B2 /* CSWTableau.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSWTableau.h; sourceTree = "<group>"; };
 		6FCBB8B5291CE850008692B2 /* CSWTableau.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSWTableau.m; sourceTree = "<group>"; };
@@ -186,6 +190,8 @@
 				6F07E210293478F200B9039E /* CSWEditVariableManager.m */,
 				6FF8789C293A9ABA0080779B /* CSWSuggestion.h */,
 				6FF8789D293A9ABA0080779B /* CSWSuggestion.m */,
+				6F8E00DC2960328E00BA44E0 /* CSWTableauConstraintConverter.h */,
+				6F8E00DD2960328E00BA44E0 /* CSWTableauConstraintConverter.m */,
 			);
 			path = cassowary;
 			sourceTree = "<group>";
@@ -218,6 +224,7 @@
 				6F25C82E291A3CD9000388A9 /* CSWSymbolicWeight.h in Headers */,
 				6FF8789E293A9ABA0080779B /* CSWSuggestion.h in Headers */,
 				6F26BDDD2931D39B000E7D0A /* CSWConstraintFactory.h in Headers */,
+				6F8E00DE2960328E00BA44E0 /* CSWTableauConstraintConverter.h in Headers */,
 				6F48B880293C3D75002159CD /* CSWVariable+PrivateMethods.h in Headers */,
 				6F26BDE02931DBB6000E7D0A /* CSWConstraintOperator.h in Headers */,
 				6F1D847F2919845D006B012A /* CSWLinearExpression.h in Headers */,
@@ -334,6 +341,7 @@
 			files = (
 				6F26BDDE2931D39B000E7D0A /* CSWConstraintFactory.m in Sources */,
 				6FCBB8B7291CE850008692B2 /* CSWTableau.m in Sources */,
+				6F8E00DF2960328E00BA44E0 /* CSWTableauConstraintConverter.m in Sources */,
 				6F25C82F291A3CD9000388A9 /* CSWSymbolicWeight.m in Sources */,
 				6F8E00D0295FD5F400BA44E0 /* CSWSimplexSolverSolution.m in Sources */,
 				6F26BDDA293191B9000E7D0A /* CSWTracableSimplexSolver.m in Sources */,

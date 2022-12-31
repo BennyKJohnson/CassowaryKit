@@ -3,16 +3,9 @@
 #import "CSWConstraint.h"
 #import "CSWEditVariableManager.h"
 #import "CSWSuggestion.h"
+#import "CSWTableauConstraintConverter.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-struct ExpressionResult {
-    CSWLinearExpression *expression;
-    CSWVariable *minus;
-    CSWVariable *plus;
-    double previousConstant;
-};
-typedef struct ExpressionResult ExpressionResult;
 
 extern NSString *const CSWErrorDomain;
 
@@ -23,11 +16,8 @@ enum CSWErrorCode {
 @interface CSWSimplexSolver : NSObject
 {
     CSWVariable *_objective;
-    int _slackCounter;
-    int _dummyCounter;
     int _artificialCounter;
     int _optimizeCount;
-    int _variableCounter;
     NSMapTable *_markerVariables;
     NSMapTable *_errorVariables;
     NSMutableArray *_stayMinusErrorVariables;
@@ -35,9 +25,8 @@ enum CSWErrorCode {
     NSMutableArray *_addedConstraints;
     BOOL _needsSolving;
     CSWTableau *_tableau;
+    CSWTableauConstraintConverter *_constraintConverter;
 }
-
-@property (nonatomic, strong) NSMapTable* _constraintAuxiliaryVariables;
 
 @property BOOL autoSolve;
 

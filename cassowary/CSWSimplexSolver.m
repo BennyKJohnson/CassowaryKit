@@ -21,13 +21,10 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         valueOptions:NSMapTableStrongMemory];
         _errorVariables = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
-        
-        self._constraintAuxiliaryVariables = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableStrongMemory];
-        
-        _slackCounter = 0;
+                
         _artificialCounter = 0;
-        _dummyCounter = 0;
-        _variableCounter = 0;
+        
+        _constraintConverter = [[CSWTableauConstraintConverter alloc] init];
         
         _addedConstraints = [NSMutableArray array];
                 
@@ -78,7 +75,28 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     }
     
     ExpressionResult expressionResult;
-    CSWLinearExpression *expression = [self createExpression:constraint expressionResult:&expressionResult tableau:tableau];
+    
+    CSWLinearExpression *expression = [_constraintConverter createExpression:constraint expressionResult:&expressionResult tableau:tableau objective: _objective];
+    [_markerVariables setObject:expressionResult.marker forKey:constraint];
+
+    if ([constraint isStayConstraint]) {
+        if (expressionResult.plus != nil) {
+            [_stayPlusErrorVariables addObject:expressionResult.plus];
+        }
+        if (expressionResult.minus != nil) {
+            [_stayMinusErrorVariables addObject:expressionResult.minus];
+        }
+    }
+    
+    if (![constraint isInequality] && ![constraint isRequired]) {
+        [self insertErrorVariable:constraint variable:expressionResult.minus];
+        [self insertErrorVariable:constraint variable:expressionResult.plus];
+    }
+    if ([constraint isInequality] && ![constraint isRequired]) {
+        [self insertErrorVariable:constraint variable:expressionResult.minus];
+    }
+    
+    
     BOOL addedDirectly = [self tryAddingExpressionDirectly: expression tableau:tableau];
     if (!addedDirectly) {
         NSError *error = nil;
@@ -492,155 +510,6 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     [self addConstraint: editVariableConstraint];
 }
 
-/** Make a new linear expression representing the constraint c,
- ** replacing any basic variables with their defining expressions.
- * Normalize if necessary so that the constant is non-negative.  If
- * the constraint is non-required, give its error variables an
- * appropriate weight in the objective function. */
--(CSWLinearExpression*)createExpression: (CSWConstraint *)constraint expressionResult: (ExpressionResult*)expressionResult tableau: (CSWTableau*)tableau;
-{
-    CSWLinearExpression *constraintExpression = [constraint expression];
-    
-    CSWLinearExpression *newExpression = [[CSWLinearExpression alloc] init];
-    [newExpression setConstant:[constraintExpression constant]];
-    
-    for (CSWVariable *term in constraintExpression.termVariables) {
-        CSWDouble termCoefficient = [[constraintExpression multiplierForTerm: term] doubleValue];
-        CSWLinearExpression *rowExpression = [tableau rowExpressionForVariable:term];
-        if ([tableau isBasicVariable:term]) {
-            [tableau addNewExpression:rowExpression toExpression:newExpression n:termCoefficient subject:nil];
-        } else {
-            [tableau addVariable:term toExpression:newExpression withCoefficient:termCoefficient subject:nil];
-        }
-    }
-    
-    ExpressionResult *result = expressionResult;
-    result->expression = nil;
-    result->minus = nil;
-    result->plus = nil;
-
-    if ([self._constraintAuxiliaryVariables objectForKey:constraint] == nil) {
-        [self._constraintAuxiliaryVariables setObject:[NSMutableDictionary dictionary] forKey:constraint];
-    }
-    
-    if ([constraint isInequality]) {
-        [self applyInequityConstraint:constraint newExpression:newExpression tableau:tableau];
-    } else {
-        [self applyConstraint:constraint newExpression:newExpression result:&result tableau:tableau];
-    }
-    
-    // the Constant in the Expression should be non-negative. If necessary
-    // normalize the Expression by multiplying by -1
-    if (newExpression.constant < 0) {
-        [newExpression normalize];
-    }
-    
-    return newExpression;
-}
-
-- (void)applyConstraint:(CSWConstraint *)constraint newExpression:(CSWLinearExpression *)newExpression result:(ExpressionResult **)result tableau: (CSWTableau*)tableau {
-    CSWLinearExpression *constraintExpression = [constraint expression];
-    NSMutableDictionary *constraintAuxiliaryVariables = [self._constraintAuxiliaryVariables objectForKey:constraint];
-
-    if ([constraint isRequired]) {
-        CSWVariable *dummyVariable;
-        if (constraintAuxiliaryVariables[@"d"] != nil) {
-            dummyVariable = constraintAuxiliaryVariables[@"d"];
-        } else {
-            dummyVariable = [self createDummyVariableWithPrefix:@"d"];
-            constraintAuxiliaryVariables[@"d"] = dummyVariable;
-        }
-
-        (*result)->plus = dummyVariable;
-        (*result)->minus = dummyVariable;
-        (*result)->previousConstant = constraintExpression.constant;
-        [tableau setVariable:dummyVariable onExpression:newExpression withCoefficient:1];
-        [_markerVariables setObject:dummyVariable forKey:constraint];
-    } else {
-        // cn is a non-required equality. Add a positive and a negative error
-        // variable, making the resulting constraint
-        //       expr = eplus - eminus
-        // in other words:
-        //       expr - eplus + eminus = 0
-        
-        _slackCounter++;
-        CSWVariable *eplusVariable = [self slackVariableForConstraint:constraint prefix:@"ep"];
-        CSWVariable *eminusVariable = [self slackVariableForConstraint:constraint prefix:@"em"];
-                
-        [tableau setVariable:eplusVariable onExpression:newExpression withCoefficient:-1];
-        [tableau setVariable:eminusVariable onExpression:newExpression withCoefficient:1];
-        [_markerVariables setObject:eplusVariable forKey:constraint];
-        
-        CSWLinearExpression *zRow = [tableau rowExpressionForVariable: _objective];
-        CSWDouble swCoefficient = [constraint.strength value];
-        
-        [tableau setVariable:eplusVariable onExpression:zRow withCoefficient:swCoefficient];
-        [tableau addMappingFromExpressionVariable:eplusVariable toRowVariable:_objective];
-        
-        [tableau setVariable:eminusVariable onExpression:zRow withCoefficient:swCoefficient];
-        [tableau addMappingFromExpressionVariable:eminusVariable toRowVariable:_objective];
-        
-        [self insertErrorVariable:constraint variable:eminusVariable];
-        [self insertErrorVariable:constraint variable:eplusVariable];
-        
-        if ([constraint isStayConstraint]) {
-            [_stayPlusErrorVariables addObject:eplusVariable];
-            [_stayMinusErrorVariables addObject:eminusVariable];
-        } else if ([constraint isEditConstraint]) {
-            (*result)->plus = eplusVariable;
-            (*result)->minus = eminusVariable;
-            (*result)->previousConstant = constraintExpression.constant;
-        }
-    }
-}
-
--(CSWVariable*)slackVariableForConstraint: (CSWConstraint*)constraint prefix: (NSString*)prefix
-{
-    NSMutableDictionary *constraintAuxiliaryVariables = [self._constraintAuxiliaryVariables objectForKey:constraint];
-
-    if (constraintAuxiliaryVariables[prefix] != nil) {
-        return constraintAuxiliaryVariables[prefix];
-    } else {
-        CSWVariable *slackVariable = [self createSlackVariableWithPrefix:prefix];
-        constraintAuxiliaryVariables[prefix] = slackVariable;
-        return slackVariable;
-    }
-}
-
-/*
-  Add a slack variable. The original constraint
- // is expr>=0, so that the resulting equality is expr-slackVar=0. If cn is
- // also non-required Add a negative error variable, giving:
- //
- //    expr - slackVar = -errorVar
- //
- // in other words:
- //
- //    expr - slackVar + errorVar = 0
- //
- // Since both of these variables are newly created we can just Add
- // them to the Expression (they can't be basic).
- */
-- (void)applyInequityConstraint:(CSWConstraint *)constraint newExpression:(CSWLinearExpression *)newExpression tableau: (CSWTableau*)tableau {
-    _slackCounter++;
-    CSWVariable *slackVariable = [self createSlackVariableWithPrefix:@"s"];
-    [tableau setVariable:slackVariable onExpression:newExpression withCoefficient:-1];
-    
-    [_markerVariables setObject:slackVariable forKey:constraint];
-    
-    if (![constraint isRequired]) {
-        CSWVariable *eminusSlackVariable = [self createSlackVariableWithPrefix:@"em"];
-        [newExpression addVariable:eminusSlackVariable coefficient:1];
-        
-        CSWDouble eminusCoefficient = [constraint.strength value];
-        CSWLinearExpression *zRow = [tableau rowExpressionForVariable: _objective];
-        [tableau setVariable:eminusSlackVariable onExpression:zRow withCoefficient: eminusCoefficient];
-        
-        [self insertErrorVariable:constraint variable:eminusSlackVariable];
-        [tableau addMappingFromExpressionVariable:eminusSlackVariable toRowVariable: _objective];
-    }
-}
-
 -(void)addWithArtificialVariable: (CSWLinearExpression*)expression error: (NSError **)error tableau: (CSWTableau*)tableau entryVariable: (CSWVariable*)entryVariable
 {
     
@@ -970,26 +839,6 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     }
     
     [self removeConstraint:[[editInfos firstObject] constraint]];
-}
-
--(NSUInteger)getNextVariableId
-{
-    return ++_variableCounter;
-}
-
--(CSWVariable*)createSlackVariableWithPrefix: (NSString*)prefix
-{
-    CSWVariable *slackVariable = [CSWVariable slackVariableWithName:[NSString stringWithFormat:@"%@%d", prefix, _slackCounter]];
-    // [[CSWSlackVariable alloc] initWithName:[NSString stringWithFormat:@"%@%d", prefix, _slackCounter]];
-    slackVariable.id = [self getNextVariableId];
-    _variableCounter++;
-    return slackVariable;
-}
-
--(CSWVariable*)createDummyVariableWithPrefix: (NSString*)prefix
-{
-    _dummyCounter++;
-    return [CSWVariable dummyVariableWithName:[NSString stringWithFormat:@"%@%d", prefix, _dummyCounter]];
 }
 
 -(BOOL)isMultipleSolutions
