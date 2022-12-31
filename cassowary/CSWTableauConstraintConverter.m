@@ -141,12 +141,10 @@
       [tableau setVariable:eminusSlackVariable onExpression:zRow withCoefficient: eminusCoefficient];
       // TODO check this no test hits this code
       (*result)->minus = eminusSlackVariable;
-//        [self insertErrorVariable:constraint variable:eminusSlackVariable];
       [tableau addMappingFromExpressionVariable:eminusSlackVariable toRowVariable: _objective];
   }
 }
 
-// isNotRequire and inequility
 -(CSWVariable*)slackVariableForConstraint: (CSWConstraint*)constraint prefix: (NSString*)prefix
 {
     NSMutableDictionary *constraintAuxiliaryVariables = [_constraintAuxiliaryVariables objectForKey:constraint];

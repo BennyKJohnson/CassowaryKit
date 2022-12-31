@@ -65,6 +65,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(NSArray*)substitedOutNonBasicPivotableVariables: (CSWVariable*)objective;
 
+- (CSWVariable*)findPivotableExitVariable:(CSWVariable *)entryVariable;
+
+- (CSWVariable*)findExitVariableForEquationWhichMinimizesRatioOfRestrictedVariables:(CSWVariable *)constraintMarkerVariable;
+
 @end
 
 NS_ASSUME_NONNULL_END

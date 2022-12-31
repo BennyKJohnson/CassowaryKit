@@ -229,7 +229,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
       // the marker variable.  In effect we are removing the
       // non-negativity restriction on the marker variable.)
     if (exitVariable == nil) {
-        exitVariable = [self findExitVariableForEquationWhichMinimizesRatioOfRestrictedVariables: constraintMarkerVariable];
+        exitVariable = [_tableau findExitVariableForEquationWhichMinimizesRatioOfRestrictedVariables: constraintMarkerVariable];
     }
     
     if (exitVariable == nil) {
@@ -261,27 +261,6 @@ NSString * const CSWErrorDomain = @"com.cassowary";
                     minRatio = r;
                     exitVariable = variable;
                 }
-            }
-        }
-    }
-    
-    return exitVariable;
-}
-
-- (CSWVariable*)findExitVariableForEquationWhichMinimizesRatioOfRestrictedVariables:(CSWVariable *)constraintMarkerVariable {
-    CSWVariable *exitVariable = nil;
-    CSWDouble minRatio = 0;
-
-    NSSet *column = [_tableau columnForVariable:constraintMarkerVariable];
-    for (CSWVariable *variable in column) {
-        if ([variable isRestricted]) {
-            CSWLinearExpression *expression = [_tableau rowExpressionForVariable:variable];
-            CSWDouble coefficient = [expression coefficientForTerm:constraintMarkerVariable];
-            CSWDouble r = [expression constant] / coefficient;
-            
-            if (exitVariable == nil || r < minRatio) {
-                minRatio = r;
-                exitVariable = variable;
             }
         }
     }
@@ -638,7 +617,10 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         // choose which variable to move out of the basis
         // Only consider pivotable basic variables
         // (i.e. restricted, non-dummy variables)
-        CSWVariable *exitVariable = [self findPivotableExitVariable:entryVariable tableau: tableau];
+        CSWVariable *exitVariable = [tableau findPivotableExitVariable:entryVariable];
+        if (exitVariable == nil) {
+            [[NSException exceptionWithName:NSInternalInconsistencyException reason:@"Objective function is unbounded in optimize" userInfo:nil] raise];
+        }
         [tableau pivotWithEntryVariable:entryVariable exitVariable:exitVariable];
         
         objectiveCoefficient = 0;
@@ -651,37 +633,6 @@ NSString * const CSWErrorDomain = @"com.cassowary";
             objectiveCoefficient = [zRow coefficientForTerm:entryVariable];
         }
     }
-}
-
-- (CSWVariable*)findPivotableExitVariable:(CSWVariable *)entryVariable tableau: (CSWTableau*)tableau {
-    CSWDouble minRatio = DBL_MAX;
-    CSWDouble r = 0;
-    CSWVariable *exitVariable = nil;
-    for (CSWVariable *variable in [tableau columnForVariable: entryVariable]) {
-        if ([variable isPivotable]) {
-            CSWLinearExpression *expression = [tableau rowExpressionForVariable:variable];
-            CSWDouble coefficient = [expression coefficientForTerm:entryVariable];
-            
-            if (coefficient < 0) {
-                r = -expression.constant / coefficient;
-                
-                // Bland's anti-cycling rule:
-                // if multiple variables are about the same,
-                // always pick the lowest via some total
-                // ordering -- in this implementation we preferred the variable created first
-                if (r < minRatio || ([CSWFloatComparator isApproxiatelyEqual:r b:minRatio] && [self shouldPreferPivotableVariable:variable overPivotableVariable:exitVariable])) {
-                    minRatio = r;
-                    exitVariable = variable;
-                }
-            }
-        }
-    }
-    
-    if (exitVariable == nil) {
-        [[NSException exceptionWithName:NSInternalInconsistencyException reason:@"Objective function is unbounded in optimize" userInfo:nil] raise];
-    }
-    
-    return exitVariable;
 }
 
 -(BOOL)shouldPreferPivotableVariable: (CSWVariable*)lhs overPivotableVariable: (CSWVariable*)rhs

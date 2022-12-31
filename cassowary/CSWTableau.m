@@ -19,6 +19,21 @@
     return self;
 }
 
+-(BOOL)shouldPreferPivotableVariable: (CSWVariable*)lhs overPivotableVariable: (CSWVariable*)rhs
+{
+    return [lhs id] < [rhs id];
+}
+
+-(BOOL)hasColumnForVariable: (CSWVariable*)variable
+{
+    return [columns objectForKey:variable] != nil;
+}
+
+-(NSSet*)columnForVariable: (CSWVariable*)variable
+{
+    return [columns objectForKey:variable];
+}
+
 // Add v=expr to the tableau, update column cross indices
 // v becomes a basic variable
 // expr is now owned by ClTableau class,
@@ -345,14 +360,52 @@
     return substitutedOutVariables;
 }
 
--(BOOL)hasColumnForVariable: (CSWVariable*)variable
-{
-    return [columns objectForKey:variable] != nil;
+- (CSWVariable*)findPivotableExitVariable:(CSWVariable *)entryVariable {
+    CSWDouble minRatio = DBL_MAX;
+    CSWDouble r = 0;
+    CSWVariable *exitVariable = nil;
+    for (CSWVariable *variable in [self columnForVariable: entryVariable]) {
+        if ([variable isPivotable]) {
+            CSWLinearExpression *expression = [self rowExpressionForVariable:variable];
+            CSWDouble coefficient = [expression coefficientForTerm:entryVariable];
+            
+            if (coefficient < 0) {
+                r = -expression.constant / coefficient;
+                
+                // Bland's anti-cycling rule:
+                // if multiple variables are about the same,
+                // always pick the lowest via some total
+                // ordering -- in this implementation we preferred the variable created first
+                if (r < minRatio || ([CSWFloatComparator isApproxiatelyEqual:r b:minRatio] && [self shouldPreferPivotableVariable:variable overPivotableVariable:exitVariable])) {
+                    minRatio = r;
+                    exitVariable = variable;
+                }
+            }
+        }
+    }
+    
+    return exitVariable;
 }
 
--(NSSet*)columnForVariable: (CSWVariable*)variable
-{
-    return [columns objectForKey:variable];
+- (CSWVariable*)findExitVariableForEquationWhichMinimizesRatioOfRestrictedVariables:(CSWVariable *)constraintMarkerVariable {
+    CSWVariable *exitVariable = nil;
+    CSWDouble minRatio = 0;
+
+    NSSet *column = [self columnForVariable:constraintMarkerVariable];
+    for (CSWVariable *variable in column) {
+        if ([variable isRestricted]) {
+            CSWLinearExpression *expression = [self rowExpressionForVariable:variable];
+            CSWDouble coefficient = [expression coefficientForTerm:constraintMarkerVariable];
+            CSWDouble r = [expression constant] / coefficient;
+            
+            if (exitVariable == nil || r < minRatio) {
+                minRatio = r;
+                exitVariable = variable;
+            }
+        }
+    }
+    
+    return exitVariable;
 }
 
 @end
