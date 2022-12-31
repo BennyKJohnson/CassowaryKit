@@ -6,8 +6,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CSWTableau : NSObject
 {
-   NSMutableSet *externalParametricVariables;
-   NSMapTable *rows;
+    NSMutableSet *externalParametricVariables;
+
+    NSMapTable *rows;
+
+    NSMapTable *columns;
 }
 
 @property (nonatomic, strong) NSMutableSet *updatedExternals;
@@ -15,8 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMapTable *externalRows;
 
 @property (nonatomic, strong) NSMutableArray *infeasibleRows;
-
-@property (nonatomic, strong) NSMapTable *columns;
 
 -(void) addRowForVariable: (CSWVariable*)variable equalsExpression:(CSWLinearExpression*)expression;
 
@@ -46,6 +47,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)removeColumn: (CSWVariable*)variable;
 
+-(BOOL)hasColumnForVariable: (CSWVariable*)variable;
+
+-(NSSet*)columnForVariable: (CSWVariable*)variable;
+
 -(CSWLinearExpression*)rowExpressionForVariable: (CSWVariable*)variable;
 
 -(void)changeSubjectOnExpression: (CSWLinearExpression*)expression existingSubject:(CSWVariable*)existingSubject newSubject: (CSWVariable*)newSubject;
@@ -57,6 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)containsExternalParametricVariableForEveryExternalTerm;
 
 - (BOOL)containsExternalRowForEachExternalRowVariable;
+
+-(BOOL)hasSubstitedOutNonBasicPivotableVariable: (CSWVariable*)objective;
 
 @end
 

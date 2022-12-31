@@ -11,16 +11,9 @@
 
 -(void)assertTableMapping:(CSWTableau*)table  fromExpressionVariable: (CSWVariable*)expressionVariable toRowVariable: (CSWVariable*)rowVariable
 {
-    NSSet *columns = [table.columns objectForKey:expressionVariable];
+    NSSet *columns = [table columnForVariable:expressionVariable];
     XCTAssertNotNil(columns);
     XCTAssertTrue([columns containsObject:rowVariable]);
-}
-
--(void)testCanInitTableau
-{
-    CSWTableau *tableau = [[CSWTableau alloc] init];
-    XCTAssertTrue([tableau isKindOfClass:[CSWTableau class]]);
-    XCTAssertEqual([tableau.columns count], 0);
 }
 
 -(void)testCanAddRow
@@ -57,7 +50,7 @@
     
     XCTAssertNil([tableau rowExpressionForVariable:variable]);
     
-    NSSet *columns = [[tableau columns] objectForKey:anotherVariable];
+    NSSet *columns = [tableau columnForVariable:anotherVariable];
     XCTAssertNotNil(columns);
     XCTAssertFalse([columns containsObject:variable]);
 }
@@ -81,7 +74,7 @@
     
     [self assertTableMapping:tableau fromExpressionVariable:zVariable toRowVariable:yVariable];
     
-    XCTAssertNil([tableau.columns objectForKey:xVariable]);
+    XCTAssertNil([tableau columnForVariable:xVariable]);
 }
 
 -(void)testSubstituteOutRemovesExpressionTermFromColumns
@@ -102,7 +95,7 @@
     
     [tableau substituteOutVariable: xVariable forExpression: zExpression];
     
-    NSSet *columns = [tableau.columns objectForKey:zVariable];
+    NSSet *columns = [tableau columnForVariable:zVariable];
     XCTAssertFalse([yExpression isTermForVariable:zVariable]);
     XCTAssertFalse([columns containsObject: yVariable]);
 }
@@ -125,7 +118,7 @@
     
     [tableau substituteOutVariable: xVariable forExpression: zExpression];
     
-    NSSet *columns = [tableau.columns objectForKey:zVariable];
+    NSSet *columns = [tableau columnForVariable:zVariable];
     CSWDouble coefficient = [yExpression coefficientForTerm:zVariable];
     XCTAssertEqualWithAccuracy(coefficient, 0.01, 0.00001);
     XCTAssertTrue([columns containsObject: yVariable]);
@@ -239,7 +232,7 @@
     [tableau removeColumn:columnVariable];
     
     // Should remove column mapping
-    XCTAssertNil([tableau.columns objectForKey:columnVariable]);
+    XCTAssertNil([tableau columnForVariable:columnVariable]);
     
     // Should remove column variable from expression terms
     XCTAssertFalse([expression isTermForVariable:columnVariable]);

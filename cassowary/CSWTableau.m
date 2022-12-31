@@ -8,7 +8,7 @@
     if (self = [super init]) {
         rows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
                                           valueOptions:NSMapTableStrongMemory];
-        self.columns = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
+        columns = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
         externalParametricVariables = [NSMutableSet set];
         self.externalRows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
@@ -43,17 +43,17 @@
 
 -(void)addMappingFromExpressionVariable: (CSWVariable*)columnVariable toRowVariable: (CSWVariable*)rowVariable
 {
-    NSMutableSet *columnSet = [self.columns objectForKey:columnVariable];
+    NSMutableSet *columnSet = [columns objectForKey:columnVariable];
     if (columnSet == nil) {
         columnSet = [NSMutableSet set];
-        [self.columns setObject:columnSet forKey:columnVariable];
+        [columns setObject:columnSet forKey:columnVariable];
     }
     [columnSet addObject:rowVariable];
 }
 
 -(void)removeMappingFromExpressionVariable: (CSWVariable*)columnVariable toRowVariable: (CSWVariable*)rowVariable
 {
-    NSMutableSet *columnSet = [self.columns objectForKey:columnVariable];
+    NSMutableSet *columnSet = [columns objectForKey:columnVariable];
     if (columnSet == nil) {
         return;
     }
@@ -62,13 +62,13 @@
 
 -(void)removeColumn: (CSWVariable*)variable
 {
-    NSSet *crows = [ self.columns objectForKey:variable];
+    NSSet *crows = [ columns objectForKey:variable];
     if (rows != nil) {
         for (id clv in crows) {
             CSWLinearExpression *expression = [rows objectForKey:clv];
             [expression removeVariable:variable];
         }
-        [self.columns removeObjectForKey:variable];
+        [columns removeObjectForKey:variable];
     }
     
     if ([variable isExternal]) {
@@ -104,7 +104,7 @@
 
 -(void)substituteOutVariable: (CSWVariable*)variable forExpression:(CSWLinearExpression*)expression
 {
-    NSSet *variableSet = [[self.columns objectForKey:variable] copy];
+    NSSet *variableSet = [[columns objectForKey:variable] copy];
     
     for (CSWVariable *columnVariable in variableSet) {
         CSWLinearExpression *row = [rows objectForKey:columnVariable];
@@ -118,7 +118,7 @@
         [self.externalRows setObject:expression forKey:variable];
         [externalParametricVariables removeObject:variable];
     }
-    [self.columns removeObjectForKey:variable];
+    [columns removeObjectForKey:variable];
 }
 
 -(void)substituteOutTerm: (CSWVariable*)term withExpression:(CSWLinearExpression*)newExpression inExpression: (CSWLinearExpression*)expression subject: (CSWVariable*)subject
@@ -194,7 +194,7 @@
 
 -(void)removeColumnVariable: (CSWVariable*)variable subject: (CSWVariable*)subject
 {
-    NSMutableSet *column = [self.columns objectForKey:variable];
+    NSMutableSet *column = [columns objectForKey:variable];
     if (subject != nil && column != nil) {
         [column removeObject:subject];
     }
@@ -266,7 +266,7 @@
 {
     NSMutableString *description = [NSMutableString stringWithString:@"Tableau Information\n"];
     [description appendFormat:@"Rows: %ld (%ld constraints)\n", rows.count, rows.count - 1];
-    [description appendFormat:@"Columns: %ld\n", _columns.count];
+    [description appendFormat:@"Columns: %ld\n", columns.count];
     [description appendFormat:@"Infesible rows: %ld\n", self.infeasibleRows.count];
     [description appendFormat:@"External basic variables: %ld\n", self.externalRows.count];
     [description appendFormat:@"External parametric variables: %ld\n\n", externalParametricVariables.count];
@@ -283,8 +283,8 @@
 -(NSString *)columnsDescription
 {
     NSMutableString *description = [NSMutableString string];
-    for (CSWVariable *columnVariable in self.columns) {
-        [description appendFormat:@"%@ : %@", columnVariable, [_columns objectForKey:columnVariable]];
+    for (CSWVariable *columnVariable in columns) {
+        [description appendFormat:@"%@ : %@", columnVariable, [columns objectForKey:columnVariable]];
     }
     
     return description;
@@ -329,6 +329,27 @@
     }
     
     return YES;
+}
+
+-(BOOL)hasSubstitedOutNonBasicPivotableVariable: (CSWVariable*)objective
+{
+    CSWLinearExpression *objectiveRowExpression = [self rowExpressionForVariable: objective];
+    for (CSWVariable *columnVariable in columns) {
+        if (columnVariable.isPivotable && ![self isBasicVariable:columnVariable] && [objectiveRowExpression.terms objectForKey:columnVariable] == nil) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+-(BOOL)hasColumnForVariable: (CSWVariable*)variable
+{
+    return [columns objectForKey:variable] != nil;
+}
+
+-(NSSet*)columnForVariable: (CSWVariable*)variable
+{
+    return [columns objectForKey:variable];
 }
 
 @end

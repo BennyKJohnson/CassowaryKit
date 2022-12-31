@@ -94,17 +94,12 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     }
 
     [expression newSubject: subject];
-    if ([_tableau.columns objectForKey:subject] != nil) {
+    if ([_tableau hasColumnForVariable: subject]) {
         [_tableau substituteOutVariable:subject forExpression:expression];
     }
     
     [_tableau addRowForVariable:subject equalsExpression:expression];
     return YES;
-}
-
--(BOOL)columnsContainObjectiveVariable
-{
-    return [_tableau.columns objectForKey:_objective] != nil;
 }
 
 -(void)removeConstraints: (NSArray*)constraints
@@ -211,7 +206,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     
     if (exitVariable == nil) {
         // Pick an exit var from among the unrestricted variables whose equation involves the marker var
-        NSSet *column = [_tableau.columns objectForKey:constraintMarkerVariable];
+        NSSet *column = [_tableau columnForVariable:constraintMarkerVariable];
         for (CSWVariable *variable in column) {
             if (variable != _objective) {
                 exitVariable = variable;
@@ -226,7 +221,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     CSWVariable *exitVariable = nil;
     CSWDouble minRatio = 0;
     
-    NSSet *column = [_tableau.columns objectForKey:constraintMarkerVariable];
+    NSSet *column = [_tableau columnForVariable:constraintMarkerVariable];
     for (CSWVariable *variable in column) {
         if ([variable isRestricted]) {
             CSWLinearExpression *expression = [_tableau rowExpressionForVariable:variable];
@@ -249,7 +244,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     CSWVariable *exitVariable = nil;
     CSWDouble minRatio = 0;
 
-    NSSet *column = [_tableau.columns objectForKey:constraintMarkerVariable];
+    NSSet *column = [_tableau columnForVariable:constraintMarkerVariable];
     for (CSWVariable *variable in column) {
         if ([variable isRestricted]) {
             CSWLinearExpression *expression = [_tableau rowExpressionForVariable:variable];
@@ -294,7 +289,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     // variables, then we can pick a dummy variable as the subject.
     float coefficent = 0;
     for (CSWVariable *term in expression.termVariables) {
-         if (![_tableau.columns objectForKey:term]) {
+         if (![_tableau hasColumnForVariable:term]) {
             subject = term;
             coefficent = [expression coefficientForTerm:term];
         }
@@ -324,15 +319,15 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     CSWVariable *subject = nil;
     for (CSWVariable *variable in expression.termVariables) {
         CGFloat coefficent = [[expression multiplierForTerm:variable] floatValue];
-        BOOL isNewVariable = ![_tableau.columns doesContain:variable];
+        BOOL isNewVariable = ![_tableau hasColumnForVariable:variable];
         
         if (foundUnrestricted && ![variable isRestricted] && isNewVariable) {
             return variable;
         } else if (foundUnrestricted == NO) {
             if ([variable isRestricted]) {
                 if (!foundNewRestricted && ![variable isDummy] && coefficent < 0) {
-                    NSSet *col = [_tableau.columns objectForKey:variable];
-                    if (col == nil || ([col count] == 1 && [self columnsContainObjectiveVariable])) {
+                    NSSet *col = [_tableau columnForVariable:variable];
+                    if (col == nil || ([col count] == 1 && [_tableau hasColumnForVariable:_objective])) {
                         subject = variable;
                         foundNewRestricted = true;
                     }
@@ -462,7 +457,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     // (it doesn't matter whether we look for that one or for
     // plusErrorVar).  Fix the constants in these expressions.
     
-    NSSet *columnVars = [_tableau.columns objectForKey:minusErrorVariable];
+    NSSet *columnVars = [_tableau columnForVariable:minusErrorVariable];
     if (!columnVars) {
         NSLog(@"columns for variable is null");
     }
@@ -703,7 +698,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     CSWDouble minRatio = DBL_MAX;
     CSWDouble r = 0;
     CSWVariable *exitVariable = nil;
-    for (CSWVariable *variable in [_tableau.columns objectForKey: entryVariable]) {
+    for (CSWVariable *variable in [_tableau columnForVariable: entryVariable]) {
         if ([variable isPivotable]) {
             CSWLinearExpression *expression = [_tableau rowExpressionForVariable:variable];
             CSWDouble coefficient = [expression coefficientForTerm:entryVariable];
@@ -913,13 +908,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     [self solve];
     
     // When a non basic pivotable variable (has a zero) in the objective row, this is a sign there are multiple solutions
-    CSWLinearExpression *objectiveRowExpression = [_tableau rowExpressionForVariable: _objective];
-    for (CSWVariable *columnVariable in _tableau.columns) {
-        if (columnVariable.isPivotable && ![_tableau isBasicVariable:columnVariable] && [objectiveRowExpression.terms objectForKey:columnVariable] == nil) {
-            return YES;
-        }
-    }
-    return NO;
+    return [_tableau hasSubstitedOutNonBasicPivotableVariable: _objective];
 }
  
 @end
