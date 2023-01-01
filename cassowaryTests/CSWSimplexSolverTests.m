@@ -415,9 +415,7 @@
     [self addEditConstraintsForVariables:@[x, y] solver:solver];
     [solver suggestEditVariable:x equals:10];
     [solver suggestEditVariable:y equals:20];
-    
-    [solver resolve];
-    
+        
     CSWSimplexSolverSolution *s0 = [solver solve];
     XCTAssertEqual([[s0 resultForVariable:x] floatValue], 10);
     XCTAssertEqual([[s0 resultForVariable:y] floatValue], 20);
@@ -428,7 +426,6 @@
     [self addEditConstraintsForVariables:@[w, h] solver:solver];
     [solver suggestEditVariable:w equals:30];
     [solver suggestEditVariable:h equals:40];
-    [solver resolve];
     
     CSWSimplexSolverSolution *s1 = [solver solve];
     XCTAssertEqual([[s1 resultForVariable:x] floatValue], 10);
@@ -438,7 +435,6 @@
     
     [solver suggestEditVariable:x equals:50];
     [solver suggestEditVariable:y equals:60];
-    [solver resolve];
     
     CSWSimplexSolverSolution *s2 = [solver solve];
     XCTAssertEqual([[s2 resultForVariable:x] floatValue], 50);
@@ -459,17 +455,14 @@
     
     [solver suggestEditVariable:x equals:10];
     [solver suggestEditVariable:y equals:20];
-    [solver resolve];
         
     [self addEditConstraintsForVariables:@[w, h] solver:solver];
     [solver suggestEditVariable:w equals:30];
     [solver suggestEditVariable:h equals:40];
-    [solver resolve];
     
     [self addEditConstraintsForVariables:@[x, y] solver:solver];
     [solver suggestEditVariable:x equals:50];
     [solver suggestEditVariable:y equals:60];
-    [solver resolve];
     
     CSWSimplexSolverSolution *s1 = [solver solve];
     XCTAssertEqual([[s1 resultForVariable:x] floatValue], 50);
@@ -486,21 +479,18 @@
     [self addEditConstraintsForVariables:@[x] solver:solver];
     [self addEditConstraintsForVariables:@[x] solver:solver];
     [solver suggestEditVariable:x equals:10];
-    [solver resolve];
     [solver removeEditVariable:x];
     
     CSWSimplexSolverSolution *s1 = [solver solve];
     XCTAssertEqual([[s1 resultForVariable:x] floatValue], 10);
     
     [solver suggestEditVariable:x equals:20];
-    [solver resolve];
     
     CSWSimplexSolverSolution *s2 = [solver solve];
     XCTAssertEqual([[s2 resultForVariable:x] floatValue], 20);
         
     [self addEditConstraintsForVariables:@[x] solver:solver];
     [solver suggestEditVariable:x equals:30];
-    [solver resolve];
     [solver removeEditVariable:x];
     
     CSWSimplexSolverSolution *s3 = [solver solve];
@@ -517,21 +507,18 @@
 
     [solver addConstraint:e1];
     [solver suggestEditVariable:x equals:1];
-    [solver resolve];
     
     CSWSimplexSolverSolution *s1 = [solver solve];
     XCTAssertEqual([[s1 resultForVariable:x] floatValue], 1);
 
     [solver addConstraint:e2];
     [solver suggestEditVariable:x equals:2];
-    [solver resolve];
     
     CSWSimplexSolverSolution *s2 = [solver solve];
     XCTAssertEqual([[s2 resultForVariable:x] floatValue], 2);
     
     [solver removeConstraint:e1];
     [solver suggestEditVariable:x equals:3];
-    [solver resolve];
     
     CSWSimplexSolverSolution *s3 = [solver solve];
     XCTAssertEqual([[s3 resultForVariable:x] floatValue], 3);
@@ -540,14 +527,12 @@
     [solver addConstraint:e1];
     [solver addConstraint:e2];
     [solver suggestEditVariable:x equals:5];
-    [solver resolve];
     
     CSWSimplexSolverSolution *s4 = [solver solve];
     XCTAssertEqual([[s4 resultForVariable:x] floatValue], 5);
 
     [solver removeConstraint:e2];
     [solver suggestEditVariable:x equals:6];
-    [solver resolve];
     
     CSWSimplexSolverSolution *s5 = [solver solve];
     XCTAssertEqual([[s5 resultForVariable:x] floatValue], 6);
@@ -1011,7 +996,6 @@
 
     [solver suggestEditConstraint:e1 equals:42];
     [solver suggestEditConstraint:e2 equals:21];
-    [solver resolve];
 
     CSWSimplexSolverSolution *solution = [solver solve];
     XCTAssertEqual([[solution resultForVariable:variable] floatValue], 42);

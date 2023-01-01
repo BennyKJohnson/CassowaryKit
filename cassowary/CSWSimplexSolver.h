@@ -60,8 +60,6 @@ enum CSWErrorCode {
 // If the solver is underconstrained, this method will return the primary solution and alternative solutions
 -(NSArray*)solveAll;
 
--(void)resolve;
-
 -(BOOL)isValid;
 
 -(void)updateConstraint: (CSWConstraint*)constraint strength: (CSWStrength*)strength;
