@@ -1,5 +1,6 @@
 #import "CSWTableau.h"
 #import "CSWFloatComparator.h"
+#import "CSWVariable+PrivateMethods.h"
 
 @implementation CSWTableau
 
@@ -11,9 +12,14 @@
         columns = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
         externalParametricVariables = [NSMutableSet set];
+                
         self.externalRows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
         self.infeasibleRows = [NSMutableArray array];
+        
+        self.objective = [CSWVariable objectiveVariableWithName:@"Z"];
+        CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
+        [self addRowForVariable:_objective equalsExpression: expression];
     }
     return self;
 }

@@ -16,16 +16,22 @@ enum CSWErrorCode {
 
 @interface CSWSimplexSolver : NSObject
 {
-    CSWVariable *_objective;
     int _artificialCounter;
-    int _optimizeCount;
+    
     NSMapTable *_markerVariables;
+    
     NSMapTable *_errorVariables;
+    
     NSMutableArray *_stayMinusErrorVariables;
+    
     NSMutableArray *_stayPlusErrorVariables;
+    
     NSMutableArray *_addedConstraints;
+    
     BOOL _needsSolving;
+    
     CSWTableau *_tableau;
+    
     CSWTableauConstraintConverter *_constraintConverter;
 }
 

@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSMapTable *columns;
 }
 
+@property (nonatomic, strong) CSWVariable *objective;
+
 @property (nonatomic, strong) NSMapTable *externalRows;
 
 @property (nonatomic, strong) NSMutableArray *infeasibleRows;
