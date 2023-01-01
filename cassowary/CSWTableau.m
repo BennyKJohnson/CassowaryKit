@@ -14,7 +14,6 @@
         self.externalRows = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
         self.infeasibleRows = [NSMutableArray array];
-        self.updatedExternals = [NSMutableSet set];
     }
     return self;
 }
@@ -236,7 +235,6 @@
 {
     if ([variable isExternal]) {
         [externalParametricVariables addObject:variable];
-        [_updatedExternals addObject:variable];
     }
 }
 

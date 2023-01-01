@@ -68,12 +68,6 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         [[NSException exceptionWithName:NSInvalidArgumentException reason:@"Cannot have an edit variable with a non external variable" userInfo:nil] raise];
     }
     
-    if ([constraint isKindOfClass:[CSWConstraint class]]) {
-        for (CSWVariable *externalVariable in [constraint.expression externalVariables]) {
-            [tableau.updatedExternals addObject:externalVariable];
-        }
-    }
-    
     ExpressionResult expressionResult;
     
     CSWLinearExpression *expression = [_constraintConverter createExpression:constraint expressionResult:&expressionResult tableau:tableau objective: _objective];
@@ -375,8 +369,8 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 -(void)resolve
 {
     [self dualOptimize];
-    [self _updateExternalVariables];
     [_tableau.infeasibleRows removeAllObjects];
+    _needsSolving = false;
     [self resetStayConstraints];
 }
 
@@ -473,9 +467,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         CSWLinearExpression *expression = [_tableau rowExpressionForVariable: basicVariable];
         CSWDouble coefficient = [expression coefficientForTerm:minusErrorVariable];
         expression.constant += coefficient * delta;
-        if (basicVariable.isExternal) {
-            [_tableau.updatedExternals addObject:basicVariable];
-        }
+
         if (basicVariable.isRestricted && expression.constant < 0) {
             [_tableau.infeasibleRows addObject:basicVariable];
         }
@@ -485,6 +477,11 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 
 -(void)addEditVariableForVariable: (CSWVariable*)variable strength: (CSWStrength*)strength
 {
+    CSWLinearExpression *variableExpression = [_tableau rowExpressionForVariable:variable];
+    if (variableExpression) {
+        variable.value = variableExpression.constant;
+    }
+    
     CSWConstraint *editVariableConstraint = [[CSWConstraint alloc] initEditConstraintWithVariable:variable stength:strength];
     [self addConstraint: editVariableConstraint];
 }
@@ -545,6 +542,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 -(CSWSimplexSolverSolution*)solve
 {
     [self optimize:_objective tableau:_tableau entryVariable:nil];
+    _needsSolving = false;
     return [self solutionFromTableau: _tableau];
 }
 
@@ -684,19 +682,6 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         [[NSException exceptionWithName:NSInternalInconsistencyException reason:@"ratio == nil (MAX_VALUE) in dualOptimize" userInfo:nil] raise];
     }
     return entryVariable;
-}
-
--(void)_updateExternalVariables
-{
-    for (CSWVariable *variable in _tableau.externalRows) {
-        CSWDouble calculatedValue = [_tableau rowExpressionForVariable:variable].constant;
-        if (calculatedValue != variable.value) {
-            [variable setValue:calculatedValue];
-        }
-    }
-    
-    [_tableau.updatedExternals removeAllObjects];
-    _needsSolving = false;
 }
 
 -(void)insertErrorVariable: (CSWConstraint*)constraint variable: (CSWVariable*)variable

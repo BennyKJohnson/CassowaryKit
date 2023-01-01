@@ -13,8 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
     NSMapTable *columns;
 }
 
-@property (nonatomic, strong) NSMutableSet *updatedExternals;
-
 @property (nonatomic, strong) NSMapTable *externalRows;
 
 @property (nonatomic, strong) NSMutableArray *infeasibleRows;
