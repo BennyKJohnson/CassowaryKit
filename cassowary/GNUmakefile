@@ -21,7 +21,9 @@ CSWSymbolicWeight.h \
 CSWTableau.h \
 CSWVariable.h \
 CSWTracableSimplexSolver.h \
-CSWTestObject.h
+CSWTestObject.h \
+CSWTableauConstraintConverter.h \
+CSWSimplexSolverSolution.h
 
 CassowaryKit_OBJC_FILES = \
 CSWConstraint.m \
@@ -37,7 +39,9 @@ CSWSuggestion.m \
 CSWSymbolicWeight.m \
 CSWTableau.m \
 CSWTracableSimplexSolver.m \
-CSWVariable.m
+CSWVariable.m \
+CSWTableauConstraintConverter.m \
+CSWSimplexSolverSolution.m
 
 -include GNUmakefile.preamble
 include $(GNUSTEP_MAKEFILES)/library.make
