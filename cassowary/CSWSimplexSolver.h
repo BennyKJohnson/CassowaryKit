@@ -74,6 +74,8 @@ enum CSWErrorCode {
 
 -(BOOL)isMultipleSolutions;
 
+-(BOOL)isVariableAmbiguous: (CSWVariable*)variable;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -69,6 +69,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CSWVariable*)findExitVariableForEquationWhichMinimizesRatioOfRestrictedVariables:(CSWVariable *)constraintMarkerVariable;
 
+-(CSWVariable*)findNonBasicVariables;
+
+- (CSWVariable*)findPivotableExitVariableWithoutCheck:(CSWVariable *)entryVariable;
+
 @end
 
 NS_ASSUME_NONNULL_END

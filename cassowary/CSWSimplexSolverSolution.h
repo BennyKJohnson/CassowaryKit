@@ -10,6 +10,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(NSNumber*)resultForVariable: (CSWVariable*)variable;
 
+- (NSArray*)variables;
+
+-(BOOL)isEqualToSimplexSolverSolution: (CSWSimplexSolverSolution*)solution;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -725,6 +725,51 @@
     XCTAssertEqual([[s resultForVariable:v] floatValue], 2);
 }
 
+-(void)testSuggestVariable
+{
+    CSWVariable *v = [CSWVariable variableWithValue:0];
+    CSWSimplexSolver *solver = [self autoSolver];
+    
+    CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:v strength:[CSWStrength strengthStrong]];
+    [solver addConstraint:stayConstraint];
+    
+    CSWSimplexSolverSolution *s0 = [solver solve];
+    XCTAssertEqual([[s0 resultForVariable:v] floatValue], 0);
+    
+    [solver suggestVariable:v equals:5];
+    
+    CSWSimplexSolverSolution *s = [solver solve];
+    XCTAssertEqual([[s resultForVariable:v] floatValue], 5);
+}
+
+-(void)testSuggestVariable2
+{
+    CSWVariable *v = [CSWVariable variableWithValue:0];
+
+    CSWVariable *x = [CSWVariable variableWithValue:0];
+    CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightVariable:v];
+    
+    CSWSimplexSolver *solver = [self autoSolver];
+    [solver addConstraint: constraint];
+    
+    CSWConstraint *stayConstraint = [[CSWConstraint alloc] initStayConstraintWithVariable:v strength:[CSWStrength strengthStrong]];
+    [solver addConstraint:stayConstraint];
+    
+    CSWSimplexSolverSolution *s0 = [solver solve];
+    XCTAssertEqual([[s0 resultForVariable:v] floatValue], 0);
+    
+    [solver suggestVariable:v equals:5];
+    
+    CSWSimplexSolverSolution *s = [solver solve];
+    XCTAssertEqual([[s resultForVariable:v] floatValue], 5);
+    XCTAssertEqual([[s resultForVariable:x] floatValue], 5);
+    
+    [solver suggestVariable:v equals:0];
+    CSWSimplexSolverSolution *s2 = [solver solve];
+    XCTAssertEqual([[s2 resultForVariable:v] floatValue], 0);
+    XCTAssertEqual([[s2 resultForVariable:x] floatValue], 0);
+}
+
 -(void)testRequiredStayConstraintDefeatsStrongEditConstraintWhenSuggestingEditVariable
 {
     CSWVariable *v = [CSWVariable variableWithValue:0];
@@ -1215,6 +1260,56 @@
     
     XCTAssertEqual([[solutions[1] resultForVariable: x] floatValue], 7);
     XCTAssertEqual([[solutions[1] resultForVariable: y] floatValue], 10);
+}
+
+-(void)testIsNotAnAmbiguousVariableWhenHasZeroUnknownVariables
+{
+    CSWVariable *x = [CSWVariable variable];
+    CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:100];
+    [solver addConstraint: constraint];
+    XCTAssertFalse([solver isVariableAmbiguous: x]);
+}
+
+-(void)testVariableIsNotAmbigousWhenHasOnlyOneUnknownVariable
+{
+    CSWVariable *x = [CSWVariable variable];
+    CSWVariable *y = [CSWVariable variable];
+    CSWConstraint *xConstraint = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:100];
+    CSWConstraint *xyConstraint = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightVariable:y];
+    [solver addConstraint: xConstraint];
+    [solver addConstraint: xyConstraint];
+    XCTAssertFalse([solver isVariableAmbiguous: y]);
+}
+
+-(void)testVariablesAreAmbigousWhenSolverHasTwoUnknownsVariable
+{
+    CSWVariable *x = [CSWVariable variable];
+    CSWVariable *y = [CSWVariable variable];
+    CSWLinearExpression *xRhs = [[CSWLinearExpression alloc] initWithVariable:y coefficient:1 constant:100];
+    CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightExpression:xRhs];
+    [solver addConstraint: constraint];
+    
+    XCTAssertTrue([solver isVariableAmbiguous: x]);
+    XCTAssertTrue([solver isVariableAmbiguous: y]);
+}
+
+-(void)testPerformingIsVariableAmbiguousCallDoesNotAffectSolveSolution
+{
+    CSWVariable *x = [CSWVariable variable];
+    CSWVariable *y = [CSWVariable variable];
+    
+    CSWLinearExpression *xRhs = [[CSWLinearExpression alloc] initWithVariable:y coefficient:1 constant:100];
+    CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightExpression:xRhs];
+    [solver addConstraint: constraint];
+    
+    [solver isVariableAmbiguous: x];
+    CSWSimplexSolverSolution *s2 = [solver solve];
+    
+    [solver isVariableAmbiguous:y];
+    CSWSimplexSolverSolution *s3 = [solver solve];
+    
+    XCTAssertEqual([[s2 resultForVariable:x] floatValue], 100);
+    XCTAssertEqual([[s3 resultForVariable:x] floatValue], 100);
 }
 
 @end

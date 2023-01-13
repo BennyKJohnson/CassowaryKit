@@ -773,4 +773,46 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     return [[_tableau substitedOutNonBasicPivotableVariables: _tableau.objective] count] > 0;
 }
 
+-(BOOL)isVariableAmbiguous: (CSWVariable*)variable
+{
+    CSWSimplexSolverSolution *defaultOptimalSolution = [self solve];
+        
+    // Choose a non basic variable to pivot on
+    CSWVariable *entryVariable = [_tableau findNonBasicVariables];
+    if (entryVariable == nil) {
+        return NO;
+    }
+    CSWVariable *exitVariable = [_tableau findPivotableExitVariableWithoutCheck:entryVariable];
+    [_tableau pivotWithEntryVariable:entryVariable exitVariable:exitVariable];
+
+    CSWSimplexSolverSolution *s2 = [self solve];
+    BOOL variableIsAmbigous = ![CSWFloatComparator isApproxiatelyEqual: [[defaultOptimalSolution resultForVariable:variable] floatValue] b: [[s2 resultForVariable:variable] floatValue]];
+    
+    // Revert tableau back to its default solution so future solve calls have the same result
+    [self optimizeTableauToSolution: defaultOptimalSolution];
+    
+    return variableIsAmbigous;
+}
+
+-(void)optimizeTableauToSolution: (CSWSimplexSolverSolution*)solution
+{
+    CSWSimplexSolverSolution *current = [self solve];
+    if ([current isEqualToSimplexSolverSolution:solution]) {
+        return;
+    }
+    
+    for (CSWVariable *variable in [solution variables]) {
+        if (![CSWFloatComparator isApproxiatelyEqual:[[current resultForVariable:variable] floatValue] b:[[solution resultForVariable:variable] floatValue]]) {
+            CSWVariable *exitVariable = [_tableau findPivotableExitVariableWithoutCheck:variable];
+
+            [_tableau pivotWithEntryVariable:variable exitVariable:exitVariable];
+            
+            CSWSimplexSolverSolution *updatedSolution = [self solve];
+            if ([updatedSolution isEqualToSimplexSolverSolution:solution]) {
+                return;
+            }
+        }
+    }
+}
+
 @end

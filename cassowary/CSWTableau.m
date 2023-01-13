@@ -391,6 +391,32 @@
     return exitVariable;
 }
 
+- (CSWVariable*)findPivotableExitVariableWithoutCheck:(CSWVariable *)entryVariable {
+    CSWDouble minRatio = DBL_MAX;
+    CSWDouble r = 0;
+    CSWVariable *exitVariable = nil;
+    for (CSWVariable *variable in [self columnForVariable: entryVariable]) {
+//        if ([variable isPivotable]) {
+            CSWLinearExpression *expression = [self rowExpressionForVariable:variable];
+            CSWDouble coefficient = [expression coefficientForTerm:entryVariable];
+            
+            r = -expression.constant / coefficient;
+            
+            // Bland's anti-cycling rule:
+            // if multiple variables are about the same,
+            // always pick the lowest via some total
+            // ordering -- in this implementation we preferred the variable created first
+            if (r < minRatio || ([CSWFloatComparator isApproxiatelyEqual:r b:minRatio] && [self shouldPreferPivotableVariable:variable overPivotableVariable:exitVariable])) {
+                minRatio = r;
+                exitVariable = variable;
+            }
+            
+        //}
+    }
+    
+    return exitVariable;
+}
+
 - (CSWVariable*)findExitVariableForEquationWhichMinimizesRatioOfRestrictedVariables:(CSWVariable *)constraintMarkerVariable {
     CSWVariable *exitVariable = nil;
     CSWDouble minRatio = 0;
@@ -410,6 +436,19 @@
     }
     
     return exitVariable;
+}
+
+-(CSWVariable*)findNonBasicVariables
+{
+    NSLog(@"%@", self);
+    NSLog(@"external variables%@", externalParametricVariables);
+    for (CSWVariable *variable in externalParametricVariables) {
+        if (![self isBasicVariable: variable]) {
+            return variable;
+        }
+    }
+    
+    return nil;
 }
 
 @end
