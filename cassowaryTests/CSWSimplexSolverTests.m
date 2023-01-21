@@ -1312,4 +1312,88 @@
     XCTAssertEqual([[s3 resultForVariable:x] floatValue], 100);
 }
 
+-(void)testConstraintsAffectingVariableIsEmptyWhenNoConstraints
+{
+    CSWVariable *x = [CSWVariable variable];
+    
+    NSArray *constraints = [solver constraintsAffectingVariable: x];
+    XCTAssertEqual([constraints count], 0);
+}
+
+-(void)testConstraintsAffectingVariableIsEmptyWhenVariableHasNoConstraints
+{
+    CSWVariable *x = [CSWVariable variable];
+    CSWVariable *y = [CSWVariable variable];
+    
+    CSWConstraint *constraint = [CSWConstraint constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightConstant:100];
+    [solver addConstraint:constraint];
+    
+    NSArray *constraints = [solver constraintsAffectingVariable: x];
+    XCTAssertEqual([constraints count], 0);
+}
+
+-(void)testConstraintsAffectingVariableReturnsSingleConstraint
+{
+    CSWVariable *x = [CSWVariable variable];
+    CSWConstraint *xConstraint = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightConstant:100];
+    [solver addConstraint:xConstraint];
+    
+    CSWVariable *y = [CSWVariable variable];
+    CSWConstraint *yConstraint = [CSWConstraint constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightConstant:100];
+    [solver addConstraint:yConstraint];
+
+    NSArray *affectingConstraintsForX = [solver constraintsAffectingVariable:x];
+    NSArray *affectingConstraintsForY = [solver constraintsAffectingVariable:y];
+
+    XCTAssertEqual([affectingConstraintsForX count], 1);
+    XCTAssertEqual(affectingConstraintsForX[0], xConstraint);
+    
+    XCTAssertEqual([affectingConstraintsForY count], 1);
+    XCTAssertEqual(affectingConstraintsForY[0], yConstraint);
+}
+
+-(void)testConstraintsAffectingVariableIncludesImplicitConstraints
+{
+    CSWVariable *x = [CSWVariable variable];
+    CSWVariable *y = [CSWVariable variable];
+
+    CSWConstraint *xEqualsYConstraint = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightVariable:y];
+    [solver addConstraint:xEqualsYConstraint];
+    
+    CSWConstraint *yConstraint = [CSWConstraint constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightConstant:100];
+    [solver addConstraint:yConstraint];
+    
+    NSArray * affectingConstraintsForX = [solver constraintsAffectingVariable:x];
+    XCTAssertEqual([affectingConstraintsForX count], 2);
+    XCTAssertEqual(affectingConstraintsForX[0], xEqualsYConstraint);
+    XCTAssertEqual(affectingConstraintsForX[1], yConstraint);
+}
+
+-(void)testConstraintsAffectingVariableIncludesManyLevelsOfImplicitConstraints
+{
+    CSWVariable *x = [CSWVariable variable];
+    CSWVariable *y = [CSWVariable variable];
+    
+    CSWConstraint *xEqualsYConstraint = [CSWConstraint constraintWithLeftVariable:x operator:CSWConstraintOperatorEqual rightVariable:y];
+    [solver addConstraint:xEqualsYConstraint];
+
+    CSWVariable *z = [CSWVariable variable];
+    CSWConstraint *yEqualsZConstraint = [CSWConstraint constraintWithLeftVariable:y operator:CSWConstraintOperatorEqual rightVariable:z];
+    [solver addConstraint:yEqualsZConstraint];
+    
+    CSWVariable *a = [CSWVariable variable];
+    CSWConstraint *zEqualsAConstraint = [CSWConstraint constraintWithLeftVariable:z operator:CSWConstraintOperatorEqual rightVariable:a];
+    [solver addConstraint:zEqualsAConstraint];
+    
+    CSWConstraint *aConstraint = [CSWConstraint constraintWithLeftVariable:a operator:CSWConstraintOperatorEqual rightConstant: 100];
+    [solver addConstraint:aConstraint];
+        
+    NSArray *affectingConstraintsForX = [solver constraintsAffectingVariable:x];
+    XCTAssertEqual([affectingConstraintsForX count], 4);
+    XCTAssertEqual(affectingConstraintsForX[0], xEqualsYConstraint);
+    XCTAssertEqual(affectingConstraintsForX[1], yEqualsZConstraint);
+    XCTAssertEqual(affectingConstraintsForX[2], zEqualsAConstraint);
+    XCTAssertEqual(affectingConstraintsForX[3], aConstraint);
+}
+
 @end

@@ -17,8 +17,10 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         _stayMinusErrorVariables = [NSMutableArray array];
         _stayPlusErrorVariables = [NSMutableArray array];
   
-        _markerVariables = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
+        _markerVariablesByConstraints = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
+        _constraintsByMarkerVariables = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
+                                                              valueOptions:NSMapTableStrongMemory];
         _errorVariables = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
         valueOptions:NSMapTableStrongMemory];
                 
@@ -67,7 +69,9 @@ NSString * const CSWErrorDomain = @"com.cassowary";
     ExpressionResult expressionResult;
     
     CSWLinearExpression *expression = [_constraintConverter createExpression:constraint expressionResult:&expressionResult tableau:tableau objective: _tableau.objective];
-    [_markerVariables setObject:expressionResult.marker forKey:constraint];
+    
+    [_markerVariablesByConstraints setObject:expressionResult.marker forKey:constraint];
+    [_constraintsByMarkerVariables setObject:constraint forKey:expressionResult.marker];
 
     if ([constraint isStayConstraint]) {
         if (expressionResult.plus != nil) {
@@ -166,11 +170,12 @@ NSString * const CSWErrorDomain = @"com.cassowary";
         }
     }
 
-    CSWVariable *constraintMarkerVariable = [_markerVariables objectForKey:constraint];
+    CSWVariable *constraintMarkerVariable = [_markerVariablesByConstraints objectForKey:constraint];
     if (constraintMarkerVariable == nil) {
         [[NSException exceptionWithName:NSInternalInconsistencyException reason:@"Marker variable not found for constraint" userInfo:nil] raise];
     }
-    [_markerVariables removeObjectForKey:constraint];
+    [_markerVariablesByConstraints removeObjectForKey:constraint];
+    [_constraintsByMarkerVariables removeObjectForKey:constraintMarkerVariable];
     
     if ([tableau rowExpressionForVariable:constraintMarkerVariable] == nil) {
         CSWVariable * exitVariable = [self resolveExitVariableRemoveConstraint:constraintMarkerVariable];
@@ -744,7 +749,7 @@ NSString * const CSWErrorDomain = @"com.cassowary";
 
 -(BOOL)containsConstraint: (CSWConstraint*)constraint
 {
-    return [_markerVariables objectForKey:constraint] != nil;
+    return [_markerVariablesByConstraints objectForKey:constraint] != nil;
 }
 
 -(BOOL)isValid
@@ -813,6 +818,21 @@ NSString * const CSWErrorDomain = @"com.cassowary";
             }
         }
     }
+}
+
+-(NSArray*)constraintsAffectingVariable: (CSWVariable*)variable
+{
+    NSMutableArray *constraints = [NSMutableArray array];
+    CSWLinearExpression *rowExpression = [_tableau rowExpressionForVariable:variable];
+
+    for (CSWVariable *variable in [rowExpression termVariables]) {
+        BOOL isNonZeroTerm = ![CSWFloatComparator isApproxiatelyZero:[rowExpression coefficientForTerm: variable]];
+        if (isNonZeroTerm && [_constraintsByMarkerVariables objectForKey:variable] != nil) {
+            [constraints addObject:[_constraintsByMarkerVariables objectForKey:variable]];
+        }
+    }
+    
+    return constraints;
 }
 
 @end

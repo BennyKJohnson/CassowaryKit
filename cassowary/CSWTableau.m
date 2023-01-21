@@ -229,7 +229,7 @@
 {
     [existingExpression setConstant:existingExpression.constant + (n * newExpression.constant)];
     
-    for (CSWVariable *term in [newExpression termKeys]) {
+    for (CSWVariable *term in [newExpression termVariables]) {
         CSWDouble newCoefficient = [newExpression coefficientForTerm:term] * n;
         [self addVariable:term toExpression:existingExpression withCoefficient:newCoefficient subject:subject];
         
@@ -356,7 +356,7 @@
     
     NSMutableArray *substitutedOutVariables = [NSMutableArray array];
     for (CSWVariable *columnVariable in columns) {
-        if (columnVariable.isPivotable && ![self isBasicVariable:columnVariable] && [objectiveRowExpression.terms objectForKey:columnVariable] == nil) {
+        if (columnVariable.isPivotable && ![self isBasicVariable:columnVariable] && ![objectiveRowExpression isTermForVariable:columnVariable]) {
             [substitutedOutVariables addObject:columnVariable];
         }
     }

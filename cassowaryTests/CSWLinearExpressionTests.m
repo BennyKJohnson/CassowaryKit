@@ -11,7 +11,7 @@
 
 - (void)testInit {
     CSWLinearExpression *expression = [[CSWLinearExpression alloc] init];
-    XCTAssertEqual([[expression terms] count], 0);
+    XCTAssertEqual([[expression termVariables] count], 0);
     XCTAssertEqual([expression constant], 0);
 }
 

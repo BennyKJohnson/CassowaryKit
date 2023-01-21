@@ -45,8 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)normalize;
 
--(NSArray*)termKeys;
-
 -(BOOL)isConstant;
 
 -(BOOL)isTermForVariable: (CSWVariable*)variable;

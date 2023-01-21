@@ -192,16 +192,6 @@
     return externalVariables;
 }
 
--(NSArray*)termKeys
-{
-    NSMutableArray *variables = [NSMutableArray array];
-    for (CSWVariable *variable in self.terms) {
-        [variables addObject:variable];
-    }
-    
-    return variables;
-}
-
 -(void)addVariable: (CSWVariable*)variable
 {
     [self addVariable:variable coefficient:1];
@@ -236,7 +226,7 @@
 {
     [self setConstant:self.constant + expression.constant * multiplier];
   
-     for (CSWVariable *term in [expression termKeys]) {
+     for (CSWVariable *term in [expression termVariables]) {
          CSWDouble termCoefficient = [expression coefficientForTerm:term] * multiplier;
          [self addVariable:term coefficient:termCoefficient];
      }

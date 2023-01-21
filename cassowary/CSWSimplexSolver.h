@@ -18,7 +18,9 @@ enum CSWErrorCode {
 {
     int _artificialCounter;
     
-    NSMapTable *_markerVariables;
+    NSMapTable *_markerVariablesByConstraints;
+    
+    NSMapTable *_constraintsByMarkerVariables;
     
     NSMapTable *_errorVariables;
     
@@ -75,6 +77,8 @@ enum CSWErrorCode {
 -(BOOL)isMultipleSolutions;
 
 -(BOOL)isVariableAmbiguous: (CSWVariable*)variable;
+
+-(NSArray*)constraintsAffectingVariable: (CSWVariable*)variable;
 
 @end
 
